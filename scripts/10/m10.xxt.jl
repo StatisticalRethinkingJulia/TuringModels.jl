@@ -1,4 +1,4 @@
-using StatisticalRethinking
+using TuringModels
 using Turing
 
 Turing.setadbackend(:reverse_diff)

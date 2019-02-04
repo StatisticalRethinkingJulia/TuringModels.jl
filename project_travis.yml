@@ -16,7 +16,7 @@ script:
   - cd $HOME/cmdstan; git checkout v2.18.0; make stan-update; make build
   - export JULIA_CMDSTAN_HOME=$HOME/cmdstan
   - cd $TRAVIS_BUILD_DIR
-  - julia -e 'using Pkg; Pkg.test("StatisticalRethinking"; coverage=true)'
+  - julia -e 'using Pkg; Pkg.test("TuringModels"; coverage=true)'
 
 notifications:
   email: false

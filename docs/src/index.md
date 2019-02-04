@@ -1,36 +1,15 @@
 ```@meta
-CurrentModule = StatisticalRethinking
+CurrentModule = TuringModels
 ```
 
-## `maximum_a_posteriori`
+## `rel_path_t`
 ```@docs
-maximum_a_posteriori(model, lower_bound, upper_bound)
-```
-
-## `link`
-```@docs
-link(xrange, chain, vars, xbar) 
-```
-
-## `rel_path`
-```@docs
-rel_path(parts...)
+rel_path_t(parts...)
 ```
 
 ## `generate`
 ```@docs
-generate(; sd=script_dict)
-generate(chapter::AbstractString; sd=script_dict)
-generate(chapter::AbstractString, scriptfile::AbstractString; sd=script_dict)
+generate_t_(; sd=script_dict_t)
+generate_t(chapter::AbstractString; sd=script_dict_t_)
+generate_t(chapter::AbstractString, scriptfile::AbstractString; sd=script_dict_t_)
 ```
-
-## `ScriptEntry`
-```@docs
-ScriptEntry
-```
-
-## `scriptentry`
-```@docs
-scriptentry(scriptfile; nb = true, exe = true, doc = true)
-```
-

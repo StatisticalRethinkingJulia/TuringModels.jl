@@ -1,5 +1,5 @@
 
-using StatisticalRethinking
+using TuringModels
 using CmdStan, StanMCMCChain
 
 ProjDir = rel_path("..", "scripts", "12")

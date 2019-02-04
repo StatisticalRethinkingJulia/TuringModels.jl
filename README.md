@@ -1,4 +1,4 @@
-# StatisticalRethinking
+# TuringModels
 
 
 | **Project Status**                                                               |  **Documentation**                                                               | **Build Status**                                                                                |
@@ -37,12 +37,12 @@ m4.32 <- ulam(flist, data=d2)
 
 The author of the book states: "*If that (the statistical model) doesn't make much sense, good. ... you're holding the right textbook, since this book teaches you how to read and write these mathematical descriptions*" (page 77).
 
-The `StatisticalRethinking.jl` package is intended to allow experimenting with this learning process introducing 4 available mcmc options in Julia.
+The `TuringModels.jl` package is intended to allow experimenting with this learning process introducing 4 available mcmc options in Julia.
 
 The mcmc components are based on:
 
 1. [TuringLang](https://github.com/TuringLang)
-2. [StanJulia](https://github.com/StanJulia)
+2. [StatisticalRethinkingJulia](https://github.com/StatisticalRethinkingJulia)
 3. [Mamba](https://github.com/brian-j-smith/Mamba.jl)
 4. [DynamicHMC](https://github.com/tpapp/DynamicHMC.jl)
 
@@ -50,9 +50,9 @@ At least one other package is available for mcmc in Julia:
 
 5. [Klara](https://github.com/JuliaStats/Klara.jl)
 
-Time constraints prevented this option to be in `StatisticalRethinking.jl`.
+Time constraints prevented this option to be in `TuringModels.jl`.
 
-A secondary objective of `StatisticalRethinking.jl` is to compare definition and execution of a variety of models in the above listed 4 mcmc packages.
+A secondary objective of `TuringModels.jl` is to compare definition and execution of a variety of models in the above listed 4 mcmc packages.
 
 ## Layout of the package
 
@@ -97,7 +97,7 @@ Question and contributions are very welcome, as are feature requests and suggest
 
 Developing `rethinking` must have been an on-going process over several years, `StatisticalRethinkinh.jl` will likely follow a similar path.
 
-1. The initial version (v1) of `StatisticalRethinking` is really just a first attempt to capture the models and show ways of setting up those models, execute the models and post-process the results using Julia.
+1. The initial version (v1) of `TuringModels` is really just a first attempt to capture the models and show ways of setting up those models, execute the models and post-process the results using Julia.
 
 2. As mentioned above, a second objective of v1 is to experiment and compare the four selected mcmc options in Julia in terms of results, performance, ease of expressing models, etc.
 
@@ -117,18 +117,18 @@ Developing `rethinking` must have been an on-going process over several years, `
 
 
 [docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg
-[docs-dev-url]: https://stanjulia.github.io/StatisticalRethinking.jl/latest
+[docs-dev-url]: https://stanjulia.github.io/TuringModels.jl/latest
 
 [docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
-[docs-stable-url]: https://stanjulia.github.io/StatisticalRethinking.jl/stable
+[docs-stable-url]: https://stanjulia.github.io/TuringModels.jl/stable
 
-[travis-img]: https://travis-ci.org/StanJulia/StatisticalRethinking.jl.svg?branch=master
-[travis-url]: https://travis-ci.org/StanJulia/StatisticalRethinking.jl
+[travis-img]: https://travis-ci.org/StatisticalRethinkingJulia/TuringModels.jl.svg?branch=master
+[travis-url]: https://travis-ci.org/StatisticalRethinkingJulia/TuringModels.jl
 
-[codecov-img]: https://codecov.io/gh/StanJulia/StatisticalRethinking.jl/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/StanJulia/StatisticalRethinking.jl
+[codecov-img]: https://codecov.io/gh/StatisticalRethinkingJulia/TuringModels.jl/branch/master/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/StatisticalRethinkingJulia/TuringModels.jl
 
-[issues-url]: https://github.com/StanJulia/StatisticalRethinking.jl/issues
+[issues-url]: https://github.com/StatisticalRethinkingJulia/TuringModels.jl/issues
 
 [project-status-img]: https://img.shields.io/badge/lifecycle-wip-orange.svg
 

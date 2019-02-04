@@ -4,9 +4,9 @@
 
 # Here we will use Turing's NUTS support, which is currently (2018) the originalNUTS by [Hoffman & Gelman]( http://www.stat.columbia.edu/~gelman/research/published/nuts.pdf) and not the one that's in Stan 2.18.2, i.e., Appendix A.5 in: https://arxiv.org/abs/1701.02434
 
-# The StatisticalRethinking pkg imports modules such as CSV and DataFrames
+# The TuringModels pkg imports modules such as CSV and DataFrames
 
-using StatisticalRethinking, Turing
+using TuringModels, Turing
 
 Turing.setadbackend(:reverse_diff);
 #nb Turing.turnprogress(false);

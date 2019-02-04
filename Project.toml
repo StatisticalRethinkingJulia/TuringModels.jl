@@ -1,4 +1,4 @@
-name = "StatisticalRethinking"
+name = "TuringModels"
 uuid = "2d09df54-9d0f-5258-8220-54c2a3d4fbee"
 authors = ["Rob J Goedman <goedman@mac.com>"]
 version = "0.6.0"

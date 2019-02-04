@@ -1,4 +1,4 @@
-using StatisticalRethinking
+using TuringModels
 using Test
 
 println("Tests are executed in docs job.")

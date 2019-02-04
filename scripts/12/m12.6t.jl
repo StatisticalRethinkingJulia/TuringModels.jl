@@ -1,10 +1,10 @@
-using StatisticalRethinking
+using TuringModels
 using Turing
 
 Turing.setadbackend(:reverse_diff)
 #nbTuring.turnprogress(false);
 
-d = CSV.read(joinpath(dirname(Base.pathof(StatisticalRethinking)), "..", "data",
+d = CSV.read(joinpath(dirname(Base.pathof(TuringModels)), "..", "data",
     "Kline.csv"), delim=';');
 size(d) # Should be 10x5
 

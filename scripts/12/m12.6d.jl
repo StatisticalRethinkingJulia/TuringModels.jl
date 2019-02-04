@@ -1,4 +1,4 @@
-using StatisticalRethinking
+using TuringModels
 using DynamicHMC, TransformVariables, LogDensityProblems, MCMCDiagnostics
 using Parameters, ForwardDiff, LinearAlgebra
 
