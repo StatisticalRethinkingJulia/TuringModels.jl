@@ -5,6 +5,7 @@ using Reexport
 @reexport using SR, Turing
 
 using DataStructures
+import SR: scriptentry
 
 const src_path_t = @__DIR__
 

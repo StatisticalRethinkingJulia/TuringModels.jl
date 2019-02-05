@@ -5,15 +5,15 @@ using Documenter
 # The idea: generate both docs and notebooks using Literate
 # Based on ideas and work from Tamas Papp!
 
-DOC_ROOT = rel_path("..", "docs")
-DocDir =  rel_path("..", "docs", "src")
+DOC_ROOT = rel_path_t("..", "docs")
+DocDir =  rel_path_t("..", "docs", "src")
 
 page_list = Array{Pair{String, Any}, 1}();
 append!(page_list, [Pair("Home", "intro.md")]);
 
 for chapter in keys(script_dict_t)
-  ProjDir = rel_path( "..", "scripts", chapter)
-  DocDir =  rel_path("..", "docs", "src", chapter)
+  ProjDir = rel_path_t( "..", "scripts", chapter)
+  DocDir =  rel_path_t("..", "docs", "src", chapter)
   
   !isdir(ProjDir) && break
   

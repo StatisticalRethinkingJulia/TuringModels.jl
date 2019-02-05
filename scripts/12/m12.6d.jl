@@ -2,7 +2,7 @@ using TuringModels
 using DynamicHMC, TransformVariables, LogDensityProblems, MCMCDiagnostics
 using Parameters, ForwardDiff, LinearAlgebra
 
-ProjDir = rel_path("..", "scripts", "12")
+ProjDir = rel_path_t("..", "scripts", "12")
 
 df = CSV.read(rel_path( "..", "data",  "Kline.csv"), delim=';');
 size(df) # Should be 10x5

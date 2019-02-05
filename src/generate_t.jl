@@ -18,19 +18,19 @@ None, all notebooks/.. and chapters/.. files are regenerated.
 """
 function generate_t(sd::DataStructures.OrderedDict{AbstractString,
   Vector{ScriptEntry}} = script_dict_t)
-  DocDir = rel_path("..", "docs", "src")
+  DocDir = rel_path_t("..", "docs", "src")
 
   for chapter in keys(sd)
-    ProjDir = rel_path("..", "scripts", chapter)
+    ProjDir = rel_path_t("..", "scripts", chapter)
 
-    ChapterDir = rel_path("..", "chapters")
+    ChapterDir = rel_path_t("..", "chapters")
     !isdir(ChapterDir) && mkdir(ChapterDir)  
-    ChapterDir = rel_path("..", "chapters", "$(chapter)")
-    ScriptsDir = rel_path("..", "scripts", "$(chapter)")
+    ChapterDir = rel_path_t("..", "chapters", "$(chapter)")
+    ScriptsDir = rel_path_t("..", "scripts", "$(chapter)")
 
-    NotebookDir = rel_path("..", "notebooks")
+    NotebookDir = rel_path_t("..", "notebooks")
     !isdir(NotebookDir) && mkdir(NotebookDir)  
-    NotebookDir = rel_path("..", "notebooks", "$(chapter)")
+    NotebookDir = rel_path_t("..", "notebooks", "$(chapter)")
   
     !isdir(ProjDir) && break
   
@@ -84,17 +84,17 @@ function generate_t(chapter::AbstractString; sd=script_dict_t)
   if length(split_chapter) == 2
     generate_t(split_chapter...)
   else
-    DocDir = rel_path("..", "docs", "src")
-    ProjDir = rel_path("..", "scripts", chapter)
+    DocDir = rel_path_t("..", "docs", "src")
+    ProjDir = rel_path_t("..", "scripts", chapter)
 
-    ChapterDir = rel_path("..", "chapters")
+    ChapterDir = rel_path_t("..", "chapters")
     !isdir(ChapterDir) && mkdir(ChapterDir)  
-    ChapterDir = rel_path("..", "chapters", "$(chapter)")
-    ScriptsDir = rel_path("..", "scripts", "$(chapter)")
+    ChapterDir = rel_path_t("..", "chapters", "$(chapter)")
+    ScriptsDir = rel_path_t("..", "scripts", "$(chapter)")
 
-    NotebookDir = rel_path("..", "notebooks")
+    NotebookDir = rel_path_t("..", "notebooks")
     !isdir(NotebookDir) && mkdir(NotebookDir)  
-    NotebookDir = rel_path("..", "notebooks", "$(chapter)")
+    NotebookDir = rel_path_t("..", "notebooks", "$(chapter)")
 
     if isdir(ProjDir)
 
@@ -146,17 +146,17 @@ or  generate_t("04/m4.1t.jl")
 
 """
 function generate_t(chapter::AbstractString, scriptfile::AbstractString; sd=script_dict_t)
-  DocDir = rel_path("..", "docs", "src")
-  ProjDir = rel_path("..", "scripts", chapter)
+  DocDir = rel_path_t("..", "docs", "src")
+  ProjDir = rel_path_t("..", "scripts", chapter)
 
-  ChapterDir = rel_path("..", "chapters")
+  ChapterDir = rel_path_t("..", "chapters")
   !isdir(ChapterDir) && mkdir(ChapterDir)  
-  ChapterDir = rel_path("..", "chapters", "$(chapter)")
-  ScriptsDir = rel_path("..", "scripts", "$(chapter)")
+  ChapterDir = rel_path_t("..", "chapters", "$(chapter)")
+  ScriptsDir = rel_path_t("..", "scripts", "$(chapter)")
 
-  NotebookDir = rel_path("..", "notebooks")
+  NotebookDir = rel_path_t("..", "notebooks")
   !isdir(NotebookDir) && mkdir(NotebookDir)  
-  NotebookDir = rel_path("..", "notebooks", "$(chapter)")
+  NotebookDir = rel_path_t("..", "notebooks", "$(chapter)")
 
   if isdir(ProjDir)
 
