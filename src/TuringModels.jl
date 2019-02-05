@@ -2,7 +2,7 @@ module TuringModels
 
 using Reexport 
 
-@reexport using SR, Turing
+@reexport using StatisticalRethinking, Turing
 
 using DataStructures
 import SR: scriptentry
