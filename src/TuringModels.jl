@@ -2,7 +2,7 @@ module TuringModels
 
 using Reexport 
 
-@reexport using StatisticalRethinking, Turing
+@reexport using StatisticalRethinking, Turing, Flux
 
 using DataStructures
 import SR: scriptentry
@@ -13,8 +13,7 @@ const src_path_t = @__DIR__
 
 # rel_path_t
 
-Relative path using the TuringModels src/ directory. Copied from
-[DynamicHMCExamples.jl](https://github.com/tpapp/DynamicHMCExamples.jl)
+Relative path using the TuringModels src/ directory.
 
 ### Example to get access to the data subdirectory
 ```julia
