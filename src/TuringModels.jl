@@ -5,7 +5,6 @@ using Reexport
 @reexport using StatisticalRethinking, Turing, Flux
 
 using DataStructures
-import SR: scriptentry
 
 const src_path_t = @__DIR__
 

@@ -2,19 +2,14 @@ using TuringModels
 using Turing
 
 Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false);
 
 d = CSV.read(rel_path("..", "data", "Kline.csv"), delim=';');
 size(d) # Should be 10x5
 
-# New col log_pop, set log() for population data
 d[:log_pop] = map(x -> log(x), d[:population]);
 
-# New col contact_high, set binary values 1/0 if high/low contact
 d[:contact_high] = map(x -> ifelse(x=="high", 1, 0), d[:contact]);
 
-# This is supposed to be a "bad" model since we take non-centered data for the
-# predictor log_pop
 @model m10_10stan(total_tools, log_pop, contact_high) = begin
     α ~ Normal(0, 100)
     βp ~ Normal(0, 1)
@@ -31,11 +26,7 @@ end;
 posterior = sample(m10_10stan(d[:total_tools], d[:log_pop],
     d[:contact_high]), Turing.NUTS(2000, 1000, 0.95));
 
-# Fix the inclusion of adaptation samples
-
 posterior2 = MCMCChain.Chains(posterior.value[1001:2000,:,:], names=posterior.names);
-
-# Rethinking result
 
 m_10_10t_result = "
      mean   sd  5.5% 94.5% n_eff Rhat
@@ -45,8 +36,7 @@ m_10_10t_result = "
  bpc  0.04 0.09 -0.10  0.19  2907    1
 ";
 
-# Describe the draws
-
 describe(posterior2)
 
-# End of m_10_10t.jl
+# This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
+

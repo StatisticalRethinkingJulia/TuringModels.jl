@@ -2,20 +2,16 @@ using TuringModels
 using Turing
 
 Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false);
 
 d = CSV.read(rel_path("..", "data", "chimpanzees.csv"), delim=';');
 size(d) # Should be 504x8
 
-# pulled_left, actors, condition, prosoc_left
 @model m10_4(y, actors, x₁, x₂) = begin
-    # Number of unique actors in the data set
+
     N_actor = length(unique(actors))
 
-    # Set an TArray for the priors/param
     α = TArray{Any}(undef, N_actor)
 
-    # For each actor [1,..,7] set a prior
     for i ∈ 1:length(α)
         α[i] ~ Normal(0,10)
     end
@@ -32,11 +28,7 @@ end;
 posterior = sample(m10_4(d[:,:pulled_left], d[:,:actor],d[:,:condition],
 d[:,:prosoc_left]), Turing.NUTS(2000, 1000, 0.95));
 
-# Fix the inclusion of adaptation samples
-
 posterior2 = MCMCChain.Chains(posterior.value[1001:2000,:,:], names=posterior.names);
-
-# Rethinking/CmdStan results
 
 m_10_04s_result = "
 Iterations = 1:1000
@@ -58,8 +50,7 @@ bpC -0.12913322 0.29935741 0.0047332562 0.0049519863 1000
  bpC  -0.13 0.30 -0.63  0.34  3508    1
 ";
 
-# Describe the draws
-
 describe(posterior2)
 
-# End of 10/m_10_04t.jl
+# This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
+

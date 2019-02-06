@@ -2,38 +2,26 @@ using TuringModels
 using Turing
 
 Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false)
 
-d = CSV.read(rel_path("..", "data", "reedfrogs.csv"), delim=';');
+d = CSV.read(rel_path("..", "data", "readfrogs.csv"), delim=';');
 size(d) # Should be 48x5
-
-# Set number of tanks
 
 d[:tank] = 1:size(d,1);
 
-# Define the Turing model
-
 @model m12_1(density, tank, surv) = begin
 
-    # Number of unique tanks in the data set
     N_tank = length(tank)
 
-    # Set an TArray for the priors/param
     a_tank = Vector{Real}(undef, N_tank)
 
-    # For each tank [1,..,48] set prior N(0,5)
     a_tank ~ [Normal(0,5)]
 
     logitp = [a_tank[tank[i]] for i = 1:N_tank]
     surv ~ VecBinomialLogit(density, logitp)
 end
 
-# Sample
-
 posterior = sample(m12_1(Vector{Int64}(d[:density]), Vector{Int64}(d[:tank]),
     Vector{Int64}(d[:surv])), Turing.NUTS(4000, 1000, 0.8));
-
-# Describe the draws.
 
 describe(posterior)
 
@@ -87,4 +75,6 @@ a_tank[45]  0.54 0.36 -0.04  1.14  1376    1
 a_tank[46] -0.67 0.34 -1.25 -0.15  1619    1
 a_tank[47]  2.14 0.55  1.31  3.04  1916    1
 a_tank[48] -0.06 0.35 -0.61  0.50  1932    1
-";
+";#-
+# This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
+

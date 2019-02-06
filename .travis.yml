@@ -10,6 +10,10 @@ jobs:
         only:
           - master
           - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+      script:
+        - julia -e 'using Pkg; Pkg.instantiate(); Pkg.develop(PackageSpec(path=pwd()))'
+        - julia -e 'using Pkg; Pkg.develop("StatisticalRethinking"); Pkg.test("TuringModels")'
+      after_success: skip
 
     - stage: Documentation
       julia: 1.1
@@ -17,6 +21,7 @@ jobs:
       script:
         - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
         - julia --project=docs -e 'using Pkg; Pkg.instantiate(); Pkg.develop(PackageSpec(path=pwd()))'
+        - julia --project=docs -e 'using Pkg; Pkg.develop("StatisticalRethinking")'
         - julia --project=docs --color=yes docs/make.jl
       after_success: skip
 

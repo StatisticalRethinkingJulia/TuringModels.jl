@@ -4,8 +4,7 @@ using Turing
 Turing.setadbackend(:reverse_diff)
 #nb Turing.turnprogress(false);
 
-d = CSV.read(joinpath(dirname(Base.pathof(TuringModels)), "..", "data",
-    "reedfrogs.csv"), delim=';');
+d = CSV.read(rel_path("..", "data", "reedfrogs.csv"), delim=';');
 size(d) # Should be 48x5
 
 # Set number of tanks

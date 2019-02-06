@@ -2,12 +2,10 @@ using TuringModels
 using Turing
 
 Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false);
 
 d = CSV.read(rel_path("..", "data", "chimpanzees.csv"), delim=';');
 size(d) # Should be 504x8
 
-# pulled_left, condition, prosoc_left
 @model m10_3(y, x₁, x₂) = begin
     α ~ Normal(0, 10)
     βp ~ Normal(0, 10)
@@ -22,11 +20,7 @@ end;
 posterior = sample(m10_3(d[:,:pulled_left], d[:,:condition], d[:,:prosoc_left]),
 Turing.NUTS(2000, 1000, 0.95));
 
-# Fix the inclusion of adaptation samples
-
 posterior2 = MCMCChain.Chains(posterior.value[1001:2000,:,:], names=posterior.names);
-
-# Rethinking result
 
 m_10_03t_result = "
       Mean StdDev lower 0.89 upper 0.89 n_eff Rhat
@@ -35,8 +29,7 @@ m_10_03t_result = "
  bpC -0.11   0.26      -0.53       0.29  3184    1
 ";
 
-# Describe the draws
-
 describe(posterior2)
 
-# End of m_10_03t.jl
+# This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
+

@@ -2,7 +2,6 @@ using TuringModels
 using Turing
 
 Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false)
 
 d = CSV.read(rel_path("..", "data", "UCBadmit.csv"), delim=';');
 size(d) # Should be 12x5
@@ -21,11 +20,7 @@ end;
 
 posterior = sample(m_pois(d[:admit], d[:reject]), Turing.NUTS(2000, 1000, 0.95));
 
-# Fix the inclusion of adaptation samples
-
 posterior2 = MCMCChain.Chains(posterior.value[1001:2000,:,:], names=posterior.names);
-
-# Rethinking/CmdStan result
 
 m_10_yyt_result = "
     mean   sd 5.5% 94.5% n_eff Rhat
@@ -33,8 +28,7 @@ m_10_yyt_result = "
  a2 5.44 0.02 5.41  5.47  2468    1
 ";
 
-# Describe the draws
-
 describe(posterior2)
 
-# End of 10/m_10_yyt.jl
+# This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
+
