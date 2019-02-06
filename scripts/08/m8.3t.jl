@@ -1,4 +1,4 @@
-using TuringModels, Turing
+using TuringModels
 
 Turing.setadbackend(:reverse_diff)
 #nb Turing.turnprogress(false)

@@ -1,33 +1,26 @@
 using TuringModels
 
 Turing.setadbackend(:reverse_diff)
-#nbTuring.turnprogress(false);
 
 d = CSV.read(rel_path("..", "data", "chimpanzees.csv"), delim=';');
 size(d) # Should be 504x8
 
-# Turing model: pulled_left, actor, condition, prosoc_left
-
 @model m12_5(pulled_left, actor, block, condition, prosoc_left) = begin
-    # Total num of y
+
     N = length(pulled_left)
-    # Separate σ priors for each actor and block
+
     σ_actor ~ Truncated(Cauchy(0, 1), 0, Inf)
     σ_block ~ Truncated(Cauchy(0, 1), 0, Inf)
 
-    # Number of unique actors in the data set
     N_actor = length(unique(actor)) #7
     N_block = length(unique(block))
 
-    # Vector of actors (1,..,7) which we'll set priors on
     α_actor = Vector{Real}(undef, N_actor)
     α_block = Vector{Real}(undef, N_block)
 
-    # For each actor [1,..,7] and each block [1,..,6] set a prior N(0,σ_actor)
     α_actor ~ [Normal(0, σ_actor)]
     α_block ~ [Normal(0, σ_block)]
 
-    # Prior for intercept, prosoc_left, and the interaction
     α ~ Normal(0, 10)
     βp ~ Normal(0, 10)
     βpC ~ Normal(0, 10)
@@ -36,12 +29,9 @@ size(d) # Should be 504x8
             (βp + βpC * condition[i]) * prosoc_left[i]
             for i = 1:N]
 
-    # Thanks to Kai Xu for suggesting ones(Int64, N)
     pulled_left ~ VecBinomialLogit(ones(Int64, N), logitp)
 
 end
-
-# Sample
 
 posterior = sample(m12_5(
     Vector{Int64}(d[:pulled_left]),
@@ -51,11 +41,7 @@ posterior = sample(m12_5(
     Vector{Int64}(d[:prosoc_left])),
     Turing.NUTS(6000, 1000, 0.95));
 
-# Draw summary
-
 describe(posterior)
-
-# Results rethinking
 
 m125rethinking = "
              Mean StdDev lower 0.89 upper 0.89 n_eff Rhat
@@ -78,3 +64,6 @@ bpc         -0.15   0.30      -0.61       0.36  8492    1
 sigma_actor  2.27   0.91       1.03       3.35  5677    1
 sigma_block  0.23   0.18       0.01       0.44  2269    1
 ";
+
+# This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
+

@@ -1,9 +1,8 @@
 using TuringModels
-using Turing
 
 Turing.setadbackend(:reverse_diff);
 
-d = CSV.read(rel_path("..", "data", "readfrogs.csv"), delim=';');
+d = CSV.read(rel_path("..", "data", "reedfrogs.csv"), delim=';');
 size(d) # Should be 48x5
 
 d[:tank] = 1:size(d,1);

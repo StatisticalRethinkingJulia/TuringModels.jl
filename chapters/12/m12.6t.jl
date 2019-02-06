@@ -1,36 +1,26 @@
 using TuringModels
 
 Turing.setadbackend(:reverse_diff)
-#nbTuring.turnprogress(false);
 
 d = CSV.read(rel_path("..", "data", "Kline.csv"), delim=';');
 size(d) # Should be 10x5
 
-# New col log_pop, set log() for population data
 d[:log_pop] = map((x) -> log(x), d[:population]);
 d[:society] = 1:10;
 
-# Turing model
-
 @model m12_6(total_tools, log_pop, society) = begin
 
-    # Total num of y
     N = length(total_tools)
 
-    # priors
     α ~ Normal(0, 10)
     βp ~ Normal(0, 1)
 
-    # Separate σ priors for each society
     σ_society ~ Truncated(Cauchy(0, 1), 0, Inf)
 
-    # Number of unique societies in the data set
     N_society = length(unique(society)) #10
 
-    # Vector of societies (1,..,10) which we'll set priors on
     α_society = Vector{Real}(undef, N_society)
 
-    # For each society [1,..,10] set a prior N(0, σ_society)
     α_society ~ [Normal(0, σ_society)]
 
     for i ∈ 1:N
@@ -39,21 +29,12 @@ d[:society] = 1:10;
     end
 end
 
-# Sample
-
 posterior = sample(m12_6(d[:total_tools], d[:log_pop],
     d[:society]), Turing.NUTS(5000, 2000, 0.95));
 
-# Fix the inclusion of adaptation samples
-
 posterior2 = MCMCChain.Chains(posterior.value[2001:5000,:,:], names=posterior.names)
 
-# Describe the posterior samples
-
 describe(posterior2)
-
-
-# Results rethinking
 
 m126rethinking = "
               Mean StdDev lower 0.89 upper 0.89 n_eff Rhat
@@ -71,3 +52,6 @@ a_society[9]   0.27   0.17      -0.02       0.52  2540    1
 a_society[10] -0.10   0.30      -0.52       0.37  1433    1
 sigma_society  0.31   0.13       0.11       0.47  1345    1
 ";
+
+# This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
+

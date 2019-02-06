@@ -1,48 +1,32 @@
 using TuringModels
 
 Turing.setadbackend(:reverse_diff)
-#nb Turing.turnprogress(false);
 
 d = CSV.read(rel_path("..", "data", "reedfrogs.csv"), delim=';');
 size(d) # Should be 48x5
 
-# Set number of tanks
-
 d[:tank] = 1:size(d,1);
-
-# Thanks to Kai Xu!
 
 @model m12_2(density, tank, surv) = begin
 
-    # Separate priors on α and σ for each tank
     σ ~ Truncated(Cauchy(0, 1), 0, Inf)
     α ~ Normal(0, 1)
 
-    # Number of unique tanks in the data set
     N_tank = length(tank)
 
-    # vector for the priors for each tank
     a_tank = Vector{Real}(undef, N_tank)
 
-    # For each tank [1,..,48] set a prior. Note the [] around Normal().
     a_tank ~ [Normal(α, σ)]
 
-    # Observation
     logitp = [a_tank[tank[i]] for i = 1:N_tank]
     surv ~ VecBinomialLogit(density, logitp)
 
 end
 
-# Sample 
-
 posterior = sample(m12_2(Vector{Int64}(d[:density]), Vector{Int64}(d[:tank]),
     Vector{Int64}(d[:surv])), Turing.NUTS(4000, 1000, 0.8));
-    
-# Draw summary
 
 describe(posterior)
-
-# Results from rethinking
 
 m122rethinking = "
                 mean   sd  5.5% 94.5% n_eff Rhat
@@ -97,3 +81,6 @@ a_tank[46] -0.57 0.34 -1.13 -0.03 19761    1
 a_tank[47]  2.05 0.51  1.30  2.90 15122    1
 a_tank[48]  0.00 0.33 -0.53  0.53 18236    1
 ";
+
+# This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
+

@@ -1,7 +1,6 @@
 using TuringModels
 
 Turing.setadbackend(:reverse_diff);
-#nbTuring.turnprogress(false);
 
 μ = 1.4
 σ = 1.5
@@ -16,42 +15,28 @@ prob = logistic.(Vector{Real}(dsim[:true_a]));
 
 dsim[:si] = [rand(Binomial(ni[i], prob[i])) for i = 1:nponds];
 
-# Used only in the continuation of this example
 dsim[:p_nopool] = dsim[:si] ./ dsim[:ni];
-
-# Turing model
 
 @model m12_3(pond, si, ni) = begin
 
-    # Separate priors on μ and σ for each pond
     σ ~ Truncated(Cauchy(0, 1), 0, Inf)
     μ ~ Normal(0, 1)
 
-    # Number of ponds in the data set
     N_ponds = length(pond)
 
-    # vector for the priors for each pond
     a_pond = Vector{Real}(undef, N_ponds)
 
-    # For each pond set a prior. Note the [] around Normal(), i.e.,
     a_pond ~ [Normal(μ, σ)]
 
-    # Observation
     logitp = [a_pond[pond[i]] for i = 1:N_ponds]
     si ~ VecBinomialLogit(ni, logitp)
 
 end
 
-# Sample
-
 posterior = sample(m12_3(Vector{Int64}(dsim[:pond]), Vector{Int64}(dsim[:si]),
     Vector{Int64}(dsim[:ni])), Turing.NUTS(10000, 1000, 0.8));
-  
-# Draw summary
-  
-describe(posterior)
 
-# Results from rethinking
+describe(posterior)
 
 m123rethinking = "
                   mean   sd  5.5% 94.5% n_eff Rhat
@@ -118,4 +103,6 @@ a_pond[58]  1.11 0.38  0.51  1.74 21740    1
 a_pond[59]  2.33 0.56  1.50  3.25 13116    1
 a_pond[60]  1.27 0.40  0.66  1.91 15611    1
 ";
+
+# This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 
