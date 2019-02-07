@@ -3,19 +3,6 @@ language: julia
 
 jobs:
   include:
-    - stage: Testing Julia v1.1
-      julia: 1.1
-      os: linux
-      branches:
-        only:
-          - master
-          - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
-      script:
-        - julia -e 'using Pkg; Pkg.instantiate(); Pkg.develop(PackageSpec(path=pwd()))'
-        - julia -e 'using Pkg; Pkg.develop("StatisticalRethinking"); Pkg.resolve()'
-        - julia -e 'Pkg.test("TuringModels")'
-      after_success: skip
-
     - stage: Documentation
       julia: 1.1
       os: linux
@@ -23,6 +10,33 @@ jobs:
         - julia --project=docs -e 'using Pkg; Pkg.instantiate(); Pkg.develop(PackageSpec(path=pwd()))'
         - julia --project=docs -e 'using Pkg; Pkg.develop("StatisticalRethinking"); Pkg.resolve()'
         - julia --project=docs --color=yes docs/make.jl
+      after_success: skip
+
+    - stage: Testing Julia v1.1
+      julia: 1.1
+      os: linux
+      branches:
+        only:
+          - master
+          - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+      after_success: skip
+
+    - stage: Testing Julia v1.0
+      julia: 1.1
+      os: linux
+      branches:
+        only:
+          - master
+          - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+      after_success: skip
+
+    - stage: Testing Julia v1.2
+      julia: 1.1
+      os: linux
+      branches:
+        only:
+          - master
+          - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
       after_success: skip
 
 notifications:

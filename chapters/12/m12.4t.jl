@@ -34,13 +34,15 @@ posterior = sample(m12_4(
     Vector{Int64}(d[:actor]),
     Vector{Int64}(d[:condition]),
     Vector{Int64}(d[:prosoc_left])),
-    Turing.NUTS(5000, 1000, 0.95));
+    Turing.NUTS(4000, 1000, 0.95));
 
-describe(posterior)
+posterior2 = MCMCChain.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
 
 m124rethinking = "
 
 ";
+
+describe(posterior2)
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 
