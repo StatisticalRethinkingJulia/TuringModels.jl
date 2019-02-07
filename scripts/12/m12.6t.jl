@@ -42,16 +42,11 @@ end
 # Sample
 
 posterior = sample(m12_6(d[:total_tools], d[:log_pop],
-    d[:society]), Turing.NUTS(5000, 2000, 0.95));
+    d[:society]), Turing.NUTS(4000, 1000, 0.95));
 
 # Fix the inclusion of adaptation samples
 
-posterior2 = MCMCChain.Chains(posterior.value[2001:5000,:,:], names=posterior.names)
-
-# Describe the posterior samples
-
-describe(posterior2)
-
+posterior2 = MCMCChain.Chains(posterior.value[1001:4000,:,:], names=posterior.names)
 
 # Results rethinking
 
@@ -71,3 +66,9 @@ a_society[9]   0.27   0.17      -0.02       0.52  2540    1
 a_society[10] -0.10   0.30      -0.52       0.37  1433    1
 sigma_society  0.31   0.13       0.11       0.47  1345    1
 ";
+
+# Describe the posterior samples
+
+describe(posterior2)
+
+# End of m12.6t.jl

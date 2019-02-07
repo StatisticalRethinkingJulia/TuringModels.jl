@@ -26,7 +26,7 @@ end
 posterior = sample(m12_2(Vector{Int64}(d[:density]), Vector{Int64}(d[:tank]),
     Vector{Int64}(d[:surv])), Turing.NUTS(4000, 1000, 0.8));
 
-describe(posterior)
+posterior2 = MCMCChain.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
 
 m122rethinking = "
                 mean   sd  5.5% 94.5% n_eff Rhat
@@ -81,6 +81,8 @@ a_tank[46] -0.57 0.34 -1.13 -0.03 19761    1
 a_tank[47]  2.05 0.51  1.30  2.90 15122    1
 a_tank[48]  0.00 0.33 -0.53  0.53 18236    1
 ";
+
+describe(posterior2)
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 

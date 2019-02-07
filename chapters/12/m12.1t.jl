@@ -16,13 +16,13 @@ d[:tank] = 1:size(d,1);
     a_tank ~ [Normal(0,5)]
 
     logitp = [a_tank[tank[i]] for i = 1:N_tank]
-    surv ~ VecBinomialLogit(density, logitp)
+    surv ~ Turing.Utilities.VecBinomialLogit(density, logitp)
 end
 
 posterior = sample(m12_1(Vector{Int64}(d[:density]), Vector{Int64}(d[:tank]),
     Vector{Int64}(d[:surv])), Turing.NUTS(4000, 1000, 0.8));
 
-describe(posterior)
+posterior2 = MCMCChain.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
 
 m2_1_rethinking = "
              mean   sd  5.5% 94.5% n_eff Rhat
@@ -74,6 +74,9 @@ a_tank[45]  0.54 0.36 -0.04  1.14  1376    1
 a_tank[46] -0.67 0.34 -1.25 -0.15  1619    1
 a_tank[47]  2.14 0.55  1.31  3.04  1916    1
 a_tank[48] -0.06 0.35 -0.61  0.50  1932    1
-";#-
+";
+
+describe(posterior2)
+
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 

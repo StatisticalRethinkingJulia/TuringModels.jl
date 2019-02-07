@@ -45,11 +45,11 @@ end
 # Sample
 
 posterior = sample(m12_3(Vector{Int64}(dsim[:pond]), Vector{Int64}(dsim[:si]),
-    Vector{Int64}(dsim[:ni])), Turing.NUTS(10000, 1000, 0.8));
+    Vector{Int64}(dsim[:ni])), Turing.NUTS(4000, 1000, 0.8));
   
-# Draw summary
-  
-describe(posterior)
+# Fix the inclusion of adaptation samples
+
+posterior2 = MCMCChain.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
 
 # Results from rethinking
 
@@ -119,3 +119,8 @@ a_pond[59]  2.33 0.56  1.50  3.25 13116    1
 a_pond[60]  1.27 0.40  0.66  1.91 15611    1
 ";
 
+# Draw summary
+  
+describe(posterior2)
+
+# End of m12.3t.jl

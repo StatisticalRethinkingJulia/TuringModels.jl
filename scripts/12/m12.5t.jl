@@ -49,11 +49,11 @@ posterior = sample(m12_5(
     Vector{Int64}(d[:block]),
     Vector{Int64}(d[:condition]),
     Vector{Int64}(d[:prosoc_left])),
-    Turing.NUTS(6000, 1000, 0.95));
+    Turing.NUTS(4000, 1000, 0.95));
 
-# Draw summary
+# Fix the inclusion of adaptation samples
 
-describe(posterior)
+posterior2 = MCMCChain.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
 
 # Results rethinking
 
@@ -78,3 +78,9 @@ bpc         -0.15   0.30      -0.61       0.36  8492    1
 sigma_actor  2.27   0.91       1.03       3.35  5677    1
 sigma_block  0.23   0.18       0.01       0.44  2269    1
 ";
+
+# Draw summary
+
+describe(posterior2)
+
+# End of m12.5t.jl

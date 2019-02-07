@@ -44,11 +44,13 @@ posterior = sample(m12_4(
     Vector{Int64}(d[:actor]),
     Vector{Int64}(d[:condition]),
     Vector{Int64}(d[:prosoc_left])),
-    Turing.NUTS(5000, 1000, 0.95));
+    Turing.NUTS(4000, 1000, 0.95));
 
-# Draw summary
+# Fix the inclusion of adaptation samples
 
-describe(posterior)
+posterior2 = MCMCChain.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
+
+# Results from rethinking
 
 m124rethinking = "
 #             Mean StdDev lower 0.89 upper 0.89 n_eff Rhat
@@ -64,3 +66,9 @@ m124rethinking = "
 # bpC         -0.13   0.30      -0.62       0.34  8403    1
 # sigma_actor  2.26   0.94       1.07       3.46  4155    1
 ";
+
+# Draw summary
+
+describe(posterior2)
+
+# End of m12.4t.jl
