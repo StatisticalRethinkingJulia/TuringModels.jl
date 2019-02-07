@@ -30,11 +30,9 @@ d[:society] = 1:10;
 end
 
 posterior = sample(m12_6(d[:total_tools], d[:log_pop],
-    d[:society]), Turing.NUTS(5000, 2000, 0.95));
+    d[:society]), Turing.NUTS(4000, 1000, 0.95));
 
-posterior2 = MCMCChain.Chains(posterior.value[2001:5000,:,:], names=posterior.names)
-
-describe(posterior2)
+posterior2 = MCMCChain.Chains(posterior.value[1001:4000,:,:], names=posterior.names)
 
 m126rethinking = "
               Mean StdDev lower 0.89 upper 0.89 n_eff Rhat
@@ -52,6 +50,8 @@ a_society[9]   0.27   0.17      -0.02       0.52  2540    1
 a_society[10] -0.10   0.30      -0.52       0.37  1433    1
 sigma_society  0.31   0.13       0.11       0.47  1345    1
 ";
+
+describe(posterior2)
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 
