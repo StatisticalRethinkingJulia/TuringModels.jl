@@ -117,10 +117,10 @@ Developing `rethinking` must have been an on-going process over several years, `
 
 
 [docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg
-[docs-dev-url]: https://stanjulia.github.io/TuringModels.jl/latest
+[docs-dev-url]: https://statisticalrethinkingjulia.github.io/TuringModels.jl/latest
 
 [docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
-[docs-stable-url]: https://stanjulia.github.io/TuringModels.jl/stable
+[docs-stable-url]: https://statisticalrethinkingjulia.github.io/TuringModels.jl/stable
 
 [travis-img]: https://travis-ci.org/StatisticalRethinkingJulia/TuringModels.jl.svg?branch=master
 [travis-url]: https://travis-ci.org/StatisticalRethinkingJulia/TuringModels.jl
