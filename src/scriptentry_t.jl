@@ -28,6 +28,6 @@ script_dict_t = DataStructures.OrderedDict{AbstractString, Vector{ScriptEntry}}(
     scriptentry("m12.3t.jl", exe=false, doc=false),
     scriptentry("m12.4t.jl", exe=false, doc=false),
     scriptentry("m12.5t.jl", exe=false, doc=false),
-    scriptentry("m12.6t.jl")
+    scriptentry("m12.6t.jl", exe=false, doc=false)
   ]
 );
