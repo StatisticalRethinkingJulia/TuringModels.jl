@@ -10,7 +10,7 @@
 
 This package contains Julia versions of the mcmc models contained in the R package "rethinking" associated with the book [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/) by Richard McElreath. It is part of the [StatisticalRethinkingJulia](https://github.com/StatisticalRethinkingJulia) Github organization of packages.
 
-This package contains the [TuringLang/Turing.jl](https://github.com/TuringLang) versions,
+This package implements the models using [TuringLang/Turing.jl](https://github.com/TuringLang).
 
 ## Documentation
 
