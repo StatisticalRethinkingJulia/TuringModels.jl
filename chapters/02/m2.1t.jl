@@ -16,13 +16,11 @@ lb = [0.0]; ub = [1.0];
 
 model = globe_toss(n, k);
 
-chn = sample(model, NUTS(2000, 200, 0.65));
+maximum_a_posteriori(model, lb, ub)
 
-describe(chn)
+chn = sample(model, NUTS(2000, 1000, 0.65));
 
-println("\ntheta = $(mean_and_std(chn[:theta][201:2000]))\n")
-
-chn2 = MCMCChain.Chains(chn.value[201:2000,:,:], names=chn.names)
+chn2 = MCMCChain.Chains(chn.value[1001:2000,:,:], names=chn.names)
 
 describe(chn2)
 

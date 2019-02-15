@@ -1,4 +1,4 @@
-using TuringModels, MCMCChain
+using TuringModels
 gr(size=(500,500));
 
 Turing.setadbackend(:reverse_diff);
@@ -40,7 +40,10 @@ chn2 = MCMCChain.Chains(chn.value[draws,:,:], names=chn.names)
 
 describe(chn2)
 
-m4_2s_result = "
+chn3 = removeBurnin([chn], adapt_cycles)
+describe(chn3)
+
+clip_43s_example_output = "
 
 Iterations = 1:1000
 Thinning interval = 1
@@ -60,12 +63,12 @@ alpha 154.0610000 154.4150000 154.5980000 154.7812500 155.1260000
 sigma   4.7524368   4.9683400   5.0994450   5.2353100   5.5090128
 ";
 
+plot(chn3)
+
 scatter(x, y, lab="Observations", xlab="weight", ylab="height")
 xi = -15.0:0.1:15.0
 yi = mean(chn2.value[:,1,:]) .+ mean(chn2.value[:, 2, :])*xi
 plot!(xi, yi, lab="Regression line")
-
-plot(chn2)
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 
