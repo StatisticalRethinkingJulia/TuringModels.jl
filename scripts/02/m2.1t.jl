@@ -33,21 +33,17 @@ lb = [0.0]; ub = [1.0];
 
 model = globe_toss(n, k);
 
+# Compute the maximum_a_posteriori
+
+maximum_a_posteriori(model, lb, ub)
+
 # Use Turing mcmc
 
-chn = sample(model, NUTS(2000, 200, 0.65));
-
-# Look at the generated draws (in chn)
-
-describe(chn)
-
-# Look at the mean and sd
-
-println("\ntheta = $(mean_and_std(chn[:theta][201:2000]))\n")
+chn = sample(model, NUTS(2000, 1000, 0.65));
 
 # Fix the inclusion of adaptation samples
 
-chn2 = MCMCChain.Chains(chn.value[201:2000,:,:], names=chn.names)
+chn2 = MCMCChain.Chains(chn.value[1001:2000,:,:], names=chn.names)
 
 # Look at the proper draws (in corrected chn2)
 

@@ -41,15 +41,11 @@ end;
 
 # Draw the samples
 
-samples = 5000
+samples = 2000
 adapt_cycles = 1000
 
 @time chn = sample(line(y, x), Turing.NUTS(samples, adapt_cycles, 0.65));
 draws = adapt_cycles+1:samples
-
-# Describe the chain result
-
-describe(chn)
 
 # Show corrected results (drop adaptation samples)
 
@@ -58,6 +54,11 @@ chn2 = MCMCChain.Chains(chn.value[draws,:,:], names=chn.names)
 # Look at the proper draws (in corrected chn2)
 
 describe(chn2)
+
+# Test removeBurnin
+
+chn3 = removeBurnin([chn], adapt_cycles)
+describe(chn3)
 
 # Compare with a previous result
 
@@ -81,6 +82,10 @@ alpha 154.0610000 154.4150000 154.5980000 154.7812500 155.1260000
 sigma   4.7524368   4.9683400   5.0994450   5.2353100   5.5090128
 ";
 
+# Plot the chains
+
+plot(chn3)
+
 # Plot the regerssion line and observations
 
 scatter(x, y, lab="Observations", xlab="weight", ylab="height")
@@ -88,4 +93,4 @@ xi = -15.0:0.1:15.0
 yi = mean(chn2.value[:,1,:]) .+ mean(chn2.value[:, 2, :])*xi
 plot!(xi, yi, lab="Regression line")
 
-# End of `clip_43t.jl`
+# End of `m4.2t.jl`

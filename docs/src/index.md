@@ -24,3 +24,7 @@ ScriptEntry
 scriptentry(scriptfile; nb = true, exe = true, doc = true)
 ```
 
+## `maximum_a_posteriori`
+```@docs
+maximum_a_posteriori(model, lower_bound, upper_bound)
+```
