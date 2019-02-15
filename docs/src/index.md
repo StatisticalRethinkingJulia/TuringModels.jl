@@ -9,7 +9,7 @@ rel_path_t(parts...)
 
 ## `generate_t`
 ```@docs
-generate_t_(; sd=script_dict_t)
+generate_t(; sd=script_dict_t)
 generate_t(chapter::AbstractString; sd=script_dict_t_)
 generate_t(chapter::AbstractString, scriptfile::AbstractString; sd=script_dict_t_)
 ```
