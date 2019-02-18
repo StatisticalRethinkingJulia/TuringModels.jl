@@ -18,7 +18,7 @@ model = globe_toss(n, k);
 
 maximum_a_posteriori(model, lb, ub)
 
-chn = sample(model, NUTS(2000, 1000, 0.65));
+chn = sample(model, Turing.NUTS(2000, 1000, 0.65));
 
 chn2 = MCMCChain.Chains(chn.value[1001:2000,:,:], names=chn.names)
 

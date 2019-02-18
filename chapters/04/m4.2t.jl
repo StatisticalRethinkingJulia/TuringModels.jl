@@ -34,7 +34,7 @@ samples = 2000
 adapt_cycles = 1000
 
 @time chn = sample(line(y, x), Turing.NUTS(samples, adapt_cycles, 0.65));
-draws = adapt_cycles+1:samples
+draws = adapt_cycles+1:samples;
 
 chn2 = MCMCChain.Chains(chn.value[draws,:,:], names=chn.names)
 

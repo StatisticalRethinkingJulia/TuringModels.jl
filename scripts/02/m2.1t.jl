@@ -39,7 +39,7 @@ maximum_a_posteriori(model, lb, ub)
 
 # Use Turing mcmc
 
-chn = sample(model, NUTS(2000, 1000, 0.65));
+chn = sample(model, Turing.NUTS(2000, 1000, 0.65));
 
 # Fix the inclusion of adaptation samples
 

@@ -1,8 +1,10 @@
 using Turing, Flux.Tracker, Optim
 
 """
-# maximum_a_posteriori 
-Compute the maximum_a_posteriori of a model. 
+# `maximum_a_posteriori`
+
+Compute the `maximum_a_posteriori` of a model. 
+
 ### Method
 ```julia
 maximum_a_posteriori(model, lower_bound, upper_bound)
@@ -18,7 +20,7 @@ maximum_a_posteriori(model, lower_bound, upper_bound)
 * `result`                       : Maximum_a_posterior vector
 ```
 ### Examples
-See [02/m2.1t.jl](https://stanjulia.github.io/StatisticalRethinking.jl/stable/02/m2.1t/)
+See [m2.1t.jl Documentation](@ref)
 """
 function maximum_a_posteriori(model, lower_bound, upper_bound)
   
