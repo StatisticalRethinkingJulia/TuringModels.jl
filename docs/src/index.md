@@ -29,5 +29,5 @@ scriptentry(scriptfile; nb = true, exe = true, doc = true)
 maximum_a_posteriori(model, lower_bound, upper_bound)
 ```
 
-- link to [m2.1t.jl Documentation](@ref)
+- link to [m2.1t.jl](@ref)
 - link to [`maximum_a_posteriori(model, lower_bound, upper_bound)`](@ref)
