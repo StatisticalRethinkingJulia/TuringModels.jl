@@ -56,9 +56,8 @@ chn2 = MCMCChain.Chains(chn.value[draws,:,:], names=chn.names)
 describe(chn2)
 
 # Test removeBurnin
-
-chn3 = removeBurnin([chn], adapt_cycles)
-describe(chn3)
+#chn3 = removeBurnin([chn], adapt_cycles)
+#describe(chn3)
 
 # Compare with a previous result
 

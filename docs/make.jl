@@ -1,4 +1,4 @@
-using TuringModels
+ using TuringModels
 using Literate
 using Documenter
 

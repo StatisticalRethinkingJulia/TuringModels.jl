@@ -20,7 +20,7 @@ maximum_a_posteriori(model, lower_bound, upper_bound)
 * `result`                       : Maximum_a_posterior vector
 ```
 ### Examples
-See [m2.1t.jl Documentation](@ref)
+See [m2.1t.jl](@ref)
 """
 function maximum_a_posteriori(model, lower_bound, upper_bound)
   

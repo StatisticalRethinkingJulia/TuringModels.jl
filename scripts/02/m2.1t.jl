@@ -53,7 +53,7 @@ describe(chn2)
 
 # Compute at hpd region
 
-bnds = MCMCChain.hpd(chn2[:, 4, :], alpha=0.06);
+bnds = MCMCChain.hpd(chn2[:, 2, :], alpha=0.06);
 
 # analytical calculation
 
@@ -68,7 +68,7 @@ plot!( x, pdf.(Normal( 0.67 , 0.16 ) , x ), lab="Normal approximation")
 
 #tmp = convert(Array{Float64,3}, chn.value[:, 4, :])
 #draws = reshape(tmp, (size(tmp, 1)*size(tmp, 3)),)
-density!(chn.value[:, 4, 1], lab="Turing chain")
+density!(chn.value[:, 2, 1], lab="Turing chain")
 vline!([bnds.value[1]], line=:dash, lab="hpd lower bound")
 vline!([bnds.value[2]], line=:dash, lab="hpd upper bound")
 
