@@ -20,11 +20,23 @@ maximum_a_posteriori(model, lb, ub)
 
 chn = sample(model, Turing.NUTS(2000, 1000, 0.65));
 
-chn2 = MCMCChain.Chains(chn.value[1001:2000,:,:], names=chn.names)
+chn2 = MCMCChains.Chains(chn.value[1001:2000,:,:],
+  vcat(chn.name_map[:internals], chn.name_map[:parameters]),
+  Dict(
+    :parameters => chn.name_map[:parameters],
+    :internals => chn.name_map[:internals]
+  )
+)
 
 describe(chn2)
 
-bnds = MCMCChain.hpd(chn2[:, 4, :], alpha=0.06);
+MCMCChains.hpd(chn2, alpha=0.055)
+
+d, p, c = size(chn2);
+theta = convert(Vector{Float64}, reshape(chn2.value[:, 7, :], (d*c)));
+bnds = quantile(theta, [0.045, 0.945])
+
+println("hpd bounds = $bnds\n")
 
 w = 6; n = 9; x = 0:0.01:1
 plot( x, pdf.(Beta( w+1 , n-w+1 ) , x ), fill=(0, .5,:orange), lab="Conjugate solution")
@@ -33,11 +45,9 @@ plot!( x, pdf.(Normal( 0.67 , 0.16 ) , x ), lab="Normal approximation")
 
 #tmp = convert(Array{Float64,3}, chn.value[:, 4, :])
 #draws = reshape(tmp, (size(tmp, 1)*size(tmp, 3)),)
-density!(chn.value[:, 4, 1], lab="Turing chain")
-vline!([bnds.value[1]], line=:dash, lab="hpd lower bound")
-vline!([bnds.value[2]], line=:dash, lab="hpd upper bound")
-
-println("hpd bounds = $bnds\n")
+density!(chn.value[:, 2, 1], lab="Turing chain")
+vline!([bnds[1]], line=:dash, lab="hpd lower bound")
+vline!([bnds[2]], line=:dash, lab="hpd upper bound")
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 

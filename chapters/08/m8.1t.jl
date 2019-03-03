@@ -32,7 +32,7 @@ Turing.NUTS(2000, 1000, 0.95));
 
 describe(posterior)
 
-posterior2 = MCMCChain.Chains(posterior.value[1001:2000,:,:], names=posterior.names)
+posterior2 = MCMCChains.Chains(posterior.value[1001:2000,:,:], names=posterior.names)
 
 m8_1s_cmdstan = "
 Iterations = 1:1000

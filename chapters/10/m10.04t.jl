@@ -27,7 +27,7 @@ end;
 posterior = sample(m10_4(d[:,:pulled_left], d[:,:actor],d[:,:condition],
 d[:,:prosoc_left]), Turing.NUTS(2000, 1000, 0.95));
 
-posterior2 = MCMCChain.Chains(posterior.value[1001:2000,:,:], names=posterior.names);
+posterior2 = MCMCChains.Chains(posterior.value[1001:2000,:,:], names=posterior.names);
 
 m_10_04s_result = "
 Iterations = 1:1000

@@ -34,7 +34,7 @@ posterior = sample(m12_1(Vector{Int64}(d[:density]), Vector{Int64}(d[:tank]),
 
 # Fix the inclusion of adaptation samples
 
-posterior2 = MCMCChain.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
+posterior2 = MCMCChains.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
 
 # CmdStan results
 

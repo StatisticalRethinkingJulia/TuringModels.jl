@@ -53,7 +53,7 @@ posterior = sample(m12_5(
 
 # Fix the inclusion of adaptation samples
 
-posterior2 = MCMCChain.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
+posterior2 = MCMCChains.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
 
 # Results rethinking
 

@@ -36,12 +36,15 @@ adapt_cycles = 1000
 @time chn = sample(line(y, x), Turing.NUTS(samples, adapt_cycles, 0.65));
 draws = adapt_cycles+1:samples;
 
-chn2 = MCMCChain.Chains(chn.value[draws,:,:], names=chn.names)
+chn2 = MCMCChains.Chains(chn.value[draws,:,:],
+  vcat(chn.name_map[:internals], chn.name_map[:parameters]),
+  Dict(
+    :parameters => chn.name_map[:parameters],
+    :internals => chn.name_map[:internals]
+  )
+)
 
 describe(chn2)
-
-chn3 = removeBurnin([chn], adapt_cycles)
-describe(chn3)
 
 clip_43s_example_output = "
 
@@ -63,12 +66,15 @@ alpha 154.0610000 154.4150000 154.5980000 154.7812500 155.1260000
 sigma   4.7524368   4.9683400   5.0994450   5.2353100   5.5090128
 ";
 
+#=
+
 plot(chn3)
 
 scatter(x, y, lab="Observations", xlab="weight", ylab="height")
 xi = -15.0:0.1:15.0
 yi = mean(chn2.value[:,1,:]) .+ mean(chn2.value[:, 2, :])*xi
 plot!(xi, yi, lab="Regression line")
+=#
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 

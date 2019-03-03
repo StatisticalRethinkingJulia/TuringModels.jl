@@ -17,7 +17,7 @@ end
 
 posterior = sample(m_good_stan(x,y), Turing.NUTS(2000, 1000, 0.95))
 
-posterior2 = MCMCChain.Chains(posterior.value[1001:2000,:,:], names=posterior.names)
+posterior2 = MCMCChains.Chains(posterior.value[1001:2000,:,:], names=posterior.names)
 
 m_10_x,_results = "
     mean   sd   5.5% 94.5% n_eff Rhat

@@ -15,7 +15,7 @@ y = [-1,1]
 
 posterior = sample(m8_3(y), Turing.NUTS(4000,1000, 0.95));
 
-posterior2 = MCMCChain.Chains(posterior.value[1001:4000,:,:], names=posterior.names)
+posterior2 = MCMCChains.Chains(posterior.value[1001:4000,:,:], names=posterior.names)
 
 describe(posterior2)
 

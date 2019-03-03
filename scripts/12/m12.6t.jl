@@ -46,7 +46,7 @@ posterior = sample(m12_6(d[:total_tools], d[:log_pop],
 
 # Fix the inclusion of adaptation samples
 
-posterior2 = MCMCChain.Chains(posterior.value[1001:4000,:,:], names=posterior.names)
+posterior2 = MCMCChains.Chains(posterior.value[1001:4000,:,:], names=posterior.names)
 
 # Results rethinking
 

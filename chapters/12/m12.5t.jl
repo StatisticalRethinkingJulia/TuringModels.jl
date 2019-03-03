@@ -41,7 +41,7 @@ posterior = sample(m12_5(
     Vector{Int64}(d[:prosoc_left])),
     Turing.NUTS(4000, 1000, 0.95));
 
-posterior2 = MCMCChain.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
+posterior2 = MCMCChains.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
 
 m125rethinking = "
              Mean StdDev lower 0.89 upper 0.89 n_eff Rhat

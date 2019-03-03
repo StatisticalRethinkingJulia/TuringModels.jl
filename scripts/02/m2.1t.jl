@@ -45,15 +45,31 @@ chn = sample(model, Turing.NUTS(2000, 1000, 0.65));
 
 # Fix the inclusion of adaptation samples
 
-chn2 = MCMCChain.Chains(chn.value[1001:2000,:,:], names=chn.names)
+chn2 = MCMCChains.Chains(chn.value[1001:2000,:,:], 
+  vcat(chn.name_map[:internals], chn.name_map[:parameters]),
+  Dict(
+    :parameters => chn.name_map[:parameters],
+    :internals => chn.name_map[:internals]
+  )
+)
 
 # Look at the proper draws (in corrected chn2)
 
 describe(chn2)
 
-# Compute at hpd region
+# Show the hpd region
 
-bnds = MCMCChain.hpd(chn2[:, 2, :], alpha=0.06);
+MCMCChains.hpd(chn2, alpha=0.055)
+
+# Compute the hpd bounds for plotting
+
+d, p, c = size(chn2);
+theta = convert(Vector{Float64}, reshape(chn2.value[:, 7, :], (d*c)));
+bnds = quantile(theta, [0.045, 0.945])
+
+# Show hpd region
+
+println("hpd bounds = $bnds\n")
 
 # analytical calculation
 
@@ -69,11 +85,7 @@ plot!( x, pdf.(Normal( 0.67 , 0.16 ) , x ), lab="Normal approximation")
 #tmp = convert(Array{Float64,3}, chn.value[:, 4, :])
 #draws = reshape(tmp, (size(tmp, 1)*size(tmp, 3)),)
 density!(chn.value[:, 2, 1], lab="Turing chain")
-vline!([bnds.value[1]], line=:dash, lab="hpd lower bound")
-vline!([bnds.value[2]], line=:dash, lab="hpd upper bound")
+vline!([bnds[1]], line=:dash, lab="hpd lower bound")
+vline!([bnds[2]], line=:dash, lab="hpd upper bound")
 
-# Show hpd region
-
-println("hpd bounds = $bnds\n")
-
-# End of `clip_08t.jl`
+# End of `02/m2.1t.jl`
