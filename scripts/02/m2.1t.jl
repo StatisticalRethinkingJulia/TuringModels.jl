@@ -43,16 +43,6 @@ maximum_a_posteriori(model, lb, ub)
 
 chn = sample(model, Turing.NUTS(2000, 1000, 0.65));
 
-# Fix the inclusion of adaptation samples
-
-chn2 = MCMCChains.Chains(chn.value[1001:2000,:,:], 
-  vcat(chn.name_map[:internals], chn.name_map[:parameters]),
-  Dict(
-    :parameters => chn.name_map[:parameters],
-    :internals => chn.name_map[:internals]
-  )
-)
-
 # Show corrected results (drop adaptation samples)
 names = ["theta"]
 a3d = chn[:theta]
@@ -94,7 +84,7 @@ plot!( x, pdf.(Normal( 0.67 , 0.16 ) , x ), lab="Normal approximation")
 
 #tmp = convert(Array{Float64,3}, chn.value[:, 4, :])
 #draws = reshape(tmp, (size(tmp, 1)*size(tmp, 3)),)
-density!(chn.value[:, 2, 1], lab="Turing chain")
+density!(theta, lab="Turing chain")
 vline!([bnds[1]], line=:dash, lab="hpd lower bound")
 vline!([bnds[2]], line=:dash, lab="hpd upper bound")
 

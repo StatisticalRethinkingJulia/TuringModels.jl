@@ -54,7 +54,7 @@ plot!( x, pdf.(Normal( 0.67 , 0.16 ) , x ), lab="Normal approximation")
 
 #tmp = convert(Array{Float64,3}, chn.value[:, 4, :])
 #draws = reshape(tmp, (size(tmp, 1)*size(tmp, 3)),)
-density!(chn.value[:, 2, 1], lab="Turing chain")
+density!(theta, lab="Turing chain")
 vline!([bnds[1]], line=:dash, lab="hpd lower bound")
 vline!([bnds[2]], line=:dash, lab="hpd upper bound")
 
