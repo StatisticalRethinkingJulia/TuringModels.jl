@@ -28,13 +28,22 @@ chn2 = MCMCChains.Chains(chn.value[1001:2000,:,:],
   )
 )
 
+names = ["theta"]
+a3d = chn[:theta]
+chn2 = MCMCChains.Chains(a3d[1001:2000,:,:],
+  names,
+  Dict(
+    :parameters => names
+  )
+)
+
 describe(chn2)
 
 MCMCChains.hpd(chn2, alpha=0.055)
 
 d, p, c = size(chn2);
-theta = convert(Vector{Float64}, reshape(chn2.value[:, 7, :], (d*c)));
-bnds = quantile(theta, [0.045, 0.945])
+theta = convert(Vector{Float64}, reshape(chn2[:theta], d));
+bnds = quantile(theta, [0.045, 0.955])
 
 println("hpd bounds = $bnds\n")
 

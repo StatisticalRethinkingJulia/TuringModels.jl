@@ -36,11 +36,12 @@ adapt_cycles = 1000
 @time chn = sample(line(y, x), Turing.NUTS(samples, adapt_cycles, 0.65));
 draws = adapt_cycles+1:samples;
 
-chn2 = MCMCChains.Chains(chn.value[draws,:,:],
-  vcat(chn.name_map[:internals], chn.name_map[:parameters]),
+names = ["alpha", "beta", "s"]
+a3d = hcat(chn[:alpha], chn[:beta], chn[:s])
+chn2 = MCMCChains.Chains(a3d[draws,:,:],
+  names,
   Dict(
-    :parameters => chn.name_map[:parameters],
-    :internals => chn.name_map[:internals]
+    :parameters => names,
   )
 )
 
@@ -66,15 +67,12 @@ alpha 154.0610000 154.4150000 154.5980000 154.7812500 155.1260000
 sigma   4.7524368   4.9683400   5.0994450   5.2353100   5.5090128
 ";
 
-#=
-
-plot(chn3)
+plot(chn2)
 
 scatter(x, y, lab="Observations", xlab="weight", ylab="height")
 xi = -15.0:0.1:15.0
-yi = mean(chn2.value[:,1,:]) .+ mean(chn2.value[:, 2, :])*xi
+yi = mean(chn2[:alpha]) .+ mean(chn2[:beta])*xi
 plot!(xi, yi, lab="Regression line")
-=#
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 
