@@ -23,7 +23,6 @@ rel_path_t(parts...) = normpath(joinpath(src_path_t, parts...))
 
 include("scriptentry_t.jl")
 include("generate_t.jl")
-#include("removeBurnin.jl")
 include("maximum_a_posteriori.jl")
 
 export

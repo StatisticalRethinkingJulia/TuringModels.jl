@@ -9,7 +9,7 @@
 using TuringModels
 
 Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false);
+#nb Turing.turnprogress(false)
 
 # Read in the `rugged` data as a DataFrame
 

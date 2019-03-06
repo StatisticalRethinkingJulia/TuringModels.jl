@@ -36,14 +36,7 @@ adapt_cycles = 1000
 @time chn = sample(line(y, x), Turing.NUTS(samples, adapt_cycles, 0.65));
 draws = adapt_cycles+1:samples;
 
-names = ["alpha", "beta", "s"]
-a3d = hcat(chn[:alpha], chn[:beta], chn[:s])
-chn2 = MCMCChains.Chains(a3d[draws,:,:],
-  names,
-  Dict(
-    :parameters => names,
-  )
-)
+chn2 = Chains(chn[draws,:,:], :parameters)
 
 describe(chn2)
 

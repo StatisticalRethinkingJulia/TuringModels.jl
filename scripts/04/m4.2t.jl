@@ -2,7 +2,7 @@ using TuringModels
 gr(size=(500,500));
 
 Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false);
+#nb Turing.turnprogress(false)
 
 ProjDir = rel_path_t("..", "scripts", "04")
 cd(ProjDir)
@@ -47,16 +47,9 @@ adapt_cycles = 1000
 @time chn = sample(line(y, x), Turing.NUTS(samples, adapt_cycles, 0.65));
 draws = adapt_cycles+1:samples;
 
-# Show corrected results (drop adaptation samples)
+# Correct NUTS chain (drop adaptation samples)
 
-names = ["alpha", "beta", "s"]
-a3d = hcat(chn[:alpha], chn[:beta], chn[:s])
-chn2 = MCMCChains.Chains(a3d[draws,:,:], 
-  names,
-  Dict(
-    :parameters => names,
-  )
-)
+chn2 = Chains(chn[draws,:,:], :parameters)
 
 # Look at the proper draws (in corrected chn2)
 

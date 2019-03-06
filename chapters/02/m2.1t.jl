@@ -20,28 +20,13 @@ maximum_a_posteriori(model, lb, ub)
 
 chn = sample(model, Turing.NUTS(2000, 1000, 0.65));
 
-chn2 = MCMCChains.Chains(chn.value[1001:2000,:,:],
-  vcat(chn.name_map[:internals], chn.name_map[:parameters]),
-  Dict(
-    :parameters => chn.name_map[:parameters],
-    :internals => chn.name_map[:internals]
-  )
-)
-
-names = ["theta"]
-a3d = chn[:theta]
-chn2 = MCMCChains.Chains(a3d[1001:2000,:,:],
-  names,
-  Dict(
-    :parameters => names
-  )
-)
+chn2 = chn[1001:2000, "theta", :]
 
 describe(chn2)
 
 MCMCChains.hpd(chn2, alpha=0.055)
 
-d, p, c = size(chn2);
+d, p, c = size(chn2.value);
 theta = convert(Vector{Float64}, reshape(chn2[:theta], d));
 bnds = quantile(theta, [0.045, 0.955])
 

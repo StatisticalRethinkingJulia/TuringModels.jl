@@ -9,7 +9,7 @@ gr(size=(600,300));
 #-
 
 Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false);
+#nb Turing.turnprogress(false)
 
 # ### snippet 2.8t
 
@@ -43,15 +43,11 @@ maximum_a_posteriori(model, lb, ub)
 
 chn = sample(model, Turing.NUTS(2000, 1000, 0.65));
 
-# Show corrected results (drop adaptation samples)
-names = ["theta"]
-a3d = chn[:theta]
-chn2 = MCMCChains.Chains(a3d[1001:2000,:,:], 
-  names,
-  Dict(
-    :parameters => names
-  )
-)
+# Correct NUTS chain (drop adaptation samples)
+
+chn2 = chn[1001:2000, "theta", :] 
+
+# Extract theta draws
 
 # Look at the proper draws (in corrected chn2)
 
@@ -63,7 +59,7 @@ MCMCChains.hpd(chn2, alpha=0.055)
 
 # Compute the hpd bounds for plotting
 
-d, p, c = size(chn2);
+d, p, c = size(chn2.value);
 theta = convert(Vector{Float64}, reshape(chn2[:theta], d));
 bnds = quantile(theta, [0.045, 0.955])
 

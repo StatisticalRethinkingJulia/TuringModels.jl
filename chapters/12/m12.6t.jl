@@ -32,7 +32,8 @@ end
 posterior = sample(m12_6(d[:total_tools], d[:log_pop],
     d[:society]), Turing.NUTS(4000, 1000, 0.95));
 
-posterior2 = MCMCChains.Chains(posterior.value[1001:4000,:,:], names=posterior.names)
+draws = 1001:4000
+posterior2 = Chains(posterior[draws,:,:], :parameters)
 
 m126rethinking = "
               Mean StdDev lower 0.89 upper 0.89 n_eff Rhat
@@ -52,6 +53,16 @@ sigma_society  0.31   0.13       0.11       0.47  1345    1
 ";
 
 describe(posterior2)
+
+cnames = [
+  :α,:α_society_1, :α_society_2, :α_society_3,
+  :α_society_4, :α_society_5, :α_society_6,
+  :α_society_7, :α_society_8,:α_society_9,
+  :α_society_10, :βp, :σ_society
+]
+
+df = DataFrame(convert(Matrix{Float64}, to_df(posterior2)), cnames)
+first(df, 5)
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 
