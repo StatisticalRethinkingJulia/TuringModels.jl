@@ -27,7 +27,8 @@ end;
 posterior = sample(m10_4(d[:,:pulled_left], d[:,:actor],d[:,:condition],
 d[:,:prosoc_left]), Turing.NUTS(2000, 1000, 0.95));
 
-posterior2 = MCMCChains.Chains(posterior.value[1001:2000,:,:], names=posterior.names);
+draws = 1001:2000
+posterior2 = Chains(posterior[draws,:,:], :parameters)
 
 m_10_04s_result = "
 Iterations = 1:1000
@@ -44,12 +45,19 @@ a.4 -1.04898135 0.28129307 0.0044476339 0.0056325117 1000
 a.5 -0.74390933 0.26949936 0.0042611590 0.0052178124 1000
 a.6  0.21599365 0.26307574 0.0041595927 0.0045153523 1000
 a.7  1.81090866 0.39318577 0.0062168129 0.0071483527 1000
- bp  0.83979926 0.26284676 0.0041559722 0.0059795826 1000
+bp  0.83979926 0.26284676 0.0041559722 0.0059795826 1000
 bpC -0.12913322 0.29935741 0.0047332562 0.0049519863 1000
- bpC  -0.13 0.30 -0.63  0.34  3508    1
 ";
 
 describe(posterior2)
+
+cnames = [
+  :a_1, :a_2, :a_3, :a_4, :a_5, :a_6, :a_7,
+  :bp, :bpC
+]
+
+df = DataFrame(convert(Matrix{Float64}, to_df(posterior2)), cnames)
+first(df, 5)
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 
