@@ -16,7 +16,8 @@ y = rand(Normal(0,1), 100);
 
 posterior = sample(m8_4(y), Turing.NUTS(4000, 1000, 0.95));
 
-posterior2 = MCMCChains.Chains(posterior.value[1001:4000,:,:], names=posterior.names)
+draws = 1001:4000
+posterior2 = Chains(posterior[draws,:,:], :parameters)
 
 describe(posterior2)
 

@@ -60,13 +60,10 @@ end;
 posterior = sample(m8_1stan(dd[:log_gdp], dd[:rugged], dd[:cont_africa]),
 Turing.NUTS(2000, 1000, 0.95));
     
-# Describe the posterior samples
-
-describe(posterior)
-
 # Fix the inclusion of adaptation samples
 
-posterior2 = MCMCChains.Chains(posterior.value[1001:2000,:,:], names=posterior.names)
+draws = 1001:2000
+posterior2 = Chains(posterior[draws,:,:], :parameters)
 
 # Example of a Turing run simulation output
 
