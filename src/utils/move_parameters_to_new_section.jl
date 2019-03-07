@@ -23,12 +23,12 @@ function move_parameters_to_new_section(chn::MCMCChains.AbstractChains,
     if par in existing_pars
       append!(moved_pars, [par]) 
     else
-      @warn "$par not in $parms, ignored"
+      @warn "$par not in $existing_pars, ignored"
     end
   end
-  remaining_pars = filter(x -> !(x in parameters_to_move), existing_parmeterss)
+  remaining_pars = filter(x -> !(x in parameters_to_move), existing_pars)
   
-  println(remaining_variables)
+  println(remaining_pars)
   
   return MCMCChains.Chains(a3d,
     Symbol.(flatten_name_map(chn)),
