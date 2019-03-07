@@ -50,8 +50,8 @@ draws = 1001:4000
 posterior2 = Chains(posterior[draws,:,:], :parameters)
 
 # Results rethinking
-
-m126rethinking = "
+y5
+m126rethinking = 
               Mean StdDev lower 0.89 upper 0.89 n_eff Rhat
 a              1.11   0.75      -0.05       2.24  1256    1
 bp             0.26   0.08       0.13       0.38  1276    1
