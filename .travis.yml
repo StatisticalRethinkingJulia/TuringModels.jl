@@ -1,6 +1,25 @@
 ## Documentation: http://docs.travis-ci.com/user/languages/julia/
 language: julia
 
+os:
+  - linux
+  - osx
+  
+julia:
+  - 1.0
+  - 1.1
+  - nightly
+  
+matrix:
+  allow_failures:
+    - os: osx
+    - julia: nightly
+
+branches:
+  only:
+    - master
+    - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+    
 jobs:
   include:
     - stage: Documentation

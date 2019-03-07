@@ -20,10 +20,6 @@ chn = sample(model(), sampler)
 chn1 = move_parameters_to_new_section(chn, :pooled, ["b", "d", "zeta"])
 
 describe(chn1)
-
 describe(chn1, section=:pooled)
 
-chn2 = chn1[draws, :, :]
-
-show(chn2) 
-
+mean(chn1[:a])
