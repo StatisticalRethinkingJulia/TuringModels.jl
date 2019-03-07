@@ -16,16 +16,24 @@ function move_parameters_to_new_section(chn::MCMCChains.AbstractChains,
     new_section::Symbol, parameters_to_move::Vector{String})
 
   a3d = construct_a3d(chn)
-  parms = values(chn.name_map.parameters)
-  moved_parameters = String[]
+  existing_pars = values(chn.name_map.parameters)
+  internal_pars = values(chn.name_map.internals)
+  moved_pars = String[]
   for par in parameters_to_move
-    (par in parms) ? append!(moved_parameters, [par]) : @warn "$par not in $parms, ignored"
+    if par in existing_pars
+      append!(moved_pars, [par]) 
+    else
+      @warn "$par not in $parms, ignored"
+    end
   end
+  remaining_pars = filter(x -> !(x in parameters_to_move), existing_parmeterss)
+  
+  println(remaining_variables)
   
   return MCMCChains.Chains(a3d,
     Symbol.(flatten_name_map(chn)),
     Dict(
-      :parameters => Symbol.(filter(x -> !(x in parameters_to_move), parms)),
-      new_section => Symbol.(moved_parameters),
-      :internals => Symbol.(values(chn.name_map.internals))))
+      :parameters => Symbol.(remaining_pars),
+      new_section => Symbol.(moved_pars),
+      :internals => Symbol.(internal_pars)))
 end
