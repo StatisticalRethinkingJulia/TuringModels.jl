@@ -1,6 +1,6 @@
 using Distributed
 addprocs(4)
-@everywhere using TuringModels
+@everywhere using Turing
 
 @everywhere @model model() = begin
     a ~ Normal(-10,.1)
@@ -10,12 +10,9 @@ addprocs(4)
     return nothing
 end
 
-
 Nsamples = 2000
 Nadapt = 1000
-draws = Nadapt+1:Nsamples
 δ = .85
 sampler = NUTS(Nsamples,Nadapt,δ)
-
-chain = combine_chains(pmap(x->sample(model(),sampler),1:4))[draws, :, :]
-describe(chain)
+chns = reduce(chainscat, pmap(x->sample(model(),sampler),1:4))
+chains = chns[Nadapt:Nsamples, :, :]

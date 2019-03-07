@@ -17,11 +17,13 @@ sampler = NUTS(Nsamples, Nadapt, δ)
 sampler = Turing.NUTS(2000, 1000, 0.65)
 chn = sample(model(), sampler)
 
-chn1 = chn[draws, :, :]
+chn1 = move_parameters_to_new_section(chn, :pooled, ["b", "d", "zeta"])
 
-show(chn1) 
+describe(chn1)
 
-chn2 = move_parameters_to_new_section(chn1, :pooled, ["b", "d"])
+describe(chn1, section=:pooled)
 
-describe(chn2) |> display
-describe(chn2, section=:pooled) |> display
+chn2 = chn1[draws, :, :]
+
+show(chn2) 
+

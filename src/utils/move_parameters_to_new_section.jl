@@ -22,12 +22,10 @@ function move_parameters_to_new_section(chn::MCMCChains.AbstractChains,
     (par in parms) ? append!(moved_parameters, [par]) : @warn "$par not in $parms, ignored"
   end
   
-  MCMCChains.Chains(a3d,
+  return MCMCChains.Chains(a3d,
     Symbol.(flatten_name_map(chn)),
     Dict(
       :parameters => Symbol.(filter(x -> !(x in parameters_to_move), parms)),
       new_section => Symbol.(moved_parameters),
-      :internals => Symbol.(values(chn.name_map.internals))
-    )
-  )
+      :internals => Symbol.(values(chn.name_map.internals))))
 end
