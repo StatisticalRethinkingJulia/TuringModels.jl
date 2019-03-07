@@ -24,12 +24,15 @@ rel_path_t(parts...) = normpath(joinpath(src_path_t, parts...))
 include("scriptentry_t.jl")
 include("generate_t.jl")
 include("maximum_a_posteriori.jl")
+include("utils/combine_chains.jl")
+include("utils/move_parameters_to_new_section.jl")
 
 export
   rel_path_t,
   script_dict_t,
   generate_t,
-  #removeBurnin,
-  maximum_a_posteriori
+  maximum_a_posteriori,
+  combine_chains,
+  move_parameters_to_new_section
 
 end # module
