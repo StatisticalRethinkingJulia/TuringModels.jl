@@ -62,14 +62,4 @@ bpC -0.12913322 0.29935741 0.0047332562 0.0049519863 1000
 
 describe(posterior2)
 
-# Create a DataFrame
-
-cnames = [
-  :a_1, :a_2, :a_3, :a_4, :a_5, :a_6, :a_7,
-  :bp, :bpC
-]             
-
-df = DataFrame(convert(Matrix{Float64}, to_df(posterior2)), cnames)
-first(df, 5)
-
-# End of 10/m_10_04t.jl
+# End of 10/m-10-04t.jl

@@ -72,16 +72,4 @@ sigma_society  0.31   0.13       0.11       0.47  1345    1
 
 describe(posterior2)
 
-# Create a DataFrame
-
-cnames = [
-  :α,:α_society_1, :α_society_2, :α_society_3,
-  :α_society_4, :α_society_5, :α_society_6,
-  :α_society_7, :α_society_8,:α_society_9,
-  :α_society_10, :βp, :σ_society
-]             
-
-df = DataFrame(convert(Matrix{Float64}, to_df(posterior2)), cnames)
-first(df, 5)
-
 # End of m12.6t.jl
