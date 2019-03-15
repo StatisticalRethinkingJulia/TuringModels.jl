@@ -43,45 +43,13 @@ maximum_a_posteriori(model, lb, ub)
 
 chn = sample(model, Turing.NUTS(2000, 1000, 0.65));
 
-# Correct NUTS chain (drop adaptation samples)
-
-chn2 = chn[1001:2000, "theta", :] 
-
-# Extract theta draws
-
 # Look at the proper draws (in corrected chn2)
 
+chn2 = chn[1001:2000, :, :]
 describe(chn2)
 
 # Show the hpd region
 
-MCMCChains.hpd(chn2, alpha=0.055)
-
-# Compute the hpd bounds for plotting
-
-d, p, c = size(chn2.value);
-theta = convert(Vector{Float64}, reshape(chn2[:theta], d));
-bnds = quantile(theta, [0.045, 0.955])
-
-# Show hpd region
-
-println("hpd bounds = $bnds\n")
-
-# analytical calculation
-
-w = 6; n = 9; x = 0:0.01:1
-plot( x, pdf.(Beta( w+1 , n-w+1 ) , x ), fill=(0, .5,:orange), lab="Conjugate solution")
-
-# quadratic approximation
-
-plot!( x, pdf.(Normal( 0.67 , 0.16 ) , x ), lab="Normal approximation")
-
-# Turing Chain &  89%hpd region boundaries
-
-#tmp = convert(Array{Float64,3}, chn.value[:, 4, :])
-#draws = reshape(tmp, (size(tmp, 1)*size(tmp, 3)),)
-density!(theta, lab="Turing chain")
-vline!([bnds[1]], line=:dash, lab="hpd lower bound")
-vline!([bnds[2]], line=:dash, lab="hpd upper bound")
+MCMCChains.hpd(chn2[:theta], alpha=0.055)
 
 # End of `02/m2.1t.jl`
