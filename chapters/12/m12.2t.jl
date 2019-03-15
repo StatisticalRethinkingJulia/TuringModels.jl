@@ -26,7 +26,7 @@ end
 posterior = sample(m12_2(Vector{Int64}(d[:density]), Vector{Int64}(d[:tank]),
     Vector{Int64}(d[:surv])), Turing.NUTS(4000, 1000, 0.8));
 
-posterior2 = MCMCChains.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
+posterior2 = posterior[1001:4000,:,:];
 
 m122rethinking = "
                 mean   sd  5.5% 94.5% n_eff Rhat

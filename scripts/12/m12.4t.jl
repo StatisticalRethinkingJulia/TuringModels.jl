@@ -48,7 +48,7 @@ posterior = sample(m12_4(
 
 # Fix the inclusion of adaptation samples
 
-posterior2 = MCMCChains.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
+posterior2 = posterior[1001:4000,:,:];
 
 # Results from rethinking
 
@@ -71,4 +71,4 @@ m124rethinking = "
 
 describe(posterior2)
 
-# End of m12.4t.jl
+# End of `12/m12.4t.jl`

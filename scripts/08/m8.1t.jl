@@ -63,7 +63,7 @@ Turing.NUTS(2000, 1000, 0.95));
 # Fix the inclusion of adaptation samples
 
 draws = 1001:2000
-posterior2 = Chains(posterior[draws,:,:], :parameters)
+posterior2 = posterior[draws,:,:];
 
 # Example of a Turing run simulation output
 
@@ -96,4 +96,4 @@ sigma  0.85376115  0.91363250  0.9484920  0.98405750  1.058573750
 
 describe(posterior2)
 
-# end of 08/m8.1t.jl
+# End of `08/m8.1t.jl`

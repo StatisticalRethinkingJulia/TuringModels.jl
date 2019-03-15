@@ -34,7 +34,7 @@ d[:,:prosoc_left]), Turing.NUTS(2000, 1000, 0.95));
 # Fix the inclusion of adaptation samples
 
 draws = 1001:2000
-posterior2 = Chains(posterior[draws,:,:], :parameters)
+posterior2 = posterior[draws,:,:]
 
 
 # Rethinking/CmdStan results
@@ -62,4 +62,4 @@ bpC -0.12913322 0.29935741 0.0047332562 0.0049519863 1000
 
 describe(posterior2)
 
-# End of 10/m-10-04t.jl
+# End of 10/m10.04t.jl

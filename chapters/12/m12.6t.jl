@@ -33,10 +33,9 @@ posterior = sample(m12_6(d[:total_tools], d[:log_pop],
     d[:society]), Turing.NUTS(4000, 1000, 0.95));
 
 draws = 1001:4000
-posterior2 = Chains(posterior[draws,:,:], :parameters)
+posterior2 = posterior[draws,:,:];
 
-y5
-m126rethinking =
+m12_6rethinking = "
               Mean StdDev lower 0.89 upper 0.89 n_eff Rhat
 a              1.11   0.75      -0.05       2.24  1256    1
 bp             0.26   0.08       0.13       0.38  1276    1

@@ -31,7 +31,7 @@ posterior = sample(m8_1stan(dd[:log_gdp], dd[:rugged], dd[:cont_africa]),
 Turing.NUTS(2000, 1000, 0.95));
 
 draws = 1001:2000
-posterior2 = Chains(posterior[draws,:,:], :parameters)
+posterior2 = posterior[draws,:,:];
 
 m8_1s_cmdstan = "
 Iterations = 1:1000

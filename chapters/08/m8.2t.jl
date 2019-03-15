@@ -15,7 +15,7 @@ y = [-1,1];
 
 posterior = sample(m8_2(y), Turing.NUTS(2000, 1000, 0.95));
 
-posterior2 = MCMCChains.Chains(posterior.value[101:2000,:,:], names=posterior.names)
+posterior2 = posterior[1001:2000,:,:];
 
 describe(posterior2)
 
@@ -26,6 +26,7 @@ bR    -0.20 0.08 -0.34 -0.07   192    1
 bA    -1.95 0.24 -2.36 -1.59   203    1
 bAR    0.40 0.14  0.19  0.63   186    1
 sigma  0.95 0.05  0.88  1.04   361    1
-";#-
+";
+
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 

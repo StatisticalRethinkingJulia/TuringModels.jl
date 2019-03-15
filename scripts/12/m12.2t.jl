@@ -40,7 +40,7 @@ posterior = sample(m12_2(Vector{Int64}(d[:density]), Vector{Int64}(d[:tank]),
     
 # Fix the inclusion of adaptation samples
 
-posterior2 = MCMCChains.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
+posterior2 = posterior[1001:4000,:,:];
 
 # CmdStan result
 
@@ -102,6 +102,4 @@ a_tank[48]  0.00 0.33 -0.53  0.53 18236    1
 
 describe(posterior2)
 
-# Results from rethinking
-
-# End of m12.2t.jl
+# End of `12/m12.2t.jl`

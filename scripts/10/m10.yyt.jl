@@ -22,7 +22,7 @@ posterior = sample(m_pois(d[:admit], d[:reject]), Turing.NUTS(2000, 1000, 0.95))
 
 # Fix the inclusion of adaptation samples
 
-posterior2 = MCMCChains.Chains(posterior.value[1001:2000,:,:], names=posterior.names);
+posterior2 = posterior[1001:2000,:,:];
 
 # Rethinking/CmdStan result
 
@@ -36,4 +36,4 @@ m_10_yyt_result = "
 
 describe(posterior2)
 
-# End of 10/m_10_yyt.jl
+# End of 10/m10.yyt.jl

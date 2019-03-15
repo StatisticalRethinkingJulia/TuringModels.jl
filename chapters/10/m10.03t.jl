@@ -19,7 +19,7 @@ end;
 posterior = sample(m10_3(d[:,:pulled_left], d[:,:condition], d[:,:prosoc_left]),
 Turing.NUTS(2000, 1000, 0.95));
 
-posterior2 = MCMCChains.Chains(posterior.value[1001:2000,:,:], names=posterior.names);
+posterior2 = posterior[1001:2000,:,:]
 
 m_10_03t_result = "
       Mean StdDev lower 0.89 upper 0.89 n_eff Rhat

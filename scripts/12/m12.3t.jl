@@ -49,7 +49,7 @@ posterior = sample(m12_3(Vector{Int64}(dsim[:pond]), Vector{Int64}(dsim[:si]),
   
 # Fix the inclusion of adaptation samples
 
-posterior2 = MCMCChains.Chains(posterior.value[1001:4000,:,:], names=posterior.names);
+posterior2 = posterior[1001:4000,:,:];
 
 # Results from rethinking
 
@@ -123,4 +123,4 @@ a_pond[60]  1.27 0.40  0.66  1.91 15611    1
   
 describe(posterior2)
 
-# End of m12.3t.jl
+# End of `12/m12.3t.jl`

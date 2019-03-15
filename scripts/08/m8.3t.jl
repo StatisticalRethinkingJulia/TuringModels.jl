@@ -22,7 +22,7 @@ posterior = sample(m8_3(y), Turing.NUTS(4000,1000, 0.95));
 
 # Fix the inclusion of adaptation samples
 
-posterior2 = MCMCChains.Chains(posterior.value[1001:4000,:,:], names=posterior.names)
+posterior2 = posterior[1001:4000,:,:]
 
 # Describe the posterior samples
 
@@ -35,3 +35,5 @@ m83rethinking = "
 alpha 0.09 1.63 -2.13  2.39   959    1
 sigma 2.04 2.05  0.68  4.83  1090    1
 ";
+
+# End of `08/m8.3t.jl`

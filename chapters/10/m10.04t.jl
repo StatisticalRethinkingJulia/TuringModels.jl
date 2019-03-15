@@ -28,7 +28,7 @@ posterior = sample(m10_4(d[:,:pulled_left], d[:,:actor],d[:,:condition],
 d[:,:prosoc_left]), Turing.NUTS(2000, 1000, 0.95));
 
 draws = 1001:2000
-posterior2 = Chains(posterior[draws,:,:], :parameters)
+posterior2 = posterior[draws,:,:]
 
 m_10_04s_result = "
 Iterations = 1:1000

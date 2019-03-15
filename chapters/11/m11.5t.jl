@@ -22,7 +22,7 @@ end
 
 posterior = sample(m11_5(d[:admit],d[:applications]), Turing.NUTS(4000, 1000, 0.9));
 
-describe(posterior)
+describe(posterior[1001:4000, :, :])
 
 m115rethinking = "
          mean   sd  5.5% 94.5% n_eff Rhat

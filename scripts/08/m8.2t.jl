@@ -28,7 +28,7 @@ posterior = sample(m8_2(y), Turing.NUTS(2000, 1000, 0.95));
 
 # Fix the inclusion of adaptation samples
 
-posterior2 = MCMCChains.Chains(posterior.value[101:2000,:,:], names=posterior.names)
+posterior2 = posterior[1001:2000,:,:];
 
 # Describe the posterior samples
 
@@ -44,3 +44,6 @@ bA    -1.95 0.24 -2.36 -1.59   203    1
 bAR    0.40 0.14  0.19  0.63   186    1
 sigma  0.95 0.05  0.88  1.04   361    1
 ";
+
+
+# End of `08/m8.2t.jl`

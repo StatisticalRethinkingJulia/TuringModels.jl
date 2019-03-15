@@ -23,7 +23,7 @@ Turing.NUTS(2000, 1000, 0.95));
 
 # Fix the inclusion of adaptation samples
 
-posterior2 = MCMCChains.Chains(posterior.value[1001:2000,:,:], names=posterior.names);
+posterior2 = posterior[1001:2000,:,:]
 
 # Rethinking result
 
@@ -38,4 +38,4 @@ m_10_03t_result = "
 
 describe(posterior2)
 
-# End of m_10_03t.jl
+# End of m10.03t.jl

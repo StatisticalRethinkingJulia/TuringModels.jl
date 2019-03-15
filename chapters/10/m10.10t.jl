@@ -25,7 +25,7 @@ end;
 posterior = sample(m10_10stan(d[:total_tools], d[:log_pop],
     d[:contact_high]), Turing.NUTS(2000, 1000, 0.95));
 
-posterior2 = MCMCChains.Chains(posterior.value[1001:2000,:,:], names=posterior.names);
+posterior2 = posterior[1001:2000,:,:];
 
 m_10_10t_result = "
      mean   sd  5.5% 94.5% n_eff Rhat

@@ -33,7 +33,7 @@ posterior = sample(m11_5(d[:admit],d[:applications]), Turing.NUTS(4000, 1000, 0.
 
 # Draw summary
 
-describe(posterior)
+describe(posterior[1001:4000, :, :])
 
 # Result rethinking
 
@@ -42,3 +42,5 @@ m115rethinking = "
 theta  2.74 0.96  1.43  4.37  3583    1
 a       -0.37 0.31 -0.87  0.12  3210    1
 ";
+
+# End of `11/m811.5t.jl`
