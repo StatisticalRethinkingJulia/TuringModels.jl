@@ -6,9 +6,9 @@ using Test
 include("../scripts/00/section_example.jl")
 
 @test chn1.name_map == (
-  pooled = Symbol[:b, :d], 
-  internals = Symbol[:elapsed, :epsilon, :eval_num, :lf_eps, :lf_num, :lp], 
-  parameters = Symbol[:c, :a])
+  pooled = [:b, :d], 
+  internals = [:elapsed, :epsilon, :eval_num, :lf_eps, :lf_num, :lp], 
+  parameters = [:c, :a])
  
 end
 
