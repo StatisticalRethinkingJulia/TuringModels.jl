@@ -12,10 +12,12 @@ end
 
 Nsamples = 2000
 Nadapt = 1000
+draws = Nadapt+1:Nsamples
 δ = .85
 sampler = NUTS(Nsamples,Nadapt,δ)
+
 chns = reduce(chainscat, pmap(x->sample(model(),sampler),1:4))
-chains = chns[Nadapt:Nsamples, :, :]
+chains = chns[draws, :, :]
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 

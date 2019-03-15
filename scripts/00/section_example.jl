@@ -17,9 +17,12 @@ sampler = NUTS(Nsamples, Nadapt, δ)
 sampler = Turing.NUTS(2000, 1000, 0.65)
 chn = sample(model(), sampler)
 
-chn1 = move_parameters_to_new_section(chn, :pooled, ["b", "d", "zeta"])
+chn1 = set_section(chn, Dict(
+  :parameters => ["a", "c"],
+  :pooled => ["b", "d"],
+  :internals => ["elapsed", "epsilon", "eval_num", "lf_eps", "lf_num", "lp"])
+)
 
 describe(chn1)
 describe(chn1, section=:pooled)
-
-mean(chn1[:a])
+describe(chn1, section=:internals)
