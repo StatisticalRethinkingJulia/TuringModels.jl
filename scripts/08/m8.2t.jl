@@ -1,7 +1,7 @@
 using TuringModels
 
 Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false);
+Turing.turnprogress(false);
 
 # In Rethinking the model actually has priors that are Uniform[-Inf, Inf], or as the Stan manual (2.17.0, pp. 127) tells us:
 
@@ -24,15 +24,7 @@ y = [-1,1];
 
 # Sample
 
-posterior = sample(m8_2(y), Turing.NUTS(2000, 1000, 0.95));
-
-# Fix the inclusion of adaptation samples
-
-posterior2 = posterior[1001:2000,:,:];
-
-# Describe the posterior samples
-
-describe(posterior2)
+chns = sample(m8_2(y), NUTS(0.65), 1000)
 
 # Results rethinking
 
@@ -45,5 +37,8 @@ bAR    0.40 0.14  0.19  0.63   186    1
 sigma  0.95 0.05  0.88  1.04   361    1
 ";
 
+# Describe the posterior samples
+
+describe(chns)
 
 # End of `08/m8.2t.jl`

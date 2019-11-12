@@ -6,37 +6,34 @@
 
 # The TuringModels pkg imports modules such as CSV and DataFrames
 
-using TuringModels
+using TuringModels, DataFrames
 
 Turing.setadbackend(:reverse_diff);
 #nb Turing.turnprogress(false)
 
 # Read in the `rugged` data as a DataFrame
 
-d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "rugged.csv"), delim=';');
+df = DataFrame(CSV.read(joinpath(@__DIR__, "..", "..", "data", "rugged.csv"),
+  delim=';'));
 
 # Show size of the DataFrame (should be 234x51)
     
-size(d)
+size(df)
 
 # Apply log() to each element in rgdppc_2000 column and add it as a new column
 
-d = hcat(d, map(log, d[Symbol("rgdppc_2000")]));
+df = hcat(df, map(log, df[!, Symbol("rgdppc_2000")]));
 
 # Rename our col x1 => log_gdp
 
-rename!(d, :x1 => :log_gdp);
+DataFrames.rename!(df, :x1 => :log_gdp);
 
 # Now we need to drop every row where rgdppc_2000 == missing
 
 # When this (https://github.com/JuliaData/DataFrames.jl/pull/1546) hits DataFrame it'll be conceptually easier: i.e., completecases!(d, :rgdppc_2000)
 
 notisnan(e) = !ismissing(e)
-dd = d[map(notisnan, d[:rgdppc_2000]), :];
-
-# Updated DataFrame dd size (should equal 170 x 52)
-
-size(dd) 
+dd = df[map(notisnan, df[:, :rgdppc_2000]), :];
 
 # Define the Turing model
 
@@ -52,21 +49,11 @@ size(dd)
     end
 end;
 
-# Test to see that the model is sane. Use 2000 for now, as in the book.
-# Need to set the same stepsize and adapt_delta as in Stan...
-
 # Use Turing mcmc
 
-posterior = sample(m8_1stan(dd[:log_gdp], dd[:rugged], dd[:cont_africa]),
-Turing.NUTS(2000, 1000, 0.95));
+chns = sample(m8_1stan(dd[:, :log_gdp], dd[:, :rugged], dd[:, :cont_africa]),
+  NUTS(0.65), 1000)
     
-# Fix the inclusion of adaptation samples
-
-draws = 1001:2000
-posterior2 = posterior[draws,:,:];
-
-# Example of a Turing run simulation output
-
 # Here's the ulam() output from rethinking 
 
 m8_1s_cmdstan = "
@@ -94,6 +81,6 @@ sigma  0.85376115  0.91363250  0.9484920  0.98405750  1.058573750
 
 # Describe the posterior samples
 
-describe(posterior2)
+describe(chns)
 
 # End of `08/m8.1t.jl`

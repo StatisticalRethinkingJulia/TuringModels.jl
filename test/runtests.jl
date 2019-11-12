@@ -1,14 +1,9 @@
 using TuringModels
 using Test
 
-#=
-@testset "mp test" begin
 
-include("../scripts/00/mp_example.jl")
+@testset "TuringModels" begin
 
-@test -10.2 < mean(chains[:a]) < -9.8
- 
+include("../scripts/00/basic_example.jl")
+
 end
-=#
-
-@test 1 == 1

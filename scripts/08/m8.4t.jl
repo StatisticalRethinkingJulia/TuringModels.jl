@@ -22,16 +22,7 @@ y = rand(Normal(0,1), 100);
 
 # Sample
 
-posterior = sample(m8_4(y), Turing.NUTS(4000, 1000, 0.95));
-
-# Fix the inclusion of adaptation samples
-
-draws = 1001:4000
-posterior2 = posterior[draws,:,:]
-
-# Describe the posterior samples
-
-describe(posterior2)
+chns = sample(m8_4(y), Turing.NUTS(0.95), 2000);
 
 # Results rethinking
 
@@ -41,5 +32,9 @@ m84rethinking = "
  a2     861.26 558.17    31.31 1842.00     7 1.43
  sigma    0.97   0.07     0.89    1.09     9 1.17
 ";
+
+# Describe the posterior samples
+
+describe(chns)
 
 # End of `08/m8.4t.jl`
