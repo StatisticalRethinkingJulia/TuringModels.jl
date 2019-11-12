@@ -3,7 +3,7 @@ using TuringModels
 Turing.setadbackend(:reverse_diff);
 #nb Turing.turnprogress(false)
 
-d = CSV.read(rel_path("..", "data", "UCBadmit.csv"), delim=';');
+d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "UCBadmit.csv"), delim=';');
 size(d) # Should be 12x5
 
 @model m_pois(admit, reject) = begin

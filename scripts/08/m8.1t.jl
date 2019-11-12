@@ -13,7 +13,7 @@ Turing.setadbackend(:reverse_diff);
 
 # Read in the `rugged` data as a DataFrame
 
-d = CSV.read(rel_path("..", "data", "rugged.csv"), delim=';');
+d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "rugged.csv"), delim=';');
 
 # Show size of the DataFrame (should be 234x51)
     

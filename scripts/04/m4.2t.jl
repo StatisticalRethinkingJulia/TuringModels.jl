@@ -9,7 +9,7 @@ cd(ProjDir)
 
 # ### snippet 4.43
 
-howell1 = CSV.read(rel_path("..", "data", "Howell1.csv"), delim=';')
+howell1 = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Howell1.csv"), delim=';')
 df = convert(DataFrame, howell1);
 
 # Use only adults and center the weight observations

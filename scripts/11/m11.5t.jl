@@ -3,7 +3,7 @@ using TuringModels
 Turing.setadbackend(:reverse_diff)
 #nbTuring.turnprogress(false);
 
-d = CSV.read(rel_path("..", "data", "UCBadmit.csv"), delim=';');
+d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "UCBadmit.csv"), delim=';');
 size(d) # Should be 12x5
 
 # Turing model

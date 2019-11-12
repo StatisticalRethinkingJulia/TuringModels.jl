@@ -3,7 +3,7 @@ using TuringModels
 Turing.setadbackend(:reverse_diff);
 #nb Turing.turnprogress(false);
 
-d = CSV.read(rel_path("..", "data", "Kline.csv"), delim=';');
+d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Kline.csv"), delim=';');
 size(d) # Should be 10x5
 
 # New col log_pop, set log() for population data
