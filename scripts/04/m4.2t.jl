@@ -39,14 +39,9 @@ adapt_cycles = 1000
 
 chns = sample(line(x, y), NUTS(0.65), 1000)
 
-# Look at the proper draws (in corrected chn2)
-
-describe(chns) |> display
-
 # Compare with a previous result
 
 clip_43s_example_output = "
-
 Iterations = 1:1000
 Thinning interval = 1
 Chains = 1,2,3,4
@@ -64,5 +59,9 @@ alpha 154.0610000 154.4150000 154.5980000 154.7812500 155.1260000
  beta   0.8255494   0.8790695   0.9057435   0.9336445   0.9882981
 sigma   4.7524368   4.9683400   5.0994450   5.2353100   5.5090128
 ";
+
+# Look at the proper draws (in corrected chn2)
+
+describe(chns) |> display
 
 # End of `04/m4.2t.jl`
