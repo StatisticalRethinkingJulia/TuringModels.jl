@@ -1,10 +1,12 @@
-using TuringModels
+using TuringModels, StatsFuns
 
 Turing.setadbackend(:reverse_diff)
 #nb Turing.turnprogress(false);
 
-d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "reedfrogs.csv"), delim=';');
-size(d) # Should be 48x5
+d = DataFrame(CSV.read(joinpath(@__DIR__, "..", "..", "data", "reedfrogs.csv"),
+  delim=';'));
+  
+size(d) |> display # Should be 48x5
 
 # Set number of tanks
 
@@ -35,13 +37,9 @@ end
 
 # Sample 
 
-posterior = sample(m12_2(Vector{Int64}(d[:density]), Vector{Int64}(d[:tank]),
-    Vector{Int64}(d[:surv])), Turing.NUTS(4000, 1000, 0.8));
+chns = sample(m12_2(Vector{Int64}(d[:density]), Vector{Int64}(d[:tank]),
+    Vector{Int64}(d[:surv])), Turing.NUTS(0.8), 1000);
     
-# Fix the inclusion of adaptation samples
-
-posterior2 = posterior[1001:4000,:,:];
-
 # CmdStan result
 
 m122rethinking = "
@@ -100,6 +98,6 @@ a_tank[48]  0.00 0.33 -0.53  0.53 18236    1
 
 # Draw summary
 
-describe(posterior2)
+describe(chns)
 
 # End of `12/m12.2t.jl`

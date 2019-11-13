@@ -1,14 +1,15 @@
 using TuringModels
 
 Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false)
+# Turing.turnprogress(false)
 
 d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "reedfrogs.csv"), delim=';');
+
 size(d) # Should be 48x5
 
 # Set number of tanks
 
-d[:tank] = 1:size(d,1);
+d[!, :tank] = 1:size(d,1);
 
 # Define the Turing model
 
@@ -24,25 +25,13 @@ d[:tank] = 1:size(d,1);
     a_tank ~ [Normal(0,5)]
 
     logitp = [a_tank[tank[i]] for i = 1:N_tank]
-    surv ~ Turing.Utilities.VecBinomialLogit(density, logitp)
+    surv ~ VecBinomialLogit(density, logitp)
 end
 
 # Sample
 
-posterior = sample(m12_1(Vector{Int64}(d[:density]), Vector{Int64}(d[:tank]),
-    Vector{Int64}(d[:surv])), Turing.NUTS(4000, 1000, 0.8));
-
-# Fix the inclusion of adaptation samples
-
-posterior2 = posterior[1001:4000,:,:];
-#=
-posterior3 = set_sections(posterior2, Dict(
-  :parameters => [],
-  :pooled => [],
-  :internals => [],
-  )
-)
-=#
+chns = sample(m12_1(Vector{Int64}(d[:, :density]), Vector{Int64}(d[:, :tank]),
+    Vector{Int64}(d[:, :surv])), Turing.NUTS(0.8), 1000);
 
 # CmdStan results
 
@@ -100,6 +89,6 @@ a_tank[48] -0.06 0.35 -0.61  0.50  1932    1
 
 # Describe chainsd
 
-describe(posterior2)
+describe(chns)
 
 # End of `12/m12.1t.jl`

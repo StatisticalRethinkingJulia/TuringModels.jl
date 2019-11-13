@@ -1,4 +1,4 @@
-using TuringModels
+using TuringModels, StatsFuns
 
 Turing.setadbackend(:reverse_diff);
 #nbTuring.turnprogress(false);
@@ -14,10 +14,10 @@ dsim = DataFrame(pond = 1:nponds, ni = ni, true_a = a_pond);
 
 prob = logistic.(Vector{Real}(dsim[:true_a]));
 
-dsim[:si] = [rand(Binomial(ni[i], prob[i])) for i = 1:nponds];
+dsim[!, :si] = [rand(Binomial(ni[i], prob[i])) for i = 1:nponds];
 
 # Used only in the continuation of this example
-dsim[:p_nopool] = dsim[:si] ./ dsim[:ni];
+dsim[!, :p_nopool] = dsim[:, :si] ./ dsim[:, :ni];
 
 # Turing model
 
@@ -44,13 +44,9 @@ end
 
 # Sample
 
-posterior = sample(m12_3(Vector{Int64}(dsim[:pond]), Vector{Int64}(dsim[:si]),
-    Vector{Int64}(dsim[:ni])), Turing.NUTS(4000, 1000, 0.8));
+chns = sample(m12_3(Vector{Int64}(dsim[:, :pond]), Vector{Int64}(dsim[:, :si]),
+    Vector{Int64}(dsim[:, :ni])), Turing.NUTS(0.8), 1000);
   
-# Fix the inclusion of adaptation samples
-
-posterior2 = posterior[1001:4000,:,:];
-
 # Results from rethinking
 
 m123rethinking = "
@@ -121,6 +117,6 @@ a_pond[60]  1.27 0.40  0.66  1.91 15611    1
 
 # Draw summary
   
-describe(posterior2)
+describe(chns)
 
 # End of `12/m12.3t.jl`

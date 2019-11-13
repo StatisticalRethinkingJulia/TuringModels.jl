@@ -1,4 +1,4 @@
-using TuringModels
+using TuringModels, StatsFuns
 
 Turing.setadbackend(:reverse_diff)
 
@@ -17,11 +17,7 @@ y = repeat([0], 10); append!(y, repeat([1],10))
     end
 end
 
-posterior = sample(m_good_stan(x,y), Turing.NUTS(2000, 1000, 0.95))
-
-# Fix the inclusion of adaptation samples
-
-posterior2 = posterior[1001:2000,:,:]
+chns = sample(m_good_stan(x,y), Turing.NUTS(0.95), 1000)
 
 # Stan results
 
@@ -33,6 +29,6 @@ m_10_x,_results = "
 
 # Look at the proper draws (in corrected chn2)
 
-describe(posterior2)
+describe(chns)
 
 # End of 10/m10.xxt.jl

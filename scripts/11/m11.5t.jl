@@ -3,8 +3,10 @@ using TuringModels
 Turing.setadbackend(:reverse_diff)
 #nbTuring.turnprogress(false);
 
-d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "UCBadmit.csv"), delim=';');
-size(d) # Should be 12x5
+d = DataFrame(CSV.read(joinpath(@__DIR__, "..", "..", "data", "UCBadmit.csv"),
+delim=';'));
+
+size(d) |> display # Should be 12x5
 
 # Turing model
 
@@ -29,11 +31,7 @@ end
 
 # Sample
 
-posterior = sample(m11_5(d[:admit],d[:applications]), Turing.NUTS(4000, 1000, 0.9));
-
-# Draw summary
-
-describe(posterior[1001:4000, :, :])
+chns = sample(m11_5(d[:, :admit],d[:, :applications]), Turing.NUTS(0.9), 1000);
 
 # Result rethinking
 
@@ -42,5 +40,9 @@ m115rethinking = "
 theta  2.74 0.96  1.43  4.37  3583    1
 a       -0.37 0.31 -0.87  0.12  3210    1
 ";
+
+# Show summary
+
+describe(chns)
 
 # End of `11/m811.5t.jl`

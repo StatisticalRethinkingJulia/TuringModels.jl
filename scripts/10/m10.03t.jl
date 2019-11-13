@@ -1,9 +1,10 @@
-using TuringModels
+using TuringModels, StatsFuns
 
 Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false);
+#Turing.turnprogress(false);
 
-d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"), delim=';');
+d = DataFrame(CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"),
+  delim=';'));
 size(d) # Should be 504x8
 
 # pulled_left, condition, prosoc_left
@@ -18,12 +19,8 @@ size(d) # Should be 504x8
     end
 end;
 
-posterior = sample(m10_3(d[:,:pulled_left], d[:,:condition], d[:,:prosoc_left]),
-Turing.NUTS(2000, 1000, 0.95));
-
-# Fix the inclusion of adaptation samples
-
-posterior2 = posterior[1001:2000,:,:]
+chns = sample(m10_3(d[:,:pulled_left], d[:,:condition], d[:,:prosoc_left]),
+  Turing.NUTS(0.95), 2000);
 
 # Rethinking result
 
@@ -36,6 +33,6 @@ m_10_03t_result = "
 
 # Describe the draws
 
-describe(posterior2)
+describe(chns)
 
 # End of m10.03t.jl

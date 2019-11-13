@@ -1,7 +1,7 @@
-using TuringModels
+using TuringModels, StatsFuns
 
 Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false);
+#Turing.turnprogress(false);
 
 d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"), delim=';');
 size(d) # Should be 504x8
@@ -28,14 +28,8 @@ size(d) # Should be 504x8
     end
 end;
 
-posterior = sample(m10_4(d[:,:pulled_left], d[:,:actor],d[:,:condition],
-d[:,:prosoc_left]), Turing.NUTS(2000, 1000, 0.95));
-
-# Fix the inclusion of adaptation samples
-
-draws = 1001:2000
-posterior2 = posterior[draws,:,:]
-
+chns = sample(m10_4(d[:,:pulled_left], d[:,:actor],d[:,:condition],
+  d[:,:prosoc_left]), Turing.NUTS(0.95), 1000);
 
 # Rethinking/CmdStan results
 
@@ -60,6 +54,6 @@ bpC -0.12913322 0.29935741 0.0047332562 0.0049519863 1000
 
 # Describe the draws
 
-describe(posterior2)
+describe(chns)
 
 # End of 10/m10.04t.jl

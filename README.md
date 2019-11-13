@@ -1,9 +1,7 @@
 # TuringModels
 
 
-| **Project Status**                                                               |  **Documentation**                                                               | **Build Status**                                                                                |
-|:-------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
-|![][project-status-img] | [![][docs-stable-img]][docs-stable-url] [![][docs-dev-img]][docs-dev-url] | [![][travis-img]][travis-url] |
+[![][travis-img]][travis-url] |
 
 
 ## Introduction
@@ -12,10 +10,19 @@ This package contains Julia versions of the mcmc models contained in the R packa
 
 This package implements the models using [TuringLang/Turing.jl](https://github.com/TuringLang).
 
-## Documentation
+## Versions
 
-- [**STABLE**][docs-stable-url] &mdash; **documentation of the most recently tagged version.**
-- [**DEVEL**][docs-dev-url] &mdash; *documentation of the in-development version.*
+### v1.0.0
+
+- Set upper bounds in [compat] section of Project.toml
+- Activated CompatHelper (see CompatHelpper.jl)
+- No longer uses Literate.jl. This version simply contains the models.
+- Some of the models are pretty slow.
+
+### v0.5
+
+- Based on capturing the documentation by Literate.
+- Literate.jl used to generate notebook versions
 
 ## Acknowledgements
 
@@ -27,19 +34,7 @@ The TuringLang team and #turing contributors on Slack have been extremely helpfu
 
 Question and contributions are very welcome, as are feature requests and suggestions. Please open an [issue][issues-url] if you encounter any problems or have a question.
 
-[docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg
-[docs-dev-url]: https://statisticalrethinkingjulia.github.io/TuringModels.jl/latest
-
-[docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
-[docs-stable-url]: https://statisticalrethinkingjulia.github.io/TuringModels.jl/stable
-
 [travis-img]: https://travis-ci.org/StatisticalRethinkingJulia/TuringModels.jl.svg?branch=master
 [travis-url]: https://travis-ci.org/StatisticalRethinkingJulia/TuringModels.jl
 
-[codecov-img]: https://codecov.io/gh/StatisticalRethinkingJulia/TuringModels.jl/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/StatisticalRethinkingJulia/TuringModels.jl
-
 [issues-url]: https://github.com/StatisticalRethinkingJulia/TuringModels.jl/issues
-
-[project-status-img]: https://img.shields.io/badge/lifecycle-wip-orange.svg
-

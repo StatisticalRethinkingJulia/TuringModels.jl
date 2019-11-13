@@ -7,8 +7,8 @@ d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Kline.csv"), delim=';');
 size(d) # Should be 10x5
 
 # New col log_pop, set log() for population data
-d[:log_pop] = map((x) -> log(x), d[:population]);
-d[:society] = 1:10;
+d[!, :log_pop] = map((x) -> log(x), d[:, :population]);
+d[!, :society] = 1:10;
 
 # Turing model
 
@@ -41,13 +41,8 @@ end
 
 # Sample
 
-posterior = sample(m12_6(d[:total_tools], d[:log_pop],
-    d[:society]), Turing.NUTS(4000, 1000, 0.95));
-
-# Fix the inclusion of adaptation samples
-
-draws = 1001:4000
-posterior2 = posterior[draws,:,:];
+chns = sample(m12_6(d[:, :total_tools], d[:, :log_pop],
+    d[:, :society]), NUTS(0.95), 1000);
 
 # Results rethinking
 m12_6rethinking = "
@@ -69,6 +64,6 @@ sigma_society  0.31   0.13       0.11       0.47  1345    1
 
 # Describe the posterior samples
 
-describe(posterior2)
+describe(chns)
 
 # End of `12/m12.6t.jl`

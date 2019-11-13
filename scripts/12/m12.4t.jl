@@ -39,16 +39,12 @@ end
 
 # Sample
 
-posterior = sample(m12_4(
-    Vector{Int64}(d[:pulled_left]),
-    Vector{Int64}(d[:actor]),
-    Vector{Int64}(d[:condition]),
-    Vector{Int64}(d[:prosoc_left])),
-    Turing.NUTS(4000, 1000, 0.95));
-
-# Fix the inclusion of adaptation samples
-
-posterior2 = posterior[1001:4000,:,:];
+chns = sample(m12_4(
+    Vector{Int64}(d[:, :pulled_left]),
+    Vector{Int64}(d[:, :actor]),
+    Vector{Int64}(d[:, :condition]),
+    Vector{Int64}(d[:, :prosoc_left])),
+    Turing.NUTS(0.95), 1000);
 
 # Results from rethinking
 
@@ -69,6 +65,6 @@ m124rethinking = "
 
 # Draw summary
 
-describe(posterior2)
+describe(chns)
 
 # End of `12/m12.4t.jl`
