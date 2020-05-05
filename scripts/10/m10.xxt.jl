@@ -1,6 +1,6 @@
 using TuringModels, StatsFuns
 
-Turing.setadbackend(:reverse_diff)
+Turing.setadbackend(:reversediff)
 
 # outcome and predictor almost perfectly associated
 
@@ -11,13 +11,12 @@ y = repeat([0], 10); append!(y, repeat([1],10))
     α ~ Normal(0,10)
     β ~ Normal(0,10)
 
-    for i ∈ 1:length(y)
-        p = logistic(α + β * x[i])
-        y[i] ~ Binomial(1, p)
-    end
+    logits = α .+ β * x
+
+    y .~ BinomialLogit.(1, logits)
 end
 
-chns = sample(m_good_stan(x,y), Turing.NUTS(0.95), 1000)
+chns = sample(m_good_stan(x,y), Turing.NUTS(0.65), 1000)
 
 # Stan results
 

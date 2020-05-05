@@ -1,7 +1,6 @@
 using TuringModels
 
-Turing.setadbackend(:reverse_diff);
-#Turing.turnprogress(false);
+Turing.setadbackend(:reversediff);
 
 d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Kline.csv"), delim=';');
 size(d) # Should be 10x5
@@ -30,7 +29,7 @@ d[!, :log_pop_c] = map((x) -> x - mean_log_pop, d[:, :log_pop]);
 end;
 
 chns = sample(m10_10stan_c(d[:, :total_tools], d[:, :log_pop_c],
-  d[:, :contact_high]), Turing.NUTS(0.95), 1000);
+  d[:, :contact_high]), Turing.NUTS(0.65), 1000);
 
 # Rethinking result
 

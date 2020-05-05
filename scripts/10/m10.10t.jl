@@ -1,6 +1,6 @@
 using TuringModels
 
-Turing.setadbackend(:reverse_diff);
+Turing.setadbackend(:reversediff);
 # Turing.turnprogress(false);
 
 d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Kline.csv"), delim=';');
@@ -28,7 +28,7 @@ d[!, :contact_high] = map(x -> ifelse(x=="high", 1, 0), d[:, :contact]);
 end;
 
 posterior = sample(m10_10stan(d[:, :total_tools], d[:, :log_pop],
-    d[:, :contact_high]), Turing.NUTS(0.95), 1000);
+    d[:, :contact_high]), Turing.NUTS(0.65), 1000);
 
 # Rethinking result
 

@@ -1,7 +1,6 @@
 using TuringModels, StatsFuns
 
-Turing.setadbackend(:reverse_diff)
-#nb Turing.turnprogress(false);
+Turing.setadbackend(:reversediff)
 
 d = DataFrame(CSV.read(joinpath(@__DIR__, "..", "..", "data", "reedfrogs.csv"),
   delim=';'));
@@ -17,28 +16,23 @@ d[:tank] = 1:size(d,1);
 @model m12_2(density, tank, surv) = begin
 
     # Separate priors on α and σ for each tank
-    σ ~ Truncated(Cauchy(0, 1), 0, Inf)
+    σ ~ truncated(Cauchy(0, 1), 0, Inf)
     α ~ Normal(0, 1)
 
     # Number of unique tanks in the data set
     N_tank = length(tank)
-
-    # vector for the priors for each tank
-    a_tank = Vector{Real}(undef, N_tank)
-
-    # For each tank [1,..,48] set a prior. Note the [] around Normal().
-    a_tank ~ [Normal(α, σ)]
+    a_tank ~ filldist(Normal(α, σ), N_tank)
 
     # Observation
-    logitp = [a_tank[tank[i]] for i = 1:N_tank]
-    surv ~ VecBinomialLogit(density, logitp)
+    logitp = a_tank[tank]
+    surv .~ BinomialLogit.(density, logitp)
 
 end
 
 # Sample 
 
 chns = sample(m12_2(Vector{Int64}(d[:density]), Vector{Int64}(d[:tank]),
-    Vector{Int64}(d[:surv])), Turing.NUTS(0.8), 1000);
+    Vector{Int64}(d[:surv])), Turing.NUTS(0.65), 1000);
     
 # CmdStan result
 

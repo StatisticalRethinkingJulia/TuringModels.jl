@@ -1,17 +1,13 @@
 using TuringModels
 
-Turing.setadbackend(:reverse_diff)
-#nb Turing.turnprogress(false)
+Turing.setadbackend(:reversediff)
 
 # Turing model
-
 @model m8_3(y) = begin
     α ~ Normal(1, 10)
-    σ ~ Truncated(Cauchy(0, 1), 0, Inf)
+    σ ~ truncated(Cauchy(0, 1), 0, Inf)
 
-    for i ∈ 1:length(y)
-        y[i] ~ Normal(α, σ)
-    end
+    y .~ Normal(α, σ)
 end
 
 y = [-1,1]

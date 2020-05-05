@@ -1,7 +1,6 @@
 using TuringModels, StatsFuns
 
-Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false)
+Turing.setadbackend(:reversediff);
 
 d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "UCBadmit.csv"), delim=';');
 size(d) # Should be 12x5
@@ -18,7 +17,7 @@ size(d) # Should be 12x5
    end
 end;
 
-chns = sample(m_pois(d[:, :admit], d[:, :reject]), Turing.NUTS(0.95), 1000);
+chns = sample(m_pois(d[:, :admit], d[:, :reject]), Turing.NUTS(0.65), 1000);
 
 # Rethinking/CmdStan result
 

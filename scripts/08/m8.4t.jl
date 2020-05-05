@@ -1,7 +1,6 @@
 using TuringModels
 
-Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false);
+Turing.setadbackend(:reversediff);
 
 # Can't really set a Uniform[-Inf,Inf] on σ 
 
@@ -9,11 +8,9 @@ Turing.setadbackend(:reverse_diff);
 @model m8_4(y) = begin
     α₁ ~ Uniform(-3000, 1000)
     α₂ ~ Uniform(-1000, 3000)
-    σ ~ Truncated(Cauchy(0,1), 0, Inf)
+    σ ~ truncated(Cauchy(0,1), 0, Inf)
 
-    for i ∈ 1:length(y)
-        y[i] ~ Normal(α₁ + α₂, σ)
-    end
+    y .~ Normal(α₁ + α₂, σ)
 end
 
 # Observations

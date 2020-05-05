@@ -1,7 +1,6 @@
 using TuringModels, StatsFuns
 
-Turing.setadbackend(:reverse_diff);
-#Turing.turnprogress(false);
+Turing.setadbackend(:reversediff);
 
 d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"), delim=';');
 size(d) # Should be 504x8
@@ -12,24 +11,16 @@ size(d) # Should be 504x8
     N_actor = length(unique(actors))
 
     # Set an TArray for the priors/param
-    α = TArray{Any}(undef, N_actor)
-
-    # For each actor [1,..,7] set a prior
-    for i ∈ 1:length(α)
-        α[i] ~ Normal(0,10)
-    end
-
+    α ~ filldist(Normal(0, 10), N_actor)
     βp ~ Normal(0, 10)
     βpC ~ Normal(0, 10)
 
-    for i ∈ 1:length(y)
-        p = logistic(α[actors[i]] + (βp + βpC * x₁[i]) * x₂[i])
-        y[i] ~ Binomial(1, p)
-    end
+    logits = α[actors] .+ (βp .+ βpC * x₁) .* x₂
+    y .~ BinomialLogit.(1, logits)
 end;
 
 chns = sample(m10_4(d[:,:pulled_left], d[:,:actor],d[:,:condition],
-  d[:,:prosoc_left]), Turing.NUTS(0.95), 1000);
+  d[:,:prosoc_left]), Turing.NUTS(0.65), 1000);
 
 # Rethinking/CmdStan results
 
