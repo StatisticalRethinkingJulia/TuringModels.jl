@@ -84,6 +84,6 @@ sigma  0.85376115  0.91363250  0.9484920  0.98405750  1.058573750
 
 # Describe the posterior samples
 
-describe(chns)
+describe(chns) |> display
 
 # End of `08/m8.1t.jl`

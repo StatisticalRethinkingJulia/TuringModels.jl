@@ -1,6 +1,8 @@
 using TuringModels
 #using StatsPlots
 
+ProjDir = @__DIR__
+
 # Define a simple Normal model with unknown mean and variance.
 
 @model gdemo(x, y) = begin
@@ -21,4 +23,4 @@ describe(chn) |> display
 # Plot and save results
 
 p = plot(chn)
-#savefig("basic-example-plot.png")
+savefig("$(ProjDir)/basic-example-plot.png")
