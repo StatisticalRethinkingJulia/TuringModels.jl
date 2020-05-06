@@ -26,7 +26,7 @@ This package implements the models using [TuringLang/Turing.jl](https://github.c
 
 ## Acknowledgements
 
-Richard Torkar has taken the lead in developing the Turing versions of the models in chapter 8 and subsequent chapters. 
+Richard Torkar has taken the lead in developing the Turing versions of the models in chapter 8 and subsequent chapters. Martin Trapp has updated many models to recent versions of Turing.jl.
 
 The TuringLang team and #turing contributors on Slack have been extremely helpful! The Turing examples by Cameron Pfiffer have been a great help and followed closely in several example scripts.
 

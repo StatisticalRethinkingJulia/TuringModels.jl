@@ -1,5 +1,7 @@
 using TuringModels
 
+ProjDir = @__DIR__
+
 Turing.setadbackend(:reversediff);
 
 # Can't really set a Uniform[-Inf,Inf] on σ 
@@ -19,7 +21,7 @@ y = rand(Normal(0,1), 100);
 
 # Sample
 
-chns = sample(m8_4(y), Turing.NUTS(0.95), 2000);
+chns = sample(m8_4(y), Turing.NUTS(0.65), 2000);
 
 # Results rethinking
 
@@ -33,5 +35,7 @@ m84rethinking = "
 # Describe the posterior samples
 
 describe(chns)
+plot(chns)
+savefig("$(ProjDir)/m8.4.png")
 
 # End of `08/m8.4t.jl`
