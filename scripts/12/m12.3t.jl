@@ -1,7 +1,6 @@
 using TuringModels, StatsFuns
 
-Turing.setadbackend(:reverse_diff);
-#nbTuring.turnprogress(false);
+Turing.setadbackend(:reversediff);
 
 μ = 1.4
 σ = 1.5
@@ -24,28 +23,25 @@ dsim[!, :p_nopool] = dsim[:, :si] ./ dsim[:, :ni];
 @model m12_3(pond, si, ni) = begin
 
     # Separate priors on μ and σ for each pond
-    σ ~ Truncated(Cauchy(0, 1), 0, Inf)
+    σ ~ truncated(Cauchy(0, 1), 0, Inf)
     μ ~ Normal(0, 1)
 
     # Number of ponds in the data set
     N_ponds = length(pond)
 
     # vector for the priors for each pond
-    a_pond = Vector{Real}(undef, N_ponds)
-
-    # For each pond set a prior. Note the [] around Normal(), i.e.,
-    a_pond ~ [Normal(μ, σ)]
+    a_pond ~ filldist(Normal(μ, σ), N_ponds)
 
     # Observation
-    logitp = [a_pond[pond[i]] for i = 1:N_ponds]
-    si ~ VecBinomialLogit(ni, logitp)
+    logitp = a_pond[pond]
+    si .~ BinomialLogit.(ni, logitp)
 
 end
 
 # Sample
 
 chns = sample(m12_3(Vector{Int64}(dsim[:, :pond]), Vector{Int64}(dsim[:, :si]),
-    Vector{Int64}(dsim[:, :ni])), Turing.NUTS(0.8), 1000);
+    Vector{Int64}(dsim[:, :ni])), Turing.NUTS(0.65), 1000);
   
 # Results from rethinking
 

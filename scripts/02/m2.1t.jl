@@ -28,6 +28,6 @@ describe(chns) |> display
 
 # Show the hpd region
 
-MCMCChains.hpd(chns[:theta], alpha=0.055)
+hpd(chns[:theta], alpha=0.055)
 
 # End of `02/m2.1t.jl`

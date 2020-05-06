@@ -22,16 +22,13 @@ d[!, :society] = 1:10;
     βp ~ Normal(0, 1)
 
     # Separate σ priors for each society
-    σ_society ~ Truncated(Cauchy(0, 1), 0, Inf)
+    σ_society ~ truncated(Cauchy(0, 1), 0, Inf)
 
     # Number of unique societies in the data set
     N_society = length(unique(society)) #10
 
     # Vector of societies (1,..,10) which we'll set priors on
-    α_society = Vector{Real}(undef, N_society)
-
-    # For each society [1,..,10] set a prior N(0, σ_society)
-    α_society ~ [Normal(0, σ_society)]
+    α_society ~ filldist(Normal(0, σ_society), N_society)
 
     for i ∈ 1:N
         λ = exp(α + α_society[society[i]] + βp*log_pop[i])

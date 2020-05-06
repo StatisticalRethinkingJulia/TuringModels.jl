@@ -1,7 +1,6 @@
 using TuringModels, StatsFuns
 
-Turing.setadbackend(:reverse_diff);
-#Turing.turnprogress(false);
+Turing.setadbackend(:reversediff);
 
 d = DataFrame(CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"),
   delim=';'));
@@ -13,14 +12,12 @@ size(d) # Should be 504x8
     βp ~ Normal(0, 10)
     βpC ~ Normal(0, 10)
 
-    for i ∈ 1:length(y)
-        p = logistic(α + (βp + βpC * x₁[i]) * x₂[i])
-        y[i] ~ Binomial(1, p)
-    end
+    logits = α .+ (βp .+ βpC * x₁) .* x₂
+    y .~ BinomialLogit.(1, logits)
 end;
 
 chns = sample(m10_3(d[:,:pulled_left], d[:,:condition], d[:,:prosoc_left]),
-  Turing.NUTS(0.95), 2000);
+  Turing.NUTS(0.65), 2000);
 
 # Rethinking result
 

@@ -8,8 +8,8 @@
 
 using TuringModels, DataFrames
 
-Turing.setadbackend(:reverse_diff);
-#nb Turing.turnprogress(false)
+# use reverse mode automatic differentiation
+Turing.setadbackend(:reversediff);
 
 # Read in the `rugged` data as a DataFrame
 
@@ -38,7 +38,7 @@ dd = df[map(notisnan, df[:, :rgdppc_2000]), :];
 # Define the Turing model
 
 @model m8_1stan(y, x₁, x₂) = begin
-    σ ~ Truncated(Cauchy(0, 2), 0, Inf)
+    σ ~ truncated(Cauchy(0, 2), 0, Inf)
     βR ~ Normal(0, 10)
     βA ~ Normal(0, 10)
     βAR ~ Normal(0, 10)
@@ -47,6 +47,9 @@ dd = df[map(notisnan, df[:, :rgdppc_2000]), :];
     for i ∈ 1:length(y)
         y[i] ~ Normal(α + βR * x₁[i] + βA * x₂[i] + βAR * x₁[i] * x₂[i], σ)
     end
+
+    # alternative formulation using broadcasting
+    # y .~ Normal.(α .+ βR * x₁ .+ βA * x₂ .+ βAR * x₁ .* x₂, σ)
 end;
 
 # Use Turing mcmc

@@ -1,7 +1,6 @@
 using TuringModels
 
-Turing.setadbackend(:reverse_diff)
-#nbTuring.turnprogress(false);
+Turing.setadbackend(:reversediff)
 
 d = DataFrame(CSV.read(joinpath(@__DIR__, "..", "..", "data", "UCBadmit.csv"),
 delim=';'));
@@ -12,7 +11,7 @@ size(d) |> display # Should be 12x5
 
 @model m11_5(admit, applications) = begin
     N=length(applications)
-    θ ~ Truncated(Exponential(1), 0, Inf)
+    θ ~ truncated(Exponential(1), 0, Inf)
     α ~ Normal(0,2)
 
     for i ∈ 1:N
@@ -31,7 +30,7 @@ end
 
 # Sample
 
-chns = sample(m11_5(d[:, :admit],d[:, :applications]), Turing.NUTS(0.9), 1000);
+chns = sample(m11_5(d[:, :admit],d[:, :applications]), Turing.NUTS(0.65), 1000);
 
 # Result rethinking
 

@@ -1,7 +1,6 @@
 using TuringModels
 
-Turing.setadbackend(:reverse_diff)
-#nbTuring.turnprogress(false);
+Turing.setadbackend(:reversediff)
 
 d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"), delim=';');
 size(d) # Should be 504x8
@@ -11,29 +10,25 @@ size(d) # Should be 504x8
 @model m12_4(pulled_left, actor, condition, prosoc_left) = begin
     # Total num of y
     N = length(pulled_left)
+
     # Separate σ priors for each actor
-    σ_actor ~ Truncated(Cauchy(0, 1), 0, Inf)
+    σ_actor ~ truncated(Cauchy(0, 1), 0, Inf)
 
     # Number of unique actors in the data set
     N_actor = length(unique(actor)) #7
 
     # Vector of actors (1,..,7) which we'll set priors on
-    α_actor = Vector{Real}(undef, N_actor)
-
-    # For each actor [1,..,7] set a prior N(0,σ_actor)
-    α_actor ~ [Normal(0, σ_actor)]
+    α_actor ~ filldist(Normal(0, σ_actor), N_actor)
 
     # Prior for intercept, prosoc_left, and the interaction
     α ~ Normal(0, 10)
     βp ~ Normal(0, 10)
     βpC ~ Normal(0, 10)
 
-    logitp = [α + α_actor[actor[i]] +
-            (βp + βpC * condition[i]) * prosoc_left[i]
-            for i = 1:N]
+    logitp = α .+ α_actor[actor] .+
+            (βp .+ βpC * condition) .* prosoc_left
 
-    # Thanks to Kai Xu for suggesting ones(Int64, N)
-    pulled_left ~ VecBinomialLogit(ones(Int64, N), logitp)
+    pulled_left .~ BinomialLogit.(1, logitp)
 
 end
 
@@ -44,7 +39,7 @@ chns = sample(m12_4(
     Vector{Int64}(d[:, :actor]),
     Vector{Int64}(d[:, :condition]),
     Vector{Int64}(d[:, :prosoc_left])),
-    Turing.NUTS(0.95), 1000);
+    Turing.NUTS(0.65), 1000);
 
 # Results from rethinking
 
