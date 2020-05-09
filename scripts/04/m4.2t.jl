@@ -2,24 +2,23 @@ using TuringModels
 
 # ### snippet 4.43
 
-df = DataFrame(CSV.read(joinpath(@__DIR__, "..", "..", "data", "Howell1.csv"),
-  delim=';'))
+df = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Howell1.csv"))
 
 # Use only adults and center the weight observations
 
-df2 = filter(row -> row[:age] >= 18, df);
-mean_weight = mean(df2[:, :weight]);
-df2[!, :weight_c] = df2[:, :weight] .- mean_weight;
+df2 = filter(row -> row.age >= 18, df)
+mean_weight = mean(df2.weight)
+df2.weight_c = df2.weight .- mean_weight
 first(df2, 5)
 
 # Extract variables for Turing model
 
-y = convert(Vector{Float64}, df2[:, :height]);
-x = convert(Vector{Float64}, df2[:, :weight_c]);
+x = df2.weight_c
+y = df2.height
 
 # Define the regression model
 
-@model line(y, x) = begin
+@model line(x, y) = begin
     #priors
     alpha ~ Normal(178.0, 100.0)
     beta ~ Normal(0.0, 10.0)
@@ -27,15 +26,10 @@ x = convert(Vector{Float64}, df2[:, :weight_c]);
 
     #model
     mu = alpha .+ beta*x
-    for i in 1:length(y)
-      y[i] ~ Normal(mu[i], s)
-    end
-end;
+    y .~ Normal.(mu, s)
+end
 
 # Draw the samples
-
-samples = 2000
-adapt_cycles = 1000
 
 chns = sample(line(x, y), NUTS(0.65), 1000)
 
