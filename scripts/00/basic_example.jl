@@ -20,7 +20,7 @@ chn = sample(gdemo(1.5, 2), NUTS(0.65), 1000)
 
 describe(chn) |> display
 
-# Plot and save results
+# Plot and save results if in ./dev
 
-p = plot(chn)
-savefig("$(ProjDir)/basic-example-plot.png")
+#p = plot(chn)
+#savefig("$(ProjDir)/basic-example-plot.png")
