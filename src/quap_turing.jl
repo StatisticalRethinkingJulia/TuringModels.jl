@@ -28,7 +28,7 @@ end
 # @model height(heights) = begin
 #     μ ~ Normal(178, 20)
 #     σ ~ Uniform(0, 50)
-#     heights .~ Normal(μ, 7.0)
+#     heights .~ Normal(μ, σ)
 #     return μ, σ                   <-- you need this line or you need to provide a
 #                                       start point
 # end
