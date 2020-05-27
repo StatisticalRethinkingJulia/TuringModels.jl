@@ -22,18 +22,18 @@ using LinearAlgebra
 # doesn't mean you got the point you are looking for; this isn't even global
 # optimization. In any case, trying other optimization methods might help.
 function quap(model::Turing.Model, args...; kwargs...)
-    opt = optimize(model, MLE(), args...; kwargs...)
+    opt = optimize(model, MAP(), args...; kwargs...)
 
-    MAP = opt.values.array
+    coef = opt.values.array
     var_cov_matrix = informationmatrix(opt)
     sym_var_cov_matrix = Symmetric(var_cov_matrix)  # lest MvNormal complains, loudly
     converged = Optim.converged(opt.optim_result)
 
-    distr = if length(MAP) == 1
-        Normal(MAP[1], √sym_var_cov_matrix[1])  # Normal expects stddev
+    distr = if length(coef) == 1
+        Normal(coef[1], √sym_var_cov_matrix[1])  # Normal expects stddev
     else
-        MvNormal(MAP, sym_var_cov_matrix)       # MvNormal expects variance matrix
+        MvNormal(coef, sym_var_cov_matrix)       # MvNormal expects variance matrix
     end
 
-    (coef = MAP, vcov = sym_var_cov_matrix, converged = converged, distr = distr)
+    (coef = coef, vcov = sym_var_cov_matrix, converged = converged, distr = distr)
 end
