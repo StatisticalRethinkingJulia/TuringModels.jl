@@ -3,6 +3,7 @@
 
 using Optim
 using Turing
+using StatsBase
 using LinearAlgebra
 
 #      Run like
