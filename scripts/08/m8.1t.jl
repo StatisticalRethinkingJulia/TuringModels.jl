@@ -9,12 +9,11 @@
 using TuringModels, DataFrames
 
 # use reverse mode automatic differentiation
-Turing.setadbackend(:reversediff);
+Turing.setadbackend(:reverse_diff);
 
 # Read in the `rugged` data as a DataFrame
 
-df = DataFrame(CSV.read(joinpath(@__DIR__, "..", "..", "data", "rugged.csv"),
-  delim=';'));
+df = CSV.read(joinpath(@__DIR__, "..", "..", "data", "rugged.csv"), DataFrame);
 
 # Show size of the DataFrame (should be 234x51)
     

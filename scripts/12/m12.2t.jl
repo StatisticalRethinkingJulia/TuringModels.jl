@@ -1,15 +1,16 @@
 using TuringModels, StatsFuns
 
-Turing.setadbackend(:reversediff)
+Turing.setadbackend(:reverse_diff)
 
-d = DataFrame(CSV.read(joinpath(@__DIR__, "..", "..", "data", "reedfrogs.csv"),
-  delim=';'));
+delim = ';'
+d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "reedfrogs.csv"),
+    DataFrame; delim);
   
 size(d) |> display # Should be 48x5
 
 # Set number of tanks
 
-d[:tank] = 1:size(d,1);
+d.tank = 1:size(d,1);
 
 # Thanks to Kai Xu!
 
@@ -92,6 +93,6 @@ a_tank[48]  0.00 0.33 -0.53  0.53 18236    1
 
 # Draw summary
 
-describe(chns)
+show(chns)
 
 # End of `12/m12.2t.jl`

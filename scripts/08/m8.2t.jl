@@ -1,6 +1,6 @@
 using TuringModels
 
-Turing.setadbackend(:reversediff);
+Turing.setadbackend(:reverse_diff);
 
 @model m8_2(y) = begin
 
@@ -18,6 +18,6 @@ chns = sample(m8_2(y), NUTS(0.65), 1000)
 
 # Describe the posterior samples
 
-describe(chns)
+show(chns)
 
 # End of `08/m8.2t.jl`

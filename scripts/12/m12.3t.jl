@@ -1,6 +1,6 @@
 using TuringModels, StatsFuns
 
-Turing.setadbackend(:reversediff);
+Turing.setadbackend(:reverse_diff);
 
 μ = 1.4
 σ = 1.5
@@ -113,6 +113,6 @@ a_pond[60]  1.27 0.40  0.66  1.91 15611    1
 
 # Draw summary
   
-describe(chns)
+show(chns)
 
 # End of `12/m12.3t.jl`

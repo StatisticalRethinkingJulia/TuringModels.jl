@@ -1,6 +1,6 @@
 using TuringModels, StatsFuns
 
-Turing.setadbackend(:reversediff)
+Turing.setadbackend(:reverse_diff)
 
 # outcome and predictor almost perfectly associated
 
@@ -28,6 +28,6 @@ m_10_x,_results = "
 
 # Look at the proper draws (in corrected chn2)
 
-describe(chns)
+show(chns)
 
 # End of 10/m10.xxt.jl

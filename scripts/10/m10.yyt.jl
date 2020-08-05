@@ -1,8 +1,9 @@
 using TuringModels, StatsFuns
 
-Turing.setadbackend(:reversediff);
+Turing.setadbackend(:reverse_diff);
 
-d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "UCBadmit.csv"), delim=';');
+delim = ';'
+d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "UCBadmit.csv"), DataFrame; delim);
 size(d) # Should be 12x5
 
 @model m_pois(admit, reject) = begin
@@ -29,6 +30,6 @@ m_10_yyt_result = "
 
 # Describe the draws
 
-describe(chns)
+show(chns)
 
 # End of 10/m10.yyt.jl

@@ -1,9 +1,11 @@
 using TuringModels, StatsFuns
 
-Turing.setadbackend(:reversediff);
+Turing.setadbackend(:reverse_diff);
 
-d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"), delim=';');
+delim=';'
+d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"), DataFrame; delim);
 size(d) # Should be 504x8
+
 
 # pulled_left, actors, condition, prosoc_left
 @model m10_4(y, actors, x₁, x₂) = begin
@@ -45,6 +47,6 @@ bpC -0.12913322 0.29935741 0.0047332562 0.0049519863 1000
 
 # Describe the draws
 
-describe(chns)
+show(chns)
 
 # End of 10/m10.04t.jl

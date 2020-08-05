@@ -1,6 +1,6 @@
 using TuringModels
 
-Turing.setadbackend(:reversediff)
+Turing.setadbackend(:reverse_diff)
 
 # Turing model
 @model m8_3(y) = begin

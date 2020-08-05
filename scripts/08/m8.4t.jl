@@ -2,7 +2,7 @@ using TuringModels
 
 ProjDir = @__DIR__
 
-Turing.setadbackend(:reversediff);
+Turing.setadbackend(:reverse_diff);
 
 # Can't really set a Uniform[-Inf,Inf] on σ 
 
@@ -34,7 +34,7 @@ m84rethinking = "
 
 # Describe the posterior samples
 
-describe(chns)
+show(chns)
 plot(chns)
 savefig("$(ProjDir)/m8.4.png")
 

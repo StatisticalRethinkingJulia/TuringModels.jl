@@ -1,9 +1,11 @@
 using TuringModels
 
-Turing.setadbackend(:reversediff);
+Turing.setadbackend(:reverse_diff);
 
-d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Kline.csv"), delim=';');
+delim = ';'
+d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Kline.csv"), DataFrame; delim);
 size(d) # Should be 10x5
+
 
 # New col log_pop, set log() for population data
 d[!, :log_pop] = map((x) -> log(x), d[:, :population]);

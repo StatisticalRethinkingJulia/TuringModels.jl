@@ -1,9 +1,9 @@
 using TuringModels, StatsFuns
 
-Turing.setadbackend(:reversediff);
+Turing.setadbackend(:reverse_diff);
 
-d = DataFrame(CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"),
-  delim=';'));
+delim=';'
+d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"), DataFrame; delim);
 size(d) # Should be 504x8
 
 # pulled_left, condition, prosoc_left
@@ -30,6 +30,6 @@ m_10_03t_result = "
 
 # Describe the draws
 
-describe(chns)
+show(chns)
 
 # End of m10.03t.jl

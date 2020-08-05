@@ -3,12 +3,13 @@ using TuringModels
 Turing.setadbackend(:reverse_diff)
 #nbTuring.turnprogress(false);
 
-d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Kline.csv"), delim=';');
+delim = ';'
+d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Kline.csv"), DataFrame; delim);
 size(d) # Should be 10x5
 
 # New col log_pop, set log() for population data
-d[!, :log_pop] = map((x) -> log(x), d[:, :population]);
-d[!, :society] = 1:10;
+d.log_pop = map((x) -> log(x), d.population);
+d.society = 1:10;
 
 # Turing model
 
@@ -61,6 +62,6 @@ sigma_society  0.31   0.13       0.11       0.47  1345    1
 
 # Describe the posterior samples
 
-describe(chns)
+show(chns)
 
 # End of `12/m12.6t.jl`

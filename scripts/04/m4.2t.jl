@@ -2,7 +2,8 @@ using TuringModels
 
 # ### snippet 4.43
 
-df = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Howell1.csv"))
+delim = ';'
+df = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Howell1.csv"), DataFrame; delim)
 
 # Use only adults and center the weight observations
 
@@ -56,6 +57,6 @@ sigma   4.7524368   4.9683400   5.0994450   5.2353100   5.5090128
 
 # Look at the proper draws (in corrected chn2)
 
-describe(chns) |> display
+show(chns)
 
 # End of `04/m4.2t.jl`

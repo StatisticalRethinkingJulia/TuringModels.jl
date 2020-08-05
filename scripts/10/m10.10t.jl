@@ -1,9 +1,10 @@
 using TuringModels
 
-Turing.setadbackend(:reversediff);
-# Turing.turnprogress(false);
+Turing.setadbackend(:reverse_diff);
+Turing.turnprogress(false);
 
-d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Kline.csv"), delim=';');
+delim = ';'
+d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Kline.csv"), DataFrame; delim);
 size(d) # Should be 10x5
 
 # New col log_pop, set log() for population data
@@ -42,6 +43,6 @@ m_10_10t_result = "
 
 # Describe the draws
 
-describe(chns)
+show(chns)
 
 # End of m10.10t.jl

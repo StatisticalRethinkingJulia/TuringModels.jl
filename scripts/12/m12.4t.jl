@@ -1,8 +1,9 @@
 using TuringModels
 
-Turing.setadbackend(:reversediff)
+Turing.setadbackend(:reverse_diff)
 
-d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"), delim=';');
+delim = ';'
+d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"), DataFrame; delim);
 size(d) # Should be 504x8
 
 # Turing model: pulled_left, actor, condition, prosoc_left
@@ -60,6 +61,6 @@ m124rethinking = "
 
 # Draw summary
 
-describe(chns)
+show(chns)
 
 # End of `12/m12.4t.jl`
