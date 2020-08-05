@@ -39,8 +39,7 @@ end
 
 # Sample
 
-chns = sample(m12_6(d[:, :total_tools], d[:, :log_pop],
-    d[:, :society]), NUTS(0.95), 1000);
+chns = sample(m12_6(d.total_tools, d.log_pop, d.society), NUTS(0.95), 1000);
 
 # Results rethinking
 m12_6rethinking = "
