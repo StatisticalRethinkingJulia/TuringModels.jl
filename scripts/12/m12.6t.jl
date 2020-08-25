@@ -1,8 +1,5 @@
 using TuringModels
 
-Turing.setadbackend(:reverse_diff)
-#nbTuring.turnprogress(false);
-
 delim = ';'
 d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Kline.csv"), DataFrame; delim);
 size(d) # Should be 10x5
@@ -61,6 +58,6 @@ sigma_society  0.31   0.13       0.11       0.47  1345    1
 
 # Describe the posterior samples
 
-show(chns)
+chns |> display
 
 # End of `12/m12.6t.jl`

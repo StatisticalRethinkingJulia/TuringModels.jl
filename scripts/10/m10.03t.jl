@@ -1,7 +1,5 @@
 using TuringModels, StatsFuns
 
-Turing.setadbackend(:reverse_diff);
-
 delim=';'
 d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"), DataFrame; delim);
 size(d) # Should be 504x8
@@ -30,6 +28,6 @@ m_10_03t_result = "
 
 # Describe the draws
 
-show(chns)
+chns |> display
 
 # End of m10.03t.jl

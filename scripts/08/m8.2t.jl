@@ -1,7 +1,5 @@
 using TuringModels
 
-Turing.setadbackend(:reverse_diff);
-
 @model m8_2(y) = begin
 
     σ ~ FlatPos(0.0) # improper prior with probability one everywhere above 0.0
@@ -18,6 +16,6 @@ chns = sample(m8_2(y), NUTS(0.65), 1000)
 
 # Describe the posterior samples
 
-show(chns)
+chns |> display
 
 # End of `08/m8.2t.jl`

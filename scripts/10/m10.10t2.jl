@@ -1,7 +1,5 @@
 using TuringModels
 
-Turing.setadbackend(:reverse_diff);
-
 delim = ';'
 d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Kline.csv"), DataFrame; delim);
 size(d) # Should be 10x5
@@ -45,6 +43,6 @@ m_10_10t_c_result = "
 
 # Describe the draws
 
-describe(chns)
+chns |> display
 
 # End of m10.10t2.jl

@@ -1,7 +1,5 @@
 using TuringModels
 
-Turing.setadbackend(:reverse_diff);
-
 delim = ';'
 d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "reedfrogs.csv"),
     DataFrame; delim);
@@ -85,6 +83,6 @@ a_tank[48] -0.06 0.35 -0.61  0.50  1932    1
 
 # Describe chainsd
 
-show(chns)
+chns |> display
 
 # End of `12/m12.1t.jl`

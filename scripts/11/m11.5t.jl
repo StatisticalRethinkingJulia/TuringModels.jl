@@ -1,7 +1,5 @@
 using TuringModels
 
-Turing.setadbackend(:reverse_diff)
-
 delim = ';'
 d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "UCBadmit.csv"), DataFrame; delim);
 
@@ -42,6 +40,6 @@ a       -0.37 0.31 -0.87  0.12  3210    1
 
 # Show summary
 
-show(chns)
+chns |> display
 
 # End of `11/m811.5t.jl`

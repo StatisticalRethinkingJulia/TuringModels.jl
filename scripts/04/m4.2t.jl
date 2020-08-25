@@ -57,6 +57,6 @@ sigma   4.7524368   4.9683400   5.0994450   5.2353100   5.5090128
 
 # Look at the proper draws (in corrected chn2)
 
-show(chns)
+chns |> display
 
 # End of `04/m4.2t.jl`

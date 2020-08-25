@@ -18,7 +18,7 @@ chn = sample(gdemo(1.5, 2), NUTS(0.65), 1000)
 
 # Summarise results (currently requires the master branch from MCMCChains)
 
-describe(chn) |> display
+chn |> display
 
 # Plot and save results if in ./dev
 

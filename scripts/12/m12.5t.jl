@@ -1,7 +1,5 @@
 using TuringModels
 
-Turing.setadbackend(:reverse_diff)
-
 delim = ';'
 d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"), DataFrame; delim);
 size(d) # Should be 504x8
@@ -72,6 +70,6 @@ sigma_block  0.23   0.18       0.01       0.44  2269    1
 
 # Draw summary
 
-show(chns)
+chns |> display
 
 # End of m12.5t.jl

@@ -9,7 +9,7 @@
 using TuringModels, DataFrames
 
 # use reverse mode automatic differentiation
-Turing.setadbackend(:reverse_diff);
+#Turing.setadbackend(:tracker);
 
 # Read in the `rugged` data as a DataFrame
 
@@ -83,6 +83,6 @@ sigma  0.85376115  0.91363250  0.9484920  0.98405750  1.058573750
 
 # Describe the posterior samples
 
-describe(chns) |> display
+chns |> display
 
 # End of `08/m8.1t.jl`

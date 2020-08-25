@@ -2,8 +2,6 @@ using TuringModels
 
 ProjDir = @__DIR__
 
-Turing.setadbackend(:reverse_diff);
-
 # Can't really set a Uniform[-Inf,Inf] on σ 
 
 # Turing model
@@ -34,8 +32,6 @@ m84rethinking = "
 
 # Describe the posterior samples
 
-show(chns)
-plot(chns)
-savefig("$(ProjDir)/m8.4.png")
+chns |> display
 
 # End of `08/m8.4t.jl`

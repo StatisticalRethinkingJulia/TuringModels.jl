@@ -24,10 +24,10 @@ chns = sample(globe_toss(n, k), NUTS(0.65), 1000)
 
 # Look at the proper draws (in corrected chn2)
 
-describe(chns) |> display
+chns |> display
 
 # Show the hpd region
 
-hpd(chns[:theta], alpha=0.055)
+hpd(chns, alpha=0.055) |> display
 
 # End of `02/m2.1t.jl`

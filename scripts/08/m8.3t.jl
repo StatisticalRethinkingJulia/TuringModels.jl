@@ -1,7 +1,5 @@
 using TuringModels
 
-Turing.setadbackend(:reverse_diff)
-
 # Turing model
 @model m8_3(y) = begin
     α ~ Normal(1, 10)
@@ -26,6 +24,6 @@ sigma 2.04 2.05  0.68  4.83  1090    1
 
 # Describe the posterior samples
 
-describe(chns)
+chns |> display
 
 # End of `08/m8.3t.jl`
