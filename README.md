@@ -34,7 +34,7 @@ The TuringLang team and #turing contributors on Slack have been extremely helpfu
 
 Question and contributions are very welcome, as are feature requests and suggestions. Please open an [issue][issues-url] if you encounter any problems or have a question.
 
-[travis-img]: https://travis-ci.org/StatisticalRethinkingJulia/TuringModels.jl.svg?branch=master
-[travis-url]: https://travis-ci.org/StatisticalRethinkingJulia/TuringModels.jl
+[travis-img]: https://travis-ci.com/StatisticalRethinkingJulia/TuringModels.jl.svg?branch=master
+[travis-url]: https://travis-ci.com/StatisticalRethinkingJulia/TuringModels.jl
 
 [issues-url]: https://github.com/StatisticalRethinkingJulia/TuringModels.jl/issues
