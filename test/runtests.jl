@@ -5,8 +5,8 @@ using Test
 
 include("../scripts/00/basic_example.jl")
 include("../scripts/02/m2.1t.jl")
-#include("../scripts/04/m4.2t.jl")
-include("../scripts/08/m8.1t.jl")
+include("../scripts/04/m4.2t.jl")
+#include("../scripts/08/m8.1t.jl")
 #include("../scripts/08/m8.2t.jl")
 #include("../scripts/08/m8.3t.jl")
 #include("../scripts/08/m8.4t.jl")
