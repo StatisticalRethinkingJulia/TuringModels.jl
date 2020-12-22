@@ -2,7 +2,7 @@ name: CompatHelper
 
 on:
   schedule:
-    - cron: '00 * * * *'
+    - cron: '00 00 * * *'
   issues:
     types: [opened, reopened]
 
@@ -31,3 +31,4 @@ jobs:
             run(`julia --project=docs -e "import Pkg; Pkg.instantiate(); Pkg.update()"`);
           end
           '
+          
