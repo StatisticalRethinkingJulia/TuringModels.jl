@@ -8,9 +8,8 @@ delim = ";"
 d = CSV.read(data_path, DataFrame; delim)
 
 dept_map = Dict(key => idx for (idx, key) in enumerate(unique(d.dept)))
-d.male = ifelse.(d.gender .== "male", 1, 0)
+d.male = [g == "male" ? 1 : 0 for g in d.gender]
 d.dept_id = [dept_map[de] for de in d.dept]
-
 
 @model m13_2(applications, dept_id, male, admit) = begin
     sigma_dept ~ truncated(Cauchy(0, 2), 0, Inf)

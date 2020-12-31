@@ -8,7 +8,7 @@ size(d) # Should be 10x5
 d[!, :log_pop] = map(x -> log(x), d[:, :population]);
 
 # New col contact_high, set binary values 1/0 if high/low contact
-d[!, :contact_high] = map(x -> ifelse(x=="high", 1, 0), d[:, :contact]);
+d.contact_high = [contact == "high" ? 1 : 0 for contact in d.contact]
 
 # This is supposed to be a "bad" model since we take non-centered data for the
 # predictor log_pop
