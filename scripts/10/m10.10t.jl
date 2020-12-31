@@ -4,8 +4,7 @@ delim = ';'
 d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Kline.csv"), DataFrame; delim);
 size(d) # Should be 10x5
 
-# New col log_pop, set log() for population data
-d[!, :log_pop] = map(x -> log(x), d[:, :population]);
+d.log_pop = map(log, d.population)
 
 # New col contact_high, set binary values 1/0 if high/low contact
 d.contact_high = [contact == "high" ? 1 : 0 for contact in d.contact]
@@ -40,6 +39,6 @@ m_10_10t_result = "
 
 # Describe the draws
 
-chns |> display
+posterior |> display
 
 # End of m10.10t.jl
