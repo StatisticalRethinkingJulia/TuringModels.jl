@@ -1,21 +1,47 @@
 +++
-title = "Varying slopes café"
+title = "Varying slopes cafes"
 +++
 
-```
+On page 441 of McElreath (2020), `m14.1` is defined as
+
+$$
+\begin{aligned}
+  W_i &\sim \text{Normal}(\mu_i, \sigma) \\
+  \mu_i &= \alpha_\text{café}[i] + \beta_\text{café}[i] A_i \\
+  \alpha &\sim \text{Normal}(5, 2) \\
+  \beta &\sim \text{Normal}(-1, 0.5) \\
+  \sigma &\sim \text{Exponential}(1) \\
+  \sigma_\alpha &\sim \text{Exponential}(1) \\
+  \sigma_\beta &\sim \text{Exponential}(1) \\
+  \textbf{R} &\sim \text{LKJcorr}(2) 
+\end{aligned}
+$$
+
+\toc 
+
+## Data
+
+```julia:data
+import CSV
+
+using DataFrames
 using TuringModels
 
-# This script requires latest LKJ bijectors support.
-# `] add Bijectors#master` to get latest Bijectors.
+data_path = joinpath(TuringModels.project_root, "data", "d_13_1.csv")
+df = CSV.read(data_path, DataFrame)
+write_csv(name, data) = CSV.write(joinpath(@OUTPUT, "$name.csv"), data) # hide
+write_csv("data", df) # hide
+```
+\output{data}
 
-# Original data is generated with fixed R seed. To simplify the replication of the result,
-# the generated data is saved in data folder, named "d_13_1.csv"
+DataFrame `df` is shown in [Appendix I](#appendix_i).
 
-data_path = joinpath(@__DIR__, "..", "..", "data", "d_13_1.csv")
-d = CSV.read(data_path, DataFrame)
+## Model
+
+```julia:model
+using Turing
 
 @model m13_1(cafe, afternoon, wait) = begin
-
     Rho ~ LKJ(2, 1.)
     sigma ~ truncated(Cauchy(0, 2), 0, Inf)
     sigma_cafe ~ filldist(truncated(Cauchy(0, 2), 0, Inf), 2)
@@ -34,15 +60,48 @@ d = CSV.read(data_path, DataFrame)
     wait .~ Normal.(mu , sigma)
 end
 
-# Sample
-
-chns = sample(
-    m13_1(d.cafe, d.afternoon, d.wait),
+chains = sample(
+    m13_1(df.cafe, df.afternoon, df.wait),
+    # This model fails on NUTS(0.65).
     Turing.NUTS(0.95),
     1000
 )
+```
+\output{model}
 
-m_13_1_rethinking = """
+## Output
+
+```julia:write_helper
+# hideall
+output_dir = @OUTPUT 
+function write_svg(name, p) 
+  fig_path = joinpath(output_dir, "$name.svg")
+  StatsPlots.savefig(fig_path)
+end
+```
+\output{write_helper}
+
+```julia:plot
+using StatsPlots
+
+write_svg("chains", # hide
+StatsPlots.plot(chains)
+) # hide
+```
+\output{plot}
+\fig{chains.svg}
+
+```!
+describe(chains)[1] 
+```
+
+```!
+describe(chains)[2]
+```
+
+## Original output
+
+```
 Inference for Stan model: a73b0bd01032773825c6abf5575fd6e4.
     2 chains, each with iter=5000; warmup=2000; thin=1; 
     post-warmup draws per chain=3000, total post-warmup draws=6000.
@@ -98,11 +157,9 @@ Inference for Stan model: a73b0bd01032773825c6abf5575fd6e4.
     Rho[2,1]      -0.17    0.01  0.34 -0.75 -0.42 -0.20  0.06   0.57  3300 1.00
     Rho[2,2]       1.00    0.00  0.00  1.00  1.00  1.00  1.00   1.00  5777 1.00
     lp__          62.41    3.30 17.59 41.97 52.03 58.04 66.26 118.46    28 1.12
-"""
-
-# Draw summary
-
-chns |> display
-
-# End of m13.1.jl
 ```
+
+## Appendix
+
+### Appendix I
+\tableinput{}{./code/output/data.csv}
