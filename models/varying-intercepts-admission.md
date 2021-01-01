@@ -1,3 +1,8 @@
++++
+title = "Varying intercepts admission decisions"
++++
+
+```
 using TuringModels
 
 # This script requires latest LKJ bijectors support.
@@ -87,5 +92,4 @@ Inference for Stan model: f0d86ec689cbf7921aab4fc0f55616d2.
 """
 
 chns |> display
-
-# End of m13.3.jl
+```

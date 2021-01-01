@@ -34,6 +34,7 @@ df = CSV.read(data_path, DataFrame; delim=';')
 df2 = filter(row -> row.age >= 18, df)
 mean_weight = mean(df2.weight)
 df2.weight_c = df2.weight .- mean_weight
+
 @model function line(x, y)
     alpha ~ Normal(178.0, 100.0)
     beta ~ Normal(0.0, 10.0)

@@ -482,8 +482,8 @@ ol {
 }
 
 .franklin-content li {
-  margin-top: 0.3em;
-  line-height: 1.3em;
+  margin-top: 10px;
+  line-height: 12px;
 }
 
 .franklin-content ul,

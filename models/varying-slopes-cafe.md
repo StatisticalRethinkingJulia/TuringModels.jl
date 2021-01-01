@@ -1,4 +1,8 @@
++++
+title = "Varying slopes café"
++++
 
+```
 using TuringModels
 
 # This script requires latest LKJ bijectors support.
@@ -8,7 +12,7 @@ using TuringModels
 # the generated data is saved in data folder, named "d_13_1.csv"
 
 data_path = joinpath(@__DIR__, "..", "..", "data", "d_13_1.csv")
-d = CSV.read(data_path)
+d = CSV.read(data_path, DataFrame)
 
 @model m13_1(cafe, afternoon, wait) = begin
 
@@ -101,3 +105,4 @@ Inference for Stan model: a73b0bd01032773825c6abf5575fd6e4.
 chns |> display
 
 # End of m13.1.jl
+```

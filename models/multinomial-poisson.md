@@ -1,3 +1,8 @@
++++
+title = "Multinomial Poisson regression"
++++
+
+```
 using TuringModels
 
 # This script requires latest LKJ bijectors support.
@@ -59,5 +64,4 @@ Inference for Stan model: 359c2483e3bdbf74fd0484be27c2909b.
 """
 
 chns |> display
-
-# End of m13.2.jl
+```
