@@ -1,9 +1,12 @@
 +++
 title = "Gaussian model of height"
-reeval = true
 +++
 
+This model 
+
 \toc
+
+### Data
 
 ### Model defintion
 

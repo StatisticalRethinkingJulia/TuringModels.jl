@@ -24,6 +24,7 @@ html {
 }
 
 .page-foot {
+  margin-top: 4em;
   font-size: var(--small) !important;
 }
 
