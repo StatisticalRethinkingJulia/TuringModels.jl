@@ -17,15 +17,15 @@ $$
 
 \toc
 
-## Model defintion
+## Model definition
 
 ```julia:height
+import CSV
+
 using DataFrames
 using StatsPlots
 using Turing
 using TuringModels
-
-import CSV
 
 data_path = joinpath(TuringModels.project_root, "data", "Howell1.csv")
 df = CSV.read(data_path, DataFrame; delim=';')

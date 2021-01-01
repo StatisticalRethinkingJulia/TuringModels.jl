@@ -2,19 +2,45 @@
 title = "Multinomial Poisson regression"
 +++
 
-```
+On page 399 of McElreath (2015), `m13.2` is defined as
+
+$$
+\begin{aligned}
+  A_i &\sim \text{Binomial}(n_i, p_i) \\
+  \text{logit}(p_i) &= \alpha_\text{dept}[i] + \beta m_i \\
+  \alpha_\text{dept} &\sim \text{Normal}(\alpha, \sigma) \\
+  \alpha &\sim \text{Normal}(0, 10) \\
+  \beta &\sim \text{Normal}(0, 1) \\
+  \sigma &\sim \text{HalfCauchy}(0, 2)
+\end{aligned}
+$$
+
+\toc
+
+## Data
+
+```julia:data
+import CSV
+
+using DataFrames
 using TuringModels
 
-# This script requires latest LKJ bijectors support.
-# `] add Bijectors#master` to get latest Bijectors.
+data_path = joinpath(TuringModels.project_root, "data", "UCBadmit.csv")
+df = CSV.read(data_path, DataFrame; delim=';')
+write_csv(name, data) = CSV.write(joinpath(@OUTPUT, "$name.csv"), data) # hide
+write_csv("data", df) # hide
+```
+\output{data}
+\tableinput{}{./code/output/data.csv}
 
-data_path = joinpath(@__DIR__, "..", "..", "data", "UCBadmit.csv")
-delim = ";"
-d = CSV.read(data_path, DataFrame; delim)
+## Model
 
-dept_map = Dict(key => idx for (idx, key) in enumerate(unique(d.dept)))
-d.male = [g == "male" ? 1 : 0 for g in d.gender]
-d.dept_id = [dept_map[de] for de in d.dept]
+```julia:model
+using Turing
+
+dept_map = Dict(key => idx for (idx, key) in enumerate(unique(df.dept)))
+df.male = [g == "male" ? 1 : 0 for g in df.gender]
+df.dept_id = [dept_map[de] for de in df.dept]
 
 @model m13_2(applications, dept_id, male, admit) = begin
     sigma_dept ~ truncated(Cauchy(0, 2), 0, Inf)
@@ -27,13 +53,47 @@ d.dept_id = [dept_map[de] for de in d.dept]
     admit .~ BinomialLogit.(applications, logit_p)
 end
 
-chns = sample(
-    m13_2(d.applications, d.dept_id, d.male, d.admit),
-    Turing.NUTS(0.95),
+chains = sample(
+    m13_2(df.applications, df.dept_id, df.male, df.admit),
+    Turing.NUTS(0.65),
     1000
 )
+```
+\output{model}
 
-m_13_2_rethinking = """
+## Output
+
+```julia:write_helper
+# hideall
+output_dir = @OUTPUT 
+function write_svg(name, p) 
+  fig_path = joinpath(output_dir, "$name.svg")
+  StatsPlots.savefig(fig_path)
+end
+```
+\output{write_helper}
+
+```julia:plot
+using StatsPlots
+
+write_svg("chains", # hide
+StatsPlots.plot(chains)
+) # hide
+```
+\output{plot}
+\fig{chains.svg}
+
+```!
+describe(chains)[1] 
+```
+
+```!
+describe(chains)[2]
+```
+
+## Original output
+
+```text
 Inference for Stan model: 359c2483e3bdbf74fd0484be27c2909b.
     3 chains, each with iter=4500; warmup=500; thin=1; 
     post-warmup draws per chain=4000, total post-warmup draws=12000.
@@ -60,8 +120,5 @@ Inference for Stan model: 359c2483e3bdbf74fd0484be27c2909b.
     bm          7137    1
     sigma_dept  4626    1
     lp__        4200    1
-    
-"""
-
-chns |> display
 ```
+

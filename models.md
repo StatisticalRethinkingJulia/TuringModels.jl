@@ -5,8 +5,6 @@ rss = "A list of the Turing versions of the Statistical Rethinking models."
 tags = ["models", "statistics"]
 +++
 
-# Models
-
 This page lists the available Turing models for different versions of the Statistical Rethinking book.
 Some pages list code, tables and plots, and others show only code.
 
