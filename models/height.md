@@ -5,6 +5,16 @@ title = "Gaussian model of height"
 This model is based on data of the !Kung San people \citep{pHowell2010}.
 The prior assumes that the height of a man is 178 cm because McElreath has that lenght, so it is a reasonable prior for the height.
 
+McElreath defines the model as
+
+$$
+\begin{aligned}
+  h_i &\sim \text{Normal}(\mu, \sigma) \\
+  \mu &\sim \text{Normal}(178, 20) \\
+  \sigma &\sim \text{Uniform}(0, 50)
+\end{aligned}
+$$
+
 \toc
 
 ## Model defintion

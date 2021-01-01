@@ -39,7 +39,7 @@ body {
   padding-bottom: 4rem;
   font-family: -apple-system, "helvetica neue", helvetica, roboto, noto, "segoe ui", arial, sans-serif;
   line-height: 1.5;
-  color: #5c5962;
+  color: var(--text-color);
   background-color: #fff;
 }
 
@@ -345,13 +345,13 @@ input[type=checkbox]:checked ~ #side-menu { display: block; }
     height: 60px;
     max-height: 60px;
     border-bottom: 1px solid #eeebee;
-    padding-right: 2rem;
-    padding-left: 2rem;
+    padding-right: 10px;
+    padding-left: 10px;
   }
 
   .side-bar .header .title {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
   .show-menu {
@@ -360,17 +360,17 @@ input[type=checkbox]:checked ~ #side-menu { display: block; }
 
   .side-bar .menu {
     width: 135px;
-    padding-right: 2rem;
-    padding-left: 2rem;
-    padding-top: 3rem;
-    padding-bottom: 1rem;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 10px;
+    padding-bottom: 5px;
     overflow-y: auto;
     flex: 1 1 auto;
   }
 
   .side-bar .footer {
-    padding-right: 2rem;
-    padding-left: 2rem;
+    padding-right: 10px;
+    padding-left: 10px;
     position: static;
   }
 }

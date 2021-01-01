@@ -15,6 +15,6 @@ Some models have their own webpage with plots, and others only show the code.
 ## 2020
 
 - [m4.1](height): Gaussian model of height
-- [m11.7](/assets/scripts/13/m13.2.jl): Multinomial Poisson regression
+- [m11.7](https://github.com/StatisticalRethinkingJulia/TuringModels.jl/blob/master/scripts/13/m13.2.jl): Multinomial Poisson regression
 
 ## 2018

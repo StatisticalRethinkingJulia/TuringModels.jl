@@ -1,3 +1,4 @@
+@def prepath = "TuringModels.jl"
 @def website_title = "TuringModels"
 @def website_descr = "Statistical Rethinking models in Julia"
 @def website_url = "https://rikhuijzer.github.io/TuringModels.jl/"
