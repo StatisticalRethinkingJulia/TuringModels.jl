@@ -1,6 +1,6 @@
 @def website_title = "TuringModels"
 @def website_descr = "Statistical Rethinking models in Julia"
-@def website_url   = "https://tlienart.github.io/FranklinTemplates.jl/"
+@def website_url = "https://rikhuijzer.github.io/TuringModels.jl/"
 
 @def author = "Rob J Goedman and contributors"
 
