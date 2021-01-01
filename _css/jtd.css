@@ -28,6 +28,11 @@ html {
   font-size: var(--small) !important;
 }
 
+.franklin-toc li {
+  line-height: 1.5rem !important;
+  list-style-type: disc;
+}
+
 body {
   margin: 0;
   position: relative;

@@ -25,7 +25,7 @@ jobs:
           using Pkg; Pkg.add(["NodeJS", "Franklin"]);
           using NodeJS; run(`$(npm_cmd()) install highlight.js`);
           using Franklin;
-          Pkg.dev(path="."); Pkg.activate("."); Pkg.instantiate();
+          Pkg.develop(path="."); Pkg.activate("."); Pkg.instantiate();
           Franklin.optimize();
           verify_links()' > build.log
 

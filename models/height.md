@@ -2,13 +2,12 @@
 title = "Gaussian model of height"
 +++
 
-This model 
+This model is based on data of the !Kung San people \citep{pHowell2010}.
+The prior assumes that the height of a man is 178 cm because McElreath has that lenght, so it is a reasonable prior for the height.
 
 \toc
 
-### Data
-
-### Model defintion
+## Model defintion
 
 ```julia:height
 using DataFrames
@@ -22,12 +21,9 @@ data_path = joinpath(TuringModels.project_root, "data", "Howell1.csv")
 df = CSV.read(data_path, DataFrame; delim=';')
 
 # Use only adults and center the weight observations
-
 df2 = filter(row -> row.age >= 18, df)
 mean_weight = mean(df2.weight)
 df2.weight_c = df2.weight .- mean_weight
-first(df2, 5)
-
 @model function line(x, y)
     alpha ~ Normal(178.0, 100.0)
     beta ~ Normal(0.0, 10.0)
@@ -52,7 +48,7 @@ end
 ```
 \output{write_helper}
 
-### Output
+## Output
 
 ```julia:plot
 write_svg("height", # hide
@@ -70,7 +66,7 @@ describe(chains)[1]
 describe(chains)[2]
 ```
 
-### Original output
+## Original output
 
 ```
 Iterations = 1:1000
@@ -90,3 +86,21 @@ alpha 154.0610000 154.4150000 154.5980000 154.7812500 155.1260000
  beta   0.8255494   0.8790695   0.9057435   0.9336445   0.9882981
 sigma   4.7524368   4.9683400   5.0994450   5.2353100   5.5090128
 ```
+
+## References
+\biblabel{pHowell2010}{Howell, 2010}
+Howell, N. (2010).
+Life Histories of the Dobe !Kung: Food, Fatness, and Well-being over the Life-span.
+Origins of Human Behavior and Culture. 
+University of California Press
+
+## Appendix
+### df2
+```julia:data
+write_csv(name, data) = CSV.write(joinpath(@OUTPUT, "$name.csv"), data) # hide
+write_csv("data", # hide
+df2
+) # hide
+```
+\output{data}
+\tableinput{}{./code/output/data.csv}
