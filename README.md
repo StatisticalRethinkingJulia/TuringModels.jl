@@ -12,6 +12,44 @@ This package implements the models using [TuringLang/Turing.jl](https://github.c
 
 ## Versions
 
+### v1.1.2
+
+- Rik Huijzer updates:
+    - CI matrix simplifications
+    - NUTS(0.65) checking
+    - Replace ifelse by comprehension
+    - CI tests for more models
+
+### v1.1.1
+
+-  CompatHelper updates
+
+### v1.0.6
+
+-  CompatHelper updates
+
+### v1.0.5
+
+- CompatHelper updates
+- yiyuezhuo/ch13_models update
+
+### v1.0.4
+
+- CompatHelper updates
+
+### v1.0.3
+
+- Karajan9 patch
+- CompatHelper updates
+
+### v1.0.2
+
+- Relaxed Pkg upper bounds
+
+### v1.0.1
+
+- Model updates by Martin Trapp
+
 ### v1.0.0
 
 - Set upper bounds in [compat] section of Project.toml
