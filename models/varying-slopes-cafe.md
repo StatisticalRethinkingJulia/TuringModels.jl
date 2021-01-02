@@ -56,8 +56,8 @@ using Turing
     a_cafe = a_b_cafe[1, :]
     b_cafe = a_b_cafe[2, :]
         
-    mu = a_cafe[cafe] + b_cafe[cafe] .* afternoon
-    wait .~ Normal.(mu , sigma)
+    μ = a_cafe[cafe] + b_cafe[cafe] .* afternoon
+    wait .~ Normal.(μ, sigma)
 end
 
 chains = sample(

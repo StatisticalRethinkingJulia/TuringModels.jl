@@ -16,6 +16,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 
 - [globe.qa](globe-tossing): Globe tossing
 - [m4.1](height): Gaussian model of height
+- [m8.1](africa): Africa
 - [m11.7](multinomial-poisson): Multinomial Poisson regression
 - [m14.1](varying-slopes-cafe): Varying slopes café
 
@@ -23,6 +24,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 
 - [m2.1](globe-tossing): Globe tossing
 - [m4.2](height): Gaussian model of height
+- [m8.1](africa): Africa
 - [m13.1](varying-slopes-cafe): Varying slopes café
 - [m13.2](multinomial-poisson): Multinomial Poisson regression
 - [m13.3](varying-intercepts-admission): Varying intercepts admission decisions
