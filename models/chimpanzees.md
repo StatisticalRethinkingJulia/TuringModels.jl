@@ -1,3 +1,8 @@
++++
+title = "Chimpanzees"
++++
+
+```
 using TuringModels, StatsFuns
 
 delim=';'
@@ -31,3 +36,4 @@ m_10_03t_result = "
 chns |> display
 
 # End of m10.03t.jl
+```

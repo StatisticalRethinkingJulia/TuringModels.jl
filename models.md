@@ -19,6 +19,8 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m8.1](africa): Africa
 - [m8.2](wild-chain): Wild chain
 - [m8.3](weakly-informative-priors): Weakly informative priors
+- [m8.4](non-identifiable): Non-identifiable model
+- [m10.3](chimpanzees): Chimpanzees
 - [m11.7](multinomial-poisson): Multinomial Poisson regression
 - [m14.1](varying-slopes-cafe): Varying slopes café
 
