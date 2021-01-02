@@ -2,7 +2,11 @@
 title = "Africa"
 +++
 
-This is the first model in Statistical Rethinking Edition 1 (pp. 249) using Stan.
+This is the first Stan model in Statistical Rethinking Edition 1 (page 249).
+
+\toc
+
+## Data
 
 ```julia:data
 using DataFrames
@@ -18,8 +22,7 @@ df = CSV.read(data_path, DataFrame)
 
 df.log_gdp = [log(x) for x in df.rgdppc_2000]
 
-# When this (https://github.com/JuliaData/DataFrames.jl/pull/1546) hits DataFrame it'll be conceptually easier: i.e., completecases!(d, :rgdppc_2000)
-
+TODO = "Replace by dropmissing or something similar."
 notisnan(e) = !ismissing(e)
 df = df[map(notisnan, df[:, :rgdppc_2000]), :];
 
@@ -28,10 +31,12 @@ df = select(df, :log_gdp, :rugged, :cont_africa)
 write_csv(name, data) = CSV.write(joinpath(@OUTPUT, "$name.csv"), data) # hide
 write_csv("data", df) # hide
 ```
+\output{data}
 
 DataFrame `df` is shown in [Appendix I](#appendix_i).
 
 ## Model
+
 ```julia:model
 @model function model_fn(y, x₁, x₂)
   σ ~ truncated(Cauchy(0, 2), 0, Inf)

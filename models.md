@@ -17,6 +17,8 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [globe.qa](globe-tossing): Globe tossing
 - [m4.1](height): Gaussian model of height
 - [m8.1](africa): Africa
+- [m8.2](wild-chain): Wild chain
+- [m8.3](weakly-informative-priors): Weakly informative priors
 - [m11.7](multinomial-poisson): Multinomial Poisson regression
 - [m14.1](varying-slopes-cafe): Varying slopes café
 
