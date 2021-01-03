@@ -1,35 +1,83 @@
++++
+title = "Varying intercepts Reedfrogs"
+reeval = true
++++
+
+On page 402 of Edition 2, this model is defined as
+$$
+\begin{aligned}
+  S_i &\sim \text{Binomial}(N_i, p_i) \\
+  \text{logit}(p_i) &= \alpha_\text{TANK}[i] \\
+  \alpha_\text{TANK}[i] &\sim \text{Normal}(0, 1.5)
+\end{aligned}
+$$
+
+```julia:data
+import CSV
+
+using DataFrames
 using TuringModels
 
-delim = ';'
-d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "reedfrogs.csv"),
-    DataFrame; delim);
+data_path = joinpath(TuringModels.project_root, "data", "reedfrogs.csv")
+df = CSV.read(data_path, DataFrame; delim=';');
+@assert size(df) == (48, 5) # hide
+df.tank = 1:nrow(df)
+write_csv(name, data) = CSV.write(joinpath(@OUTPUT, "$name.csv"), data) # hide
+write_csv("data", df) # hide
+```
+\output{data}
 
-size(d) # Should be 48x5
+\tableinput{}{./code/output/data.csv}
 
-# Set number of tanks
+```julia:model
+using Turing
 
-d.tank = 1:size(d,1);
-
-# Define the Turing model
-
-@model m12_1(density, tank, surv) = begin
-
-    # Number of unique tanks in the data set
-    N_tank = length(tank)
-    a_tank ~ filldist(Normal(0, 5), N_tank)
+@model reedfrogs(density, tank, surv, n_tanks) = begin
+    a_tank ~ filldist(Normal(0, 1.5), n_tanks)
 
     logitp = a_tank[tank]
     surv .~ BinomialLogit.(density, logitp)
 end
 
-# Sample
+n_tanks = length(df.tank)
+model = reedfrogs(df.density, df.tank, df.surv, n_tanks)
+chains = sample(model, NUTS(0.65), 1000)
+```
+\output{model}
 
-chns = sample(m12_1(Vector{Int64}(d.density), Vector{Int64}(d.tank),
-    Vector{Int64}(d.surv)), Turing.NUTS(0.65), 1000);
+## Output
 
-# CmdStan results
+```julia:write_helper
+# hideall
+output_dir = @OUTPUT 
+function write_svg(name, p) 
+  fig_path = joinpath(output_dir, "$name.svg")
+  StatsPlots.savefig(fig_path)
+end
+```
+\output{write_helper}
 
-m2_1_rethinking = "
+```julia:plot
+using StatsPlots
+
+write_svg("chains", # hide
+StatsPlots.plot(chains)
+) # hide
+```
+\output{plot}
+\fig{chains.svg}
+
+```!
+describe(chains)[1] 
+```
+
+```!
+describe(chains)[2]
+```
+
+# Original output (Edition 1)
+
+```
              mean   sd  5.5% 94.5% n_eff Rhat
 a_tank[1]   2.49 1.16  0.85  4.53  1079    1
 a_tank[2]   5.69 2.75  2.22 10.89  1055    1
@@ -79,10 +127,4 @@ a_tank[45]  0.54 0.36 -0.04  1.14  1376    1
 a_tank[46] -0.67 0.34 -1.25 -0.15  1619    1
 a_tank[47]  2.14 0.55  1.31  3.04  1916    1
 a_tank[48] -0.06 0.35 -0.61  0.50  1932    1
-";
-
-# Describe chainsd
-
-chns |> display
-
-# End of `12/m12.1t.jl`
+```
