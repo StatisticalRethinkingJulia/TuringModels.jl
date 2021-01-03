@@ -18,7 +18,6 @@ import CSV
 
 data_path = joinpath(TuringModels.project_root, "data", "rugged.csv")
 df = CSV.read(data_path, DataFrame)
-@assert size(df) == (234, 51) # hide
 
 df.log_gdp = [log(x) for x in df.rgdppc_2000]
 
