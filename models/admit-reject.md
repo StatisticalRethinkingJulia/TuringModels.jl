@@ -1,3 +1,8 @@
++++
+title = "Admit or reject"
++++
+
+```
 using TuringModels, StatsFuns
 
 delim = ';'
@@ -29,5 +34,4 @@ m_10_yyt_result = "
 # Describe the draws
 
 chns |> display
-
-# End of 10/m10.yyt.jl
+```
