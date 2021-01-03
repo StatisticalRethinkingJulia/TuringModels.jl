@@ -8,3 +8,12 @@ Manifest.toml
 */*/.ipynb_checkpoints
 .DS_Store
 tmp
+
+# Franklin
+__site/
+.DS_Store
+franklin
+franklin.pub
+node_modules/
+package.json
+package-lock.json
