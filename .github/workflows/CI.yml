@@ -2,6 +2,7 @@ name: CI
 
 on:
   push:
+    - master
   pull_request:
 
 jobs:
@@ -30,6 +31,8 @@ jobs:
           verify_links()' > build.log
 
       - name: Deploy to secondary branch
+        # Only deploy when pushed to master.
+        if: ${{ github.event_name == 'push' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
