@@ -1,6 +1,5 @@
 +++
 title = "Beta-binomial"
-reeval = true
 +++
 
 In Rethinking 2nd Edition, this model is defined as 

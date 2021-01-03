@@ -12,15 +12,16 @@ Some pages list code, tables and plots, and others show only code.
 
 Before you look at the models below, you might want to look at the [Basic Example](basic-example).
 
-## 2nd Edition (2020)
+## 1st Edition (2015)
 
-- [globe.qa](globe-tossing): Globe tossing
+- [m2.1](globe-tossing): Globe tossing
 - [m4.1](height): Gaussian model of height
 - [m8.1](africa): Africa
 - [m8.2](wild-chain): Wild chain
 - [m8.3](weakly-informative-priors): Weakly informative priors
 - [m8.4](non-identifiable): Non-identifiable model
 - [m10.3](chimpanzees): Chimpanzees
+- [m10.4](estimate-handedness-chimpanzees): Estimate handedness for each Chimpanzee
 - [m11.5](beta-binomial): Beta-binomial
 - [m11.7](multinomial-poisson): Multinomial Poisson regression
 - [m12.1](varying-intercepts-reedfrogs): Varying intercepts Reedfrogs
@@ -30,9 +31,9 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m13.7](spatial-autocorrelation-oceanic): Spatial autocorrelation in Oceanic tools
 - [m14.1](varying-slopes-cafe): Varying slopes café
 
-## 1st Edition (2015)
+## 2nd Edition (2020)
 
-- [m2.1](globe-tossing): Globe tossing
+- [globe.qa](globe-tossing): Globe tossing
 - [m4.2](height): Gaussian model of height
 - [m8.1](africa): Africa
 - [m12.1](beta-binomial): Beta-binomial

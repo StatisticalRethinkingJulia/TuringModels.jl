@@ -1,3 +1,8 @@
++++
+title = "Estimate handedness for each Chimpanzee"
++++
+
+```
 using TuringModels, StatsFuns
 
 delim=';'
@@ -45,5 +50,4 @@ bpC -0.12913322 0.29935741 0.0047332562 0.0049519863 1000
 # Describe the draws
 
 chns |> display
-
-# End of 10/m10.04t.jl
+```

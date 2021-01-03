@@ -1,6 +1,7 @@
 +++
 title = "StatisticalRethinkingJulia/TuringModels.jl"
 tags = ["home", "bayesian statistics"]
+reeval = true
 +++
 
 This site shows the Julia versions of the Bayesian models described in Statistical Rethinking \citep{pMcElreath2020}.
@@ -16,6 +17,29 @@ Each page aims to contain all the code required to reproduce the results.
 In other words, it should be possible to get the same output by just copying the code and the accompanying dataset.
 Furthermore, we use unicode symbols in the models.
 For example, where the book lists `alpha`, we will use `α` because the Julia language allows that.
+
+### Version
+
+```julia:version
+# hideall
+println(VERSION)
+```
+
+This website is built with Julia \textoutput{version} and
+
+```julia:packages
+# hideall
+using Pkg
+
+io = IOBuffer()
+Pkg.status(; io)
+text = String(take!(io))
+lines = split(text, '\n')[3:end-1]
+lines_without_id = [l[14:end] for l in lines]
+list = join(lines_without_id, '\n')
+println(list)
+```
+\output{packages}
 
 ### References
 
