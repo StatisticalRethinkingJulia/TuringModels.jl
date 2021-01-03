@@ -22,8 +22,12 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m8.4](non-identifiable): Non-identifiable model
 - [m10.3](chimpanzees): Chimpanzees
 - [m11.5](beta-binomial): Beta-binomial
-- [m12.1](varying-intercepts-reedfrogs): Varying intercepts Reedfrogs
 - [m11.7](multinomial-poisson): Multinomial Poisson regression
+- [m12.1](varying-intercepts-reedfrogs): Varying intercepts Reedfrogs
+- [m13.4](ignoring-gender-admit): Ignoring gender for admittance
+- [m13.6](multivariate-chimpanzees-priors): Multivariate Chimpanzees priors
+- [m13.6nc](non-centered-chimpanzees): Non-centered Chimpanzees
+- [m13.7](spatial-autocorrelation-oceanic): Spatial autocorrelation in Oceanic tools
 - [m14.1](varying-slopes-cafe): Varying slopes café
 
 ## 1st Edition (2015)

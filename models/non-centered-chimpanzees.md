@@ -1,3 +1,8 @@
++++
+title = "Non-centered Chimpanzees"
++++
+
+```
 using TuringModels
 using LinearAlgebra
 
@@ -318,5 +323,4 @@ Inference for Stan model: 78757717ec3ffa528c3819708907eb7f.
     Rho_actor[3,3]    10080    1
     lp__               3172    1    
 """
-
-# End of m13.6nc.jl
+```

@@ -1,3 +1,8 @@
++++
+title = "Ignoring gender for admittance"
++++
+
+```
 using TuringModels
 
 # This script requires latest LKJ bijectors support.
@@ -55,5 +60,4 @@ Inference for Stan model: 0c5c36512c20c41995d1bd25be525138.
 """
 
 chns |> display
-
-# End of m13.4.jl
+```

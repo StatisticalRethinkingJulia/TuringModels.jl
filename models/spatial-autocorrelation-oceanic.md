@@ -1,3 +1,8 @@
++++
+title = "Spatial autocorrelation in Oceanic tools"
++++
+
+```
 using TuringModels
 using RData
 using LinearAlgebra
@@ -64,3 +69,4 @@ Inference for Stan model: 6422d8042e9cdd08dae2420ad26842f1.
     rhosq   1.52    0.09 11.82   0.03   0.16   0.39   0.96   7.96 15955    1
     lp__  925.98    0.03  2.96 919.16 924.20 926.34 928.14 930.67  7296    1    
 """
+```

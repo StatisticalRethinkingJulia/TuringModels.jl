@@ -1,3 +1,11 @@
++++
+title = "Multivariate Chimpanzees priors"
++++
+
+This is `m13.6` in Rethinking 1st Edition.
+In the 2nd Edition, the most similar one appears to be `m13.4nc`.
+
+```
 using TuringModels
 
 # This script requires latest LKJ bijectors support.
@@ -195,5 +203,4 @@ Inference for Stan model: cdd1241666414818ec292db21291c409.
     Rho_block[3,3]  7014 1.00
     lp__             372 1.01    
 """
-
-# End of m13.6.jl
+```

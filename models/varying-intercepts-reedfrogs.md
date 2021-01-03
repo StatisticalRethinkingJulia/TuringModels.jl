@@ -1,6 +1,5 @@
 +++
 title = "Varying intercepts Reedfrogs"
-reeval = true
 +++
 
 On page 402 of Edition 2, this model is defined as
@@ -32,15 +31,15 @@ write_csv("data", df) # hide
 ```julia:model
 using Turing
 
-@model reedfrogs(density, tank, surv, n_tanks) = begin
-    a_tank ~ filldist(Normal(0, 1.5), n_tanks)
+@model reedfrogs(density, tank, surv, n) = begin
+    a_tank ~ filldist(Normal(0, 1.5), n)
 
     logitp = a_tank[tank]
     surv .~ BinomialLogit.(density, logitp)
 end
 
-n_tanks = length(df.tank)
-model = reedfrogs(df.density, df.tank, df.surv, n_tanks)
+n = nrow(df)
+model = reedfrogs(df.density, df.tank, df.surv, n)
 chains = sample(model, NUTS(0.65), 1000)
 ```
 \output{model}
