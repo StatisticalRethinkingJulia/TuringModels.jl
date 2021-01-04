@@ -23,7 +23,7 @@ function lx_defaultoutput(com, _)
     function write_svg(name, p) 
       fig_path = joinpath(output_dir, "$name.svg")
       StatsPlots.savefig(fig_path)
-    end
+    end;
     ```
     \output{write_helper}
 
@@ -36,13 +36,5 @@ function lx_defaultoutput(com, _)
     ```
     \output{plot}
     \fig{chains.svg}
-
-    ```!
-    describe(chains)[1] 
-    ```
-
-    ```!
-    describe(chains)[2]
-    ```
     """
 end
