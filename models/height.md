@@ -61,21 +61,7 @@ end
 
 ## Output
 
-```julia:plot
-write_svg("height", # hide
-StatsPlots.plot(chains)
-) # hide
-```
-\output{plot}
-\fig{height.svg}
-
-```!
-describe(chains)[1] 
-```
-
-```!
-describe(chains)[2]
-```
+\defaultoutput{}
 
 ## Original output
 

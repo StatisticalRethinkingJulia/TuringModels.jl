@@ -1,6 +1,6 @@
 # TuringModels
 
-[![][travis-img]][travis-url] |
+[![][travis-img]][travis-url]
 
 ## Introduction
 
@@ -12,11 +12,10 @@ This package implements the models using [TuringLang/Turing.jl](https://github.c
 
 ### v1.1.2
 
-- Rik Huijzer updates:
-    - CI matrix simplifications
-    - NUTS(0.65) checking
-    - Replace ifelse by comprehension
-    - CI tests for more models
+- CI matrix simplifications
+- NUTS(0.65) checking
+- Replace ifelse by comprehension
+- CI tests for more models
 
 ### v1.1.1
 
@@ -51,7 +50,7 @@ This package implements the models using [TuringLang/Turing.jl](https://github.c
 ### v1.0.0
 
 - Set upper bounds in [compat] section of Project.toml
-- Activated CompatHelper (see CompatHelpper.jl)
+- Activated CompatHelper (see CompatHelper.jl)
 - No longer uses Literate.jl. This version simply contains the models.
 - Some of the models are pretty slow.
 
@@ -62,9 +61,13 @@ This package implements the models using [TuringLang/Turing.jl](https://github.c
 
 ## Acknowledgements
 
-Richard Torkar has taken the lead in developing the Turing versions of the models in chapter 8 and subsequent chapters. Martin Trapp has updated many models to recent versions of Turing.jl. Rik Huijzer is bringing the models in sync with the 2nd edition of the StatisticalRethinking book in addition to several other improvements.
+Richard Torkar has taken the lead in developing the Turing versions of the models in chapter 8 and subsequent chapters. 
+Martin Trapp has updated many models to recent versions of Turing.jl. 
+Rik Huijzer is bringing the models in sync with the 2nd edition of the StatisticalRethinking book in addition to several other improvements.
+Thibaut Lienart has given advise on how to use Franklin well.
 
-The TuringLang team and #turing contributors on Slack have been extremely helpful! The Turing examples by Cameron Pfiffer and others have been a great help.
+The TuringLang team and #turing contributors on Slack have been extremely helpful! 
+The Turing examples by Cameron Pfiffer and others have been a great help.
 
 ## Questions and issues
 
