@@ -7,6 +7,10 @@ title = "Non-identifiable model"
 ## Data
 
 ```julia:data
+using Distributions
+using Random
+
+Random.seed!(1234)
 y = rand(Normal(0,1), 100);
 ```
 
