@@ -61,9 +61,13 @@ This package implements the models using [TuringLang/Turing.jl](https://github.c
 
 ## Acknowledgements
 
-Richard Torkar has taken the lead in developing the Turing versions of the models in chapter 8 and subsequent chapters. Martin Trapp has updated many models to recent versions of Turing.jl. Rik Huijzer is bringing the models in sync with the 2nd edition of the StatisticalRethinking book in addition to several other improvements.
+Richard Torkar has taken the lead in developing the Turing versions of the models in chapter 8 and subsequent chapters. 
+Martin Trapp has updated many models to recent versions of Turing.jl. 
+Rik Huijzer is bringing the models in sync with the 2nd edition of the StatisticalRethinking book in addition to several other improvements.
+Thibaut Lienart has given advise on how to use Franklin well.
 
-The TuringLang team and #turing contributors on Slack have been extremely helpful! The Turing examples by Cameron Pfiffer and others have been a great help.
+The TuringLang team and #turing contributors on Slack have been extremely helpful! 
+The Turing examples by Cameron Pfiffer and others have been a great help.
 
 ## Questions and issues
 
