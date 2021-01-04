@@ -1,6 +1,6 @@
 # TuringModels
 
-[![][travis-img]][travis-url] |
+[![][travis-img]][travis-url]
 
 ## Introduction
 
