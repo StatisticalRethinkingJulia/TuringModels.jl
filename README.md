@@ -12,11 +12,10 @@ This package implements the models using [TuringLang/Turing.jl](https://github.c
 
 ### v1.1.2
 
-- Rik Huijzer updates:
-    - CI matrix simplifications
-    - NUTS(0.65) checking
-    - Replace ifelse by comprehension
-    - CI tests for more models
+- CI matrix simplifications
+- NUTS(0.65) checking
+- Replace ifelse by comprehension
+- CI tests for more models
 
 ### v1.1.1
 
@@ -51,7 +50,7 @@ This package implements the models using [TuringLang/Turing.jl](https://github.c
 ### v1.0.0
 
 - Set upper bounds in [compat] section of Project.toml
-- Activated CompatHelper (see CompatHelpper.jl)
+- Activated CompatHelper (see CompatHelper.jl)
 - No longer uses Literate.jl. This version simply contains the models.
 - Some of the models are pretty slow.
 
