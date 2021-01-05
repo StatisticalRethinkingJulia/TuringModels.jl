@@ -38,7 +38,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m11.5](beta-binomial): Beta-binomial
 - [m11.7](multinomial-poisson): Multinomial Poisson regression
 - [m12.1](varying-intercepts-reedfrogs): Varying intercepts Reedfrogs
-- [m13.4](ignoring-gender-admit): Ignoring gender for admittance [not-implemented]
+- [m13.4](ignoring-gender-admit): Ignoring gender for admittance
 - [m13.6](multivariate-chimpanzees-priors): Multivariate Chimpanzees priors [not-implemented]
 - [m13.6nc](non-centered-chimpanzees): Non-centered Chimpanzees [not-implemented]
 - [m13.7](spatial-autocorrelation-oceanic): Spatial autocorrelation in Oceanic tools [not-implemented]

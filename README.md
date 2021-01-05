@@ -8,6 +8,14 @@ This package contains Julia versions of the mcmc models contained in the R packa
 
 This package implements the models using [TuringLang/Turing.jl](https://github.com/TuringLang).
 
+## Usage
+
+Most of the scripts and output can be inspected via the webpages.
+If you want to run the scripts yourselves, then you can either
+
+1. copy the code from the webpages and the data from this repository, and run the scripts **or**
+1. clone this repository and run one of the files in `scripts`. For example, `julia -i scripts/basic-example.jl`.
+
 ## Versions
 
 ### v1.1.2
