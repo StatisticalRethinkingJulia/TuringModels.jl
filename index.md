@@ -15,8 +15,10 @@ The code for this website is available on [GitHub](https://github.com/Statistica
 
 Each page aims to contain all the code required to reproduce the results.
 In other words, it should be possible to get the same output by just copying the code and the accompanying dataset.
-Furthermore, we use unicode symbols in the models.
+Furthermore, we try to stick to Julia styling conventions where possible.
+Therefore, we use unicode symbols in the models.
 For example, where the book lists `alpha`, we will use `α` because the Julia language allows that.
+As another example, we call DataFrame variables `df`.
 
 ### Version
 
