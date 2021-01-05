@@ -30,7 +30,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m8.1](africa): Africa
 - [m8.2](wild-chain): Wild chain
 - [m8.3](weakly-informative-priors): Weakly informative priors
-- [m8.4](non-identifiable): Non-identifiable model [broken]
+- [m8.4](non-identifiable): Non-identifiable model
 - [m10.3](chimpanzees): Chimpanzees [not-implemented]
 - [m10.4](estimate-handedness-chimpanzees): Estimate handedness for each Chimpanzee [not-implemented]
 - [m10.10](oceanic-tool-complexity): Oceanic tool complexity [not-implemented]
