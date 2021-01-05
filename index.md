@@ -41,7 +41,7 @@ println(list)
 ```
 \output{packages}
 
-### References
+#### References
 
 \biblabel{pMcElreath2020}{McElreath, 2020}
 McElreath, R. (2020). 

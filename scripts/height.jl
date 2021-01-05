@@ -1,48 +1,32 @@
-# This model is based on data of the !Kung San people \citep{pHowell2010}.
-# The prior assumes that the height of a man is 178 cm because McElreath has that lenght, so it is a reasonable prior for the height.
-
-# McElreath defines the model as
-
-# $$
-# \begin{aligned}
-#   h_i &\sim \text{Normal}(\mu, \sigma) \\
-#   \mu &\sim \text{Normal}(178, 20) \\
-#   \sigma &\sim \text{Uniform}(0, 50)
-# \end{aligned}
-# $$
 
 # ## Data
 
 import CSV
 
 using DataFrames
-using StatsPlots
 using Turing
 using TuringModels
 
 data_path = joinpath(TuringModels.project_root, "data", "Howell1.csv")
 df = CSV.read(data_path, DataFrame; delim=';')
+df = filter(row -> row.age >= 18, df);
 
-## Use only adults and center the weight observations
-df2 = filter(row -> row.age >= 18, df)
-mean_weight = mean(df2.weight)
-df2.weight_c = df2.weight .- mean_weight;
+# For df, see Section [df](#df).
 
 # ## Model
 
-@model function line(x, y)
-    alpha ~ Normal(178.0, 100.0)
-    beta ~ Normal(0.0, 10.0)
-    sigma ~ Uniform(0, 50)
+@model function line(height)
+    σ ~ Uniform(0, 50)
+    μ ~ Normal(178, 20)
 
-    mu = alpha .+ beta*x
-    y .~ Normal.(mu, sigma)
+    height .~ Normal.(μ, σ)
 end
-x = df2.weight_c
-y = df2.height
-chains = sample(line(x, y), NUTS(0.65), 1000)
+
+model = line(df.height);
 
 # ## Output
+
+chains = sample(model, NUTS(0.65), 1000)
 
 # \defaultoutput{}
 
@@ -65,17 +49,8 @@ Quantiles:
 alpha 154.0610000 154.4150000 154.5980000 154.7812500 155.1260000
  beta   0.8255494   0.8790695   0.9057435   0.9336445   0.9882981
 sigma   4.7524368   4.9683400   5.0994450   5.2353100   5.5090128
-"""
+""";
 
-# ## References
-# \biblabel{pHowell2010}{Howell, 2010}
-# Howell, N. (2010).
-# Life Histories of the Dobe !Kung: Food, Fatness, and Well-being over the Life-span.
-# Origins of Human Behavior and Culture. 
-# University of California Press
+# ## df
 
-# ## Appendix
-
-# ### df2
-
-df2
+df

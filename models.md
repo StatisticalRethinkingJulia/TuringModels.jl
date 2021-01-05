@@ -5,12 +5,23 @@ rss = "A list of the Turing versions of the Statistical Rethinking models."
 tags = ["models", "statistics"]
 +++
 
-This page lists the available Turing models for different versions of the Statistical Rethinking book.
-Some pages list code, tables and plots, and others show only code.
+
+This page lists the available Turing models for different versions of the Statistical Rethinking books.
 
 \toc
 
 Before you look at the models below, you might want to look at the [Basic Example](basic-example).
+
+## 2nd Edition (2020)
+
+- [globe.qa](globe-tossing): Globe tossing
+- [m4.1](height): Gaussian model of height
+- [m8.1](africa): Africa
+- [m12.1](beta-binomial): Beta-binomial
+- [m13.1](varying-intercepts-reedfrogs): Varying intercepts Reedfrogs
+- [m13.1](varying-slopes-cafe): Varying slopes cafes
+- [m13.2](multinomial-poisson): Multinomial Poisson regression
+- [m13.3](varying-intercepts-admission): Varying intercepts admission decisions [not-implemented]
 
 ## 1st Edition (2015)
 
@@ -32,14 +43,3 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m13.6nc](non-centered-chimpanzees): Non-centered Chimpanzees [not-implemented]
 - [m13.7](spatial-autocorrelation-oceanic): Spatial autocorrelation in Oceanic tools [not-implemented]
 - [m14.1](varying-slopes-cafe): Varying slopes cafes
-
-## 2nd Edition (2020)
-
-- [globe.qa](globe-tossing): Globe tossing
-- [m4.2](height): Gaussian model of height
-- [m8.1](africa): Africa
-- [m12.1](beta-binomial): Beta-binomial
-- [m13.1](varying-intercepts-reedfrogs): Varying intercepts Reedfrogs
-- [m13.1](varying-slopes-cafe): Varying slopes cafes
-- [m13.2](multinomial-poisson): Multinomial Poisson regression
-- [m13.3](varying-intercepts-admission): Varying intercepts admission decisions [not-implemented]
