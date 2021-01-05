@@ -17,6 +17,6 @@ CSV = "0.8"
 DataFrames = "0.22"
 Franklin = "0.10"
 NodeJS = "1.1"
+StatsFuns = "0.9"
 StatsPlots = "0.14"
 Turing = "0.15"
-
