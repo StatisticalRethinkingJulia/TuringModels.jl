@@ -34,7 +34,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m10.3](chimpanzees): Chimpanzees [not-implemented]
 - [m10.4](estimate-handedness-chimpanzees): Estimate handedness for each Chimpanzee [not-implemented]
 - [m10.10](oceanic-tool-complexity): Oceanic tool complexity [not-implemented]
-- [m10.yyt](admit-reject): Admit or reject [not-implemented]
+- [m10.yyt](admit-reject): Admit or reject
 - [m11.5](beta-binomial): Beta-binomial
 - [m11.7](multinomial-poisson): Multinomial Poisson regression
 - [m12.1](varying-intercepts-reedfrogs): Varying intercepts Reedfrogs
