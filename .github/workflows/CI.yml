@@ -33,6 +33,13 @@ jobs:
             verify_links()' > build.log;
           cat build.log
 
+      - name: Deploy to secondary branch
+        if: ${{ github.event_name == 'push' }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./__site
+
       - name: Validate output
         run: |
           # A Franklin Warning means an error occurred when evaluating code.
@@ -43,9 +50,3 @@ jobs:
             echo "Franklin did not report a warning"
           fi
 
-      - name: Deploy to secondary branch
-        if: ${{ github.event_name == 'push' }}
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./__site
