@@ -11,6 +11,8 @@ We have tried our best to let this site be without mistakes.
 However, if you find a mistake on this website, please let us know.
 The code for this website is available on [GitHub](https://github.com/StatisticalRethinkingJulia/TuringModels.jl).
 
+\toc
+
 ### About the pages
 
 Each page aims to contain all the code required to reproduce the results.
