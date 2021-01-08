@@ -2,6 +2,9 @@
 title = "Non-centered Chimpanzees"
 +++
 
+This model is not executed on each change because it is similar to 
+[multivariate-chimpanzees-priors](/models/multivariate-chimpanzees-priors).
+
 ```
 using TuringModels
 using LinearAlgebra

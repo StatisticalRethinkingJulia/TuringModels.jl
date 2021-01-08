@@ -1,18 +1,23 @@
 # ## Data
 
+import CSV
+import TuringModels
+
+using DataFrames
 using StatsFuns
-using TuringModels
 
 data_path = joinpath(TuringModels.project_root, "data", "chimpanzees.csv")
 df = CSV.read(data_path, DataFrame; delim=';')
 
 # ## Model
 
+using Turing
+
 @model m10_4(y, actors, x₁, x₂) = begin
-    # Number of unique actors in the data set
+    ## Number of unique actors in the data set
     N_actor = length(unique(actors))
 
-    # Set an TArray for the priors/param
+    ## Set an TArray for the priors/param
     α ~ filldist(Normal(0, 10), N_actor)
     βp ~ Normal(0, 10)
     βpC ~ Normal(0, 10)
@@ -21,13 +26,13 @@ df = CSV.read(data_path, DataFrame; delim=';')
     y .~ BinomialLogit.(1, logits)
 end
 
-model = m10_4(df.pulled_left, df.actor, df.condition);
+model = m10_4(df.pulled_left, df.actor, df.condition, df.prosoc_left);
 
 # ## Output
 
 chains = sample(model, NUTS(0.65), 1000)
 
-\defaultoutput{}
+# \defaultoutput{}
 
 # ## Original output
 

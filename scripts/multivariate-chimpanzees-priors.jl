@@ -1,6 +1,9 @@
 # ## Data
 
+import CSV
 import TuringModels
+
+using DataFrames
 
 data_path = joinpath(TuringModels.project_root, "data", "chimpanzees.csv")
 df = CSV.read(data_path, DataFrame; delim=';')
@@ -8,6 +11,8 @@ df = CSV.read(data_path, DataFrame; delim=';')
 df.block_id = df.block
 
 # ## Model
+
+using Turing
 
 @model m13_6(actor, block_id, condition, prosoc_left, pulled_left) = begin
     ## fixed priors

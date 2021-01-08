@@ -35,6 +35,7 @@ jobs:
 
       - name: Validate output
         run: |
+          # A Franklin Warning means an error occurred when evaluating code.
           if grep -1 "Franklin Warning" build.log; then
             echo "Franklin reported a warning"
             exit 1
@@ -43,7 +44,6 @@ jobs:
           fi
 
       - name: Deploy to secondary branch
-        # Only deploy when pushed to master.
         if: ${{ github.event_name == 'push' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
