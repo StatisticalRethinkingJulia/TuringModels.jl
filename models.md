@@ -21,7 +21,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m13.1](varying-intercepts-reedfrogs): Varying intercepts Reedfrogs
 - [m13.1](varying-slopes-cafe): Varying slopes cafes
 - [m13.2](multinomial-poisson): Multinomial Poisson regression
-- [m13.3](varying-intercepts-admission): Varying intercepts admission decisions [not-implemented]
+- [m13.3](varying-intercepts-admission): Varying intercepts admission decisions
 
 ## 1st Edition (2015)
 
@@ -31,15 +31,15 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m8.2](wild-chain): Wild chain
 - [m8.3](weakly-informative-priors): Weakly informative priors
 - [m8.4](non-identifiable): Non-identifiable model
-- [m10.3](chimpanzees): Chimpanzees [not-implemented]
-- [m10.4](estimate-handedness-chimpanzees): Estimate handedness for each Chimpanzee [not-implemented]
-- [m10.10](oceanic-tool-complexity): Oceanic tool complexity [not-implemented]
-- [m10.yyt](admit-reject): Admit or reject [not-implemented]
+- [m10.3](chimpanzees): Chimpanzees
+- [m10.4](estimate-handedness-chimpanzees): Estimate handedness for each Chimpanzee
+- [m10.10](oceanic-tool-complexity): Oceanic tool complexity
+- [m10.yyt](admit-reject): Admit or reject
 - [m11.5](beta-binomial): Beta-binomial
 - [m11.7](multinomial-poisson): Multinomial Poisson regression
 - [m12.1](varying-intercepts-reedfrogs): Varying intercepts Reedfrogs
 - [m13.4](ignoring-gender-admit): Ignoring gender for admittance
-- [m13.6](multivariate-chimpanzees-priors): Multivariate Chimpanzees priors [not-implemented]
-- [m13.6nc](non-centered-chimpanzees): Non-centered Chimpanzees [not-implemented]
-- [m13.7](spatial-autocorrelation-oceanic): Spatial autocorrelation in Oceanic tools [not-implemented]
+- [m13.6](multivariate-chimpanzees-priors): Multivariate Chimpanzees priors
+- [m13.6nc](non-centered-chimpanzees): Non-centered Chimpanzees
+- [m13.7](spatial-autocorrelation-oceanic): Spatial autocorrelation in Oceanic tools
 - [m14.1](varying-slopes-cafe): Varying slopes cafes

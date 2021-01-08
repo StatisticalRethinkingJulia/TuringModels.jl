@@ -617,6 +617,7 @@ body { counter-reset: eqnum; }
   display: inline-block;
 } /* overwrite katex settings */
 
+/* Not interesting for this site.
 .katex-display::after {
   counter-increment: eqnum;
   content: "(" counter(eqnum) ")";
@@ -624,6 +625,7 @@ body { counter-reset: eqnum; }
   float: right;
   padding-right: 5px;
 }
+*/
 
 /* ==================================================================
     CODE & HIGHLIGHT.JS

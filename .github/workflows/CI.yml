@@ -23,18 +23,30 @@ jobs:
           version: 1 # Latest stable release, for example, `1.5.3`.
 
       - name: Build site
-        run: julia -e '
-          using Pkg; Pkg.add(["NodeJS", "Franklin"]);
-          using NodeJS; run(`$(npm_cmd()) install highlight.js`);
-          using Franklin;
-          Pkg.develop(path="."); Pkg.activate("."); Pkg.instantiate();
-          Franklin.optimize();
-          verify_links()' > build.log
+        run: |
+          julia -e '
+            using Pkg; Pkg.add(["NodeJS", "Franklin"]);
+            using NodeJS; run(`$(npm_cmd()) install highlight.js`);
+            using Franklin;
+            Pkg.develop(path="."); Pkg.activate("."); Pkg.instantiate();
+            Franklin.optimize();
+            verify_links()' > build.log;
+          cat build.log
 
       - name: Deploy to secondary branch
-        # Only deploy when pushed to master.
         if: ${{ github.event_name == 'push' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./__site
+
+      - name: Validate output
+        run: |
+          # A Franklin Warning means an error occurred when evaluating code.
+          if grep -1 "Franklin Warning" build.log; then
+            echo "Franklin reported a warning"
+            exit 1
+          else
+            echo "Franklin did not report a warning"
+          fi
+
