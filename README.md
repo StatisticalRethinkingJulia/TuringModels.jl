@@ -16,6 +16,19 @@ If you want to run the scripts yourselves, then you can either
 1. copy the code from the webpages and the data from this repository, and run the scripts **or**
 1. clone this repository and run one of the files in `scripts`. For example, `julia -i scripts/basic-example.jl`.
 
+The scripts are written in [Literate.jl](https://github.com/fredrikekre/Literate.jl) to allow them to be ran stand-alone, and as part of the website.
+To generate the website locally, use [Franklin.jl](https://github.com/tlienart/Franklin.jl).
+Specifically, clone this repository and go into the root directory. 
+Then, use
+```
+julia --project -ie 'using Franklin; Franklin.serve()'
+```
+This will activate the project environment (thanks to the `--project` flag) and will _interactively_ execute `Franklin.serve()`.
+Interactively means that if serve fails, then you will still be in an active REPL session which avoids having to completely restart Julia.
+Building the site for the first time will take about 20 minutes.
+After that, the site will be available on <http://localhost:8000/> by default.
+Consecutive calls to serve will only take a few minutes because Franklin caches the output.
+
 ## Versions
 
 ### v1.1.2
