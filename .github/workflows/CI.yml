@@ -22,15 +22,14 @@ jobs:
         with:
           version: 1 # Latest stable release, for example, `1.5.3`.
 
+      - name: Install dependencies listed in Project.toml and build package
+        uses: julia-actions/julia-buildpkg@master
+
       - name: Build site
         run: |
-          julia -e '
-            using Pkg; Pkg.add(["NodeJS", "Franklin"]);
+          julia --project -e '
             using NodeJS; run(`$(npm_cmd()) install highlight.js`);
-            using Franklin;
-            Pkg.develop(path="."); Pkg.activate("."); Pkg.instantiate();
-            Franklin.optimize();
-            verify_links()' > build.log;
+            using Franklin; optimize(); verify_links()' > build.log;
           cat build.log
 
       - name: Deploy to secondary branch
