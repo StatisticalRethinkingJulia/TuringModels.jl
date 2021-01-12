@@ -94,7 +94,7 @@ The Turing examples by Cameron Pfiffer and others have been a great help.
 
 Question and contributions are very welcome, as are feature requests and suggestions. Please open an [issue][issues-url] if you encounter any problems or have a question.
 
-[ci-img]: https://github.com/StatisticalRethinkingJulia/TuringModels.jl/workflows/CI/badge.svg
+[ci-img]: https://github.com/StatisticalRethinkingJulia/TuringModels.jl/workflows/Deploy/badge.svg
 [ci-url]: https://statisticalrethinkingjulia.github.io/TuringModels.jl/
 
 [issues-url]: https://github.com/StatisticalRethinkingJulia/TuringModels.jl/issues
