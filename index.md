@@ -69,6 +69,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m10.3](models/chimpanzees): Chimpanzees
 - [m10.4](models/estimate-handedness-chimpanzees): Estimate handedness for each Chimpanzee
 - [m10.10](models/oceanic-tool-complexity): Oceanic tool complexity
+- [m10.10c](models/oceanic-tool-complexity): Centered oceanic tool complexity
 - [m10.yyt](models/admit-reject): Admit or reject
 - [m11.5](models/beta-binomial): Beta-binomial
 - [m11.7](models/multinomial-poisson): Multinomial Poisson regression
