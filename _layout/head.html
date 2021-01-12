@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {{if hasmath}} {{insert head_katex.html }}     {{end}}
   {{if hascode}} {{insert head_highlight.html }}   {{end}}
-  {{insert style.html}}
+  <link rel="stylesheet" href="/css/franklin.css">
   {{isdef title}} <title>{{fill title}}</title>  {{end}}
 </head>
-<body>                      <!-- closed in foot.html -->
-{{insert pgwrap.html}}
+<body>
 
 <div class="franklin-content">
-  {{isdef title}} <h1>{{fill title}}</h1> {{end}}
+  <div class="top-bar">
+    <a href="/">TuringModels</a>
+  </div>
+  <h1>{{fill title}}</h1>
 </div>
 
-<!-- Content appended here (in class franklin-content) -->
+<!-- Content appended here -->
