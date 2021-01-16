@@ -69,7 +69,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m10.3](models/chimpanzees): Chimpanzees
 - [m10.4](models/estimate-handedness-chimpanzees): Estimate handedness for each Chimpanzee
 - [m10.10](models/oceanic-tool-complexity): Oceanic tool complexity
-- [m10.10c](models/oceanic-tool-complexity): Centered oceanic tool complexity
+- [m10.10c](models/oceanic-tool-complexity): Centered Oceanic tool complexity
 - [m10.yyt](models/admit-reject): Admit or reject
 - [m10.good](models/glimmer.md): Nonsense estimates for strong associations
 - [m11.5](models/beta-binomial): Beta-binomial
@@ -79,6 +79,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m12.3](models/partial-pooling-estimates): Partial-pooling estimates
 - [m12.4](models/varying-intercepts-chimpanzees): Varying intercepts Chimpanzees
 - [m12.5](models/multi-multilevel-chimpanzees): Multi-multilevel Chimpanzees
+- [m12.6](models/over-dispersed-oceanic): Over-dispersed Oceanic
 - [m13.4](models/ignoring-gender-admit): Ignoring gender for admittance
 - [m13.6](models/multivariate-chimpanzees-priors): Multivariate Chimpanzees priors
 - [m13.6nc](models/non-centered-chimpanzees): Non-centered Chimpanzees
