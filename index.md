@@ -45,7 +45,7 @@ Therefore, we use unicode symbols in the models.
 For example, where the book lists `alpha`, we will use `α` because the Julia language allows that.
 As another example, we call DataFrame variables `df`, which is also the convention in R and Python.
 
-Before you look at the models below, you might want to look at the [Basic Example](basic-example).
+Before you look at the models below, you might want to look at the [Basic Example](models/basic-example).
 
 ### 2nd Edition (2020)
 
@@ -71,6 +71,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m10.10](models/oceanic-tool-complexity): Oceanic tool complexity
 - [m10.10c](models/oceanic-tool-complexity): Centered oceanic tool complexity
 - [m10.yyt](models/admit-reject): Admit or reject
+- [m10.good](models/glimmer.md): Nonsense estimates for strong associations
 - [m11.5](models/beta-binomial): Beta-binomial
 - [m11.7](models/multinomial-poisson): Multinomial Poisson regression
 - [m12.1](models/varying-intercepts-reedfrogs): Varying intercepts Reedfrogs
