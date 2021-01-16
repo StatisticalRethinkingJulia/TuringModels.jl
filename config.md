@@ -1,9 +1,9 @@
 @def prepath = "TuringModels.jl"
 @def website_title = "TuringModels"
 @def website_descr = "Statistical Rethinking models in Julia"
-@def website_url = "https://rikhuijzer.github.io/TuringModels.jl/"
+@def website_url = "https://statisticalrethinkingjulia.github.io/TuringModels.jl/"
 
-@def author = "Rob J Goedman and contributors"
+@def author = "Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors"
 
 @def mintoclevel = 2
 

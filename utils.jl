@@ -14,3 +14,27 @@ function lx_baz(com, _)
   # do whatever you want here
   return uppercase(brace_content)
 end
+
+function lx_defaultoutput(com, _)
+    raw"""
+    ```julia:write_helper
+    # hideall
+    output_dir = @OUTPUT 
+    function write_svg(name, p) 
+      fig_path = joinpath(output_dir, "$name.svg")
+      StatsPlots.savefig(fig_path)
+    end;
+    ```
+    \output{write_helper}
+
+    ```julia:plot
+    using StatsPlots
+
+    write_svg("chains", # hide
+    StatsPlots.plot(chains)
+    ) # hide
+    ```
+    \output{plot}
+    \fig{chains.svg}
+    """
+end

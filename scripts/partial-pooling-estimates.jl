@@ -1,47 +1,49 @@
-using TuringModels, StatsFuns
+# ## Data
+
+using DataFrames
+using StatsFuns: logistic
+using Turing
 
 μ = 1.4
 σ = 1.5
 nponds = 60
-ni = repeat([5,10,25,35], inner=15);
+ni = repeat([5,10,25,35], inner=15)
 
-a_pond = rand(Normal(μ, σ), nponds);
+a_pond = rand(Normal(μ, σ), nponds)
 
-dsim = DataFrame(pond = 1:nponds, ni = ni, true_a = a_pond);
+dsim = DataFrame(pond = 1:nponds, ni = ni, true_a = a_pond)
 
-prob = logistic.(Vector{Real}(dsim[:true_a]));
+prob = logistic.(dsim.true_a)
 
-dsim[!, :si] = [rand(Binomial(ni[i], prob[i])) for i = 1:nponds];
+dsim.s = [rand(Binomial(ni[i], prob[i])) for i in 1:nponds]
 
-# Used only in the continuation of this example
-dsim[!, :p_nopool] = dsim[:, :si] ./ dsim[:, :ni];
+dsim.p_nopool = dsim.s ./ dsim.ni;
 
-# Turing model
+# ## Model
 
-@model m12_3(pond, si, ni) = begin
-
-    # Separate priors on μ and σ for each pond
+@model m12_3(pond, s, ni) = begin
     σ ~ truncated(Cauchy(0, 1), 0, Inf)
-    μ ~ Normal(0, 1)
+    α ~ Normal(0, 1)
 
-    # Number of ponds in the data set
     N_ponds = length(pond)
 
-    # vector for the priors for each pond
-    a_pond ~ filldist(Normal(μ, σ), N_ponds)
+    α_pond ~ filldist(Normal(α, σ), N_ponds)
 
-    # Observation
-    logitp = a_pond[pond]
-    si .~ BinomialLogit.(ni, logitp)
+    logitp = α_pond[pond]
+    s .~ BinomialLogit.(ni, logitp)
+end;
 
-end
+# ## Output
 
-# Sample
-
-chns = sample(m12_3(Vector{Int64}(dsim[:, :pond]), Vector{Int64}(dsim[:, :si]),
-    Vector{Int64}(dsim[:, :ni])), Turing.NUTS(0.65), 1000);
+chains = sample(
+    m12_3(dsim.pond, dsim.s, dsim.ni), 
+    NUTS(0.65), 
+    1000
+)
   
-# Results from rethinking
+# \defaultoutput{}
+
+# ## Original output
 
 m123rethinking = "
                   mean   sd  5.5% 94.5% n_eff Rhat
@@ -108,9 +110,3 @@ a_pond[58]  1.11 0.38  0.51  1.74 21740    1
 a_pond[59]  2.33 0.56  1.50  3.25 13116    1
 a_pond[60]  1.27 0.40  0.66  1.91 15611    1
 ";
-
-# Draw summary
-  
-chns |> display
-
-# End of `12/m12.3t.jl`

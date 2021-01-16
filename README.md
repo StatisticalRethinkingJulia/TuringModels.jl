@@ -1,6 +1,6 @@
 # TuringModels
 
-[![][travis-img]][travis-url] |
+[![CI][ci-img]][ci-url]
 
 ## Introduction
 
@@ -8,15 +8,35 @@ This package contains Julia versions of the mcmc models contained in the R packa
 
 This package implements the models using [TuringLang/Turing.jl](https://github.com/TuringLang).
 
+## Usage
+
+Most of the scripts and output can be inspected via the webpages.
+If you want to run the scripts yourselves, then you can either
+
+1. copy the code from the webpages and the data from this repository, and run the scripts **or**
+1. clone this repository and run one of the files in `scripts`. For example, `julia --project -i scripts/basic-example.jl`.
+
+The scripts are written in [Literate.jl](https://github.com/fredrikekre/Literate.jl) to allow them to be ran stand-alone, and as part of the website.
+To generate the website locally, use [Franklin.jl](https://github.com/tlienart/Franklin.jl).
+Specifically, clone this repository and go into the root directory. 
+Then, use
+```
+julia --project -ie 'using Franklin; Franklin.serve()'
+```
+This will activate the project environment (thanks to the `--project` flag) and will _interactively_ execute `Franklin.serve()`.
+Interactively means that if serve fails, then you will still be in an active REPL session which avoids having to completely restart Julia.
+Building the site for the first time will take about 20 minutes.
+After that, the site will be available on <http://localhost:8000/> by default.
+Consecutive calls to serve will only take a few minutes because Franklin caches the output.
+
 ## Versions
 
 ### v1.1.2
 
-- Rik Huijzer updates:
-    - CI matrix simplifications
-    - NUTS(0.65) checking
-    - Replace ifelse by comprehension
-    - CI tests for more models
+- CI matrix simplifications
+- NUTS(0.65) checking
+- Replace ifelse by comprehension
+- CI tests for more models
 
 ### v1.1.1
 
@@ -51,7 +71,7 @@ This package implements the models using [TuringLang/Turing.jl](https://github.c
 ### v1.0.0
 
 - Set upper bounds in [compat] section of Project.toml
-- Activated CompatHelper (see CompatHelpper.jl)
+- Activated CompatHelper (see CompatHelper.jl)
 - No longer uses Literate.jl. This version simply contains the models.
 - Some of the models are pretty slow.
 
@@ -62,15 +82,19 @@ This package implements the models using [TuringLang/Turing.jl](https://github.c
 
 ## Acknowledgements
 
-Richard Torkar has taken the lead in developing the Turing versions of the models in chapter 8 and subsequent chapters. Martin Trapp has updated many models to recent versions of Turing.jl. Rik Huijzer is bringing the models in sync with the 2nd edition of the StatisticalRethinking book in addition to several other improvements.
+Richard Torkar has taken the lead in developing the Turing versions of the models in chapter 8 and subsequent chapters. 
+Martin Trapp has updated many models to recent versions of Turing.jl. 
+Rik Huijzer is bringing the models in sync with the 2nd edition of the StatisticalRethinking book in addition to several other improvements.
+Thibaut Lienart has given advise on how to use Franklin well.
 
-The TuringLang team and #turing contributors on Slack have been extremely helpful! The Turing examples by Cameron Pfiffer and others have been a great help.
+The TuringLang team and #turing contributors on Slack have been extremely helpful! 
+The Turing examples by Cameron Pfiffer and others have been a great help.
 
 ## Questions and issues
 
 Question and contributions are very welcome, as are feature requests and suggestions. Please open an [issue][issues-url] if you encounter any problems or have a question.
 
-[travis-img]: https://travis-ci.com/StatisticalRethinkingJulia/TuringModels.jl.svg?branch=master
-[travis-url]: https://travis-ci.com/StatisticalRethinkingJulia/TuringModels.jl
+[ci-img]: https://github.com/StatisticalRethinkingJulia/TuringModels.jl/workflows/Deploy/badge.svg
+[ci-url]: https://statisticalrethinkingjulia.github.io/TuringModels.jl/
 
 [issues-url]: https://github.com/StatisticalRethinkingJulia/TuringModels.jl/issues

@@ -1,0 +1,54 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # Python is necessary for the pre-rendering (minification) step
+      - name: Install python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - uses: julia-actions/setup-julia@v1
+        with:
+          version: 1 # Latest stable release, for example, `1.5.3`.
+
+      - name: Install dependencies listed in Project.toml and build package
+        uses: julia-actions/julia-buildpkg@master
+
+      - name: Build site
+        run: |
+          julia --project -e '
+            using NodeJS; run(`$(npm_cmd()) install highlight.js`);
+            using Franklin; optimize(); verify_links()' > build.log;
+          cat build.log
+
+      - name: Deploy to secondary branch
+        if: ${{ github.event_name == 'push' }}
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: __site
+          CLEAN: true
+
+      # The site is deployed even if an error occurs to ease debugging.
+      - name: Validate output
+        run: |
+          # A Franklin Warning means an error occurred when evaluating code.
+          if grep -1 "Franklin Warning" build.log; then
+            echo "Franklin reported a warning"
+            exit 1
+          else
+            echo "Franklin did not report a warning"
+          fi
+

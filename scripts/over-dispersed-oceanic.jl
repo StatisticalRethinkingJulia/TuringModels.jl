@@ -1,44 +1,50 @@
-using TuringModels
+# ## Data
 
-delim = ';'
-d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "Kline.csv"), DataFrame; delim);
-size(d) # Should be 10x5
+import CSV
 
-# New col log_pop, set log() for population data
-d.log_pop = map((x) -> log(x), d.population);
-d.society = 1:10;
+using DataFrames
+using TuringModels: project_root
 
-# Turing model
+path = joinpath(project_root, "data", "Kline.csv")
+df = CSV.read(path, DataFrame; delim=';')
+df.log_pop = log.(df.population)
+df.society = 1:nrow(df)
+df
 
-@model m12_6(total_tools, log_pop, society) = begin
+# ## Model
 
-    # Total num of y
+using Turing
+
+@model function m12_6(total_tools, log_pop, society)
     N = length(total_tools)
 
-    # priors
     α ~ Normal(0, 10)
     βp ~ Normal(0, 1)
 
-    # Separate σ priors for each society
     σ_society ~ truncated(Cauchy(0, 1), 0, Inf)
 
-    # Number of unique societies in the data set
-    N_society = length(unique(society)) #10
+    N_society = length(unique(society)) ## 10
 
-    # Vector of societies (1,..,10) which we'll set priors on
     α_society ~ filldist(Normal(0, σ_society), N_society)
 
-    for i ∈ 1:N
+    for i in 1:N
         λ = exp(α + α_society[society[i]] + βp*log_pop[i])
         total_tools[i] ~ Poisson(λ)
     end
-end
+end;
 
-# Sample
+# ## Output
 
-chns = sample(m12_6(d.total_tools, d.log_pop, d.society), NUTS(0.95), 1000);
+chains = sample(
+    m12_6(df.total_tools, df.log_pop, df.society), 
+    NUTS(0.95), 
+    1000
+)
 
-# Results rethinking
+# \defaultoutput{}
+
+# ## Original output
+
 m12_6rethinking = "
               Mean StdDev lower 0.89 upper 0.89 n_eff Rhat
 a              1.11   0.75      -0.05       2.24  1256    1
@@ -55,9 +61,3 @@ a_society[9]   0.27   0.17      -0.02       0.52  2540    1
 a_society[10] -0.10   0.30      -0.52       0.37  1433    1
 sigma_society  0.31   0.13       0.11       0.47  1345    1
 ";
-
-# Describe the posterior samples
-
-chns |> display
-
-# End of `12/m12.6t.jl`
