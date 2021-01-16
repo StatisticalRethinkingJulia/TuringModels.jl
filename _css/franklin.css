@@ -1,27 +1,16 @@
-/* ==================================================================
-    VARIABLES
-================================================================== */
-
 :root {
+  --accent: #004de6;
   --block-background: hsl(0, 0%, 97%);
   --small: 14px;
   --normal: 19px;
   --text-color: hsv(0, 0%, 15%);
 }
 
-/* ==================================================================
-    DEFAULT FONT AND LAYOUT
-================================================================== */
-
 html {
   font-family: Helvetica, Arial, sans-serif;
   font-size: var(--normal);
   color: var(--text-color);
 }
-
-/* ==================================================================
-    BASIC GRID FOR PROFILE PIC
-================================================================== */
 
 .franklin-content .row {
   display: block;
@@ -48,10 +37,6 @@ html {
   font-size: 70%;
 }
 
-/* ==================================================================
-    FOOT / COPYRIGHT
-================================================================== */
-
 .franklin-content .page-foot a {
   text-decoration: none;
   color: #a6a2a0;
@@ -68,10 +53,6 @@ html {
   padding-top: 2em;
   margin-bottom: 4em;
 }
-
-/* ==================================================================
-    TEXT GEOMETRY
-================================================================== */
 
 .franklin-toc li {
   /* Avoid clickable elements being too close together. */
@@ -101,10 +82,6 @@ html {
     padding-right: 6%;
   }
 }
-
-/* ==================================================================
-    TITLES
-================================================================== */
 
 .franklin-content h1 { font-size: 24px; }
 .franklin-content h2 { font-size: 22px; }
@@ -153,7 +130,7 @@ h6 {
   text-align: center;
 }
 
-ol ol {
+.franklin-toc ol ol {
   list-style-type: lower-alpha;
 }
 
@@ -176,17 +153,13 @@ td {
   display: inline;
 }
 
-/* ==================================================================
-    GENERAL FORMATTING
-================================================================== */
-
 /* Spacing between bullet points. */
 .franklin-content li p {
   margin: 10px 0;
 }
 
 .franklin-content a {
-  color: #004de6;
+  color: var(--accent);
   text-decoration: none;
 }
 
@@ -194,12 +167,13 @@ td {
   text-decoration: underline;
 }
 
-/* ==================================================================
-    HYPERREFS AND FOOTNOTES
-================================================================== */
+.franklin-content .eqref a { 
+  color: var(--accent); 
+}
 
-.franklin-content .eqref a { color: green; }
-.franklin-content .bibref a { color: green; }
+.franklin-content .bibref a { 
+  color: var(--accent); 
+}
 
 .franklin-content sup {
   font-size: 70%;
@@ -235,10 +209,6 @@ td {
   width: 100%;
 }
 
-/* ==================================================================
-    IMAGES in CONTENT
-================================================================== */
-
 .franklin-content img {
   width: 70%;
   text-align: center;
@@ -250,10 +220,6 @@ td {
   text-align: center;
   padding-left: 20%;
 }
-
-/* ==================================================================
-    KATEX
-================================================================== */
 
 body { counter-reset: eqnum; }
 
@@ -274,10 +240,6 @@ body { counter-reset: eqnum; }
   float: right;
   padding-right: 5px;
 }
-
-/* ==================================================================
-    CODE & HIGHLIGHT.JS
-================================================================== */
 
 code {
   background-color: var(--block-background);
@@ -311,10 +273,6 @@ code {
 .hljs-metas { color: red; }
 
 .hljs-metap { color: rgb(51, 131, 231); }
-
-/* ==================================================================
-    BOXES
-================================================================== */
 
 .franklin-content .colbox-blue {
   background-color: #eef3f5;
