@@ -1,7 +1,6 @@
 +++
 title = "Partial-pooling estimates"
 showall = true
-reeval = true
 +++
 
 In model `m12.3` in Statistical Rethinking Edition 1, representative values for the tadpole data are generated.
