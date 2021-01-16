@@ -1,28 +1,34 @@
-using TuringModels
+# ## Data
 
-delim = ';'
-d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "chimpanzees.csv"), DataFrame; delim);
-size(d) # Should be 504x8
+import CSV
 
-# Turing model: pulled_left, actor, condition, prosoc_left
+using TuringModels: project_root
+using DataFrames
+
+path = joinpath(project_root, "data", "chimpanzees.csv")
+df = CSV.read(path, DataFrame; delim=';');
+
+# ## Model
+
+using Turing
 
 @model m12_5(pulled_left, actor, block, condition, prosoc_left) = begin
-    # Total num of y
+    ## Total num of y
     N = length(pulled_left)
 
-    # Separate σ priors for each actor and block
+    ## Separate σ priors for each actor and block
     σ_actor ~ truncated(Cauchy(0, 1), 0, Inf)
     σ_block ~ truncated(Cauchy(0, 1), 0, Inf)
 
-    # Number of unique actors in the data set
-    N_actor = length(unique(actor)) #7
+    ## Number of unique actors in the data set
+    N_actor = length(unique(actor)) ## 7
     N_block = length(unique(block))
 
-    # Vector of actors (1,..,7) which we'll set priors on
+    ## Vector of actors (1,..,7) which we'll set priors on
     α_actor ~ filldist(Normal(0, σ_actor), N_actor)
     α_block ~ filldist(Normal(0, σ_block), N_block)
 
-    # Prior for intercept, prosoc_left, and the interaction
+    ## Prior for intercept, prosoc_left, and the interaction
     α ~ Normal(0, 10)
     βp ~ Normal(0, 10)
     βpC ~ Normal(0, 10)
@@ -31,20 +37,19 @@ size(d) # Should be 504x8
             (βp .+ βpC * condition) .* prosoc_left
 
     pulled_left .~ BinomialLogit.(1, logitp)
+end;
 
-end
+# ## Output
 
-# Sample
+chains = sample(
+    m12_5(df.pulled_left, df.actor, df.block, df.condition, df.prosoc_left),
+    NUTS(0.65), 
+    1000
+)
 
-chns = sample(m12_5(
-    Vector{Int64}(d[:, :pulled_left]),
-    Vector{Int64}(d[:, :actor]),
-    Vector{Int64}(d[:, :block]),
-    Vector{Int64}(d[:, :condition]),
-    Vector{Int64}(d[:, :prosoc_left])),
-    Turing.NUTS(0.65), 1000);
+# \defaultoutput{}
 
-# Results rethinking
+# ## Original output
 
 m125rethinking = "
              Mean StdDev lower 0.89 upper 0.89 n_eff Rhat
@@ -67,9 +72,3 @@ bpc         -0.15   0.30      -0.61       0.36  8492    1
 sigma_actor  2.27   0.91       1.03       3.35  5677    1
 sigma_block  0.23   0.18       0.01       0.44  2269    1
 ";
-
-# Draw summary
-
-chns |> display
-
-# End of m12.5t.jl
