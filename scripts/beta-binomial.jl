@@ -27,9 +27,9 @@ using Turing
   alpha = prob * θ
   beta = (1 - prob) * θ
   admit .~ BetaBinomial.(applications, alpha, beta)
-end;
+end
 
-model = m11_5(df.admit, df.applications)
+model = m11_5(df.admit, df.applications);
 
 # ## Output
 
@@ -43,4 +43,4 @@ chains = sample(model, NUTS(0.65), 1000)
         mean   sd  5.5% 94.5% n_eff Rhat
 theta   2.74 0.96  1.43  4.37  3583    1
 a       -0.37 0.31 -0.87  0.12  3210    1
-"""
+""";
