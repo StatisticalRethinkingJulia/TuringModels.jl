@@ -34,11 +34,13 @@ jobs:
 
       - name: Deploy to secondary branch
         if: ${{ github.event_name == 'push' }}
-        uses: peaceiris/actions-gh-pages@v3
+        uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./__site
+          BRANCH: gh-pages
+          FOLDER: __site
 
+      # The site is deployed even if an error occurs to ease debugging.
       - name: Validate output
         run: |
           # A Franklin Warning means an error occurred when evaluating code.

@@ -3,7 +3,7 @@ title = "StatisticalRethinkingJulia/TuringModels.jl"
 tags = ["home", "bayesian statistics"]
 +++
 
-This site shows the Julia versions of the Bayesian models described in Statistical Rethinking Edition 1 \citep{pMcElreath2015} and 2 \citep{pMcElreath2020}.
+This site shows the Julia versions of the Bayesian models described in Statistical Rethinking Edition 1 (McElreath, \citet{McElreath2015}) and 2 (McElreath, \citet{McElreath2020}).
 The models are listed at [Models](#models).
 
 We have tried our best to let this site be without mistakes.
@@ -82,12 +82,12 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 
 ## References
 
-\biblabel{pMcElreath2015}{McElreath, 2015}
+\biblabel{McElreath2015}{2015}
 McElreath, R. (2015).
 Statistical Rethinking: A Bayesian course with examples in R and Stan. 
 CRC press.
 
-\biblabel{pMcElreath2020}{McElreath, 2020}
+\biblabel{McElreath2020}{2020}
 McElreath, R. (2020). 
 Statistical Rethinking: A Bayesian course with examples in R and Stan. 
 CRC press.
