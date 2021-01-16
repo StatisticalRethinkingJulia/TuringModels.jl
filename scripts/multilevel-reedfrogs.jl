@@ -1,39 +1,43 @@
-using TuringModels, StatsFuns
+# ## Data
 
-delim = ';'
-d = CSV.read(joinpath(@__DIR__, "..", "..", "data", "reedfrogs.csv"),
-    DataFrame; delim);
-  
-size(d) |> display # Should be 48x5
+import CSV
 
-# Set number of tanks
+using DataFrames
+using TuringModels: project_root
 
-d.tank = 1:size(d,1);
+path = joinpath(project_root, "data", "reedfrogs.csv")
+df = CSV.read(path, DataFrame; delim=';')
+df.tank = 1:nrow(df)
+df
 
-# Thanks to Kai Xu!
+# ## Model
 
-@model m12_2(density, tank, surv) = begin
+using Turing
 
-    # Separate priors on α and σ for each tank
+## Thanks to Kai Xu!
+
+@model function m12_2(density, tank, surv)
     σ ~ truncated(Cauchy(0, 1), 0, Inf)
     α ~ Normal(0, 1)
 
-    # Number of unique tanks in the data set
     N_tank = length(tank)
-    a_tank ~ filldist(Normal(α, σ), N_tank)
+    α_tank ~ filldist(Normal(α, σ), N_tank)
 
-    # Observation
-    logitp = a_tank[tank]
+    logitp = α_tank[tank]
     surv .~ BinomialLogit.(density, logitp)
+end;
 
-end
+# ## Output
 
-# Sample 
+chains = sample(
+    m12_2(df.density, df.tank, df.surv),
+    NUTS(0.65),
+    1000
+)
 
-chns = sample(m12_2(Vector{Int64}(d[:density]), Vector{Int64}(d[:tank]),
-    Vector{Int64}(d[:surv])), Turing.NUTS(0.65), 1000);
+# \defaultoutput{}
     
-# CmdStan result
+# ## Original output
 
 m122rethinking = "
                 mean   sd  5.5% 94.5% n_eff Rhat
@@ -88,9 +92,3 @@ a_tank[46] -0.57 0.34 -1.13 -0.03 19761    1
 a_tank[47]  2.05 0.51  1.30  2.90 15122    1
 a_tank[48]  0.00 0.33 -0.53  0.53 18236    1
 ";
-
-# Draw summary
-
-chns |> display
-
-# End of `12/m12.2t.jl`

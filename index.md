@@ -75,6 +75,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m11.5](models/beta-binomial): Beta-binomial
 - [m11.7](models/multinomial-poisson): Multinomial Poisson regression
 - [m12.1](models/varying-intercepts-reedfrogs): Varying intercepts Reedfrogs
+- [m12.2](models/multilevel-reedfrogs): Multilevel Reedfrogs
 - [m12.3](models/partial-pooling-estimates): Partial-pooling estimates
 - [m12.4](models/varying-intercepts-chimpanzees): Varying intercepts Chimpanzees
 - [m12.5](models/multi-multilevel-chimpanzees): Multi-multilevel Chimpanzees
