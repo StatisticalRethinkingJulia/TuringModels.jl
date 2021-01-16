@@ -14,7 +14,7 @@ Most of the scripts and output can be inspected via the webpages.
 If you want to run the scripts yourselves, then you can either
 
 1. copy the code from the webpages and the data from this repository, and run the scripts **or**
-1. clone this repository and run one of the files in `scripts`. For example, `julia -i scripts/basic-example.jl`.
+1. clone this repository and run one of the files in `scripts`. For example, `julia --project -i scripts/basic-example.jl`.
 
 The scripts are written in [Literate.jl](https://github.com/fredrikekre/Literate.jl) to allow them to be ran stand-alone, and as part of the website.
 To generate the website locally, use [Franklin.jl](https://github.com/tlienart/Franklin.jl).

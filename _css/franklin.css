@@ -233,14 +233,6 @@ body { counter-reset: eqnum; }
   white-space: normal;
 }
 
-.katex-display::after {
-  counter-increment: eqnum;
-  content: "(" counter(eqnum) ")";
-  position: relative;
-  float: right;
-  padding-right: 5px;
-}
-
 code {
   background-color: var(--block-background);
   padding: 0.1em 0.2em;
