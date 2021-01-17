@@ -18,7 +18,7 @@ If you want to run the scripts yourselves, then you can either
 
 The scripts are written in [Literate.jl](https://github.com/fredrikekre/Literate.jl) to allow them to be ran stand-alone, and as part of the website.
 To generate the website locally, use [Franklin.jl](https://github.com/tlienart/Franklin.jl).
-Specifically, clone this repository and go into the root directory. 
+Specifically, clone this repository and go into the root directory of this repository. 
 Then, use
 ```
 julia --project -ie 'using Franklin; Franklin.serve()'
@@ -30,6 +30,15 @@ After building the site, it will be available on <http://localhost:8000/>.
 Consecutive calls to serve will only take a few minutes because Franklin caches the output.
 
 ## Versions
+
+### v2.0
+
+- Show the output via Franklin.jl and Literate.jl
+- Simplify code
+- Use names for models instead of numbers
+- Fix multiple models
+- Let CI fail if an error occurs during build (to avoid manually having to check >20 webpages)
+- Update README
 
 ### v1.1.2
 
