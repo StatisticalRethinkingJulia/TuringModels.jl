@@ -2,6 +2,7 @@
 
 [![CI][ci-img]][ci-url]
 
+
 ## Introduction
 
 This package contains Julia versions of the mcmc models contained in the R package "rethinking" associated with the book [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/) by Richard McElreath. It is part of the [StatisticalRethinkingJulia](https://github.com/StatisticalRethinkingJulia) Github organization of packages.
