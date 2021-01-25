@@ -2,7 +2,7 @@
 title = "Varying slopes cafes"
 +++
 
-On page 441 of McElreath (2020), `m14.1` is defined as
+On page 441 of Statistical Rethinking Edition 2 (2020), `m14.1` is defined as
 
 $$
 \begin{aligned}

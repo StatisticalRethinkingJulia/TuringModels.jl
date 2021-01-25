@@ -3,7 +3,7 @@ title = "Multinomial Poisson regression"
 showall = true
 +++
 
-On page 399 of McElreath (2015), `m13.2` is defined as
+On page 399 of Statistical Rethinking Edition 1, `m13.2` is defined as
 
 $$
 \begin{aligned}

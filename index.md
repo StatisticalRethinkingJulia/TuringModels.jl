@@ -3,7 +3,7 @@ title = "StatisticalRethinkingJulia/TuringModels.jl"
 tags = ["home", "bayesian statistics"]
 +++
 
-This site shows the Julia versions of the Bayesian models described in Statistical Rethinking Edition 1 (McElreath, \citet{McElreath2015}) and 2 (McElreath, \citet{McElreath2020}).
+This site shows the Julia versions of the Bayesian models described in Statistical Rethinking Edition 1 (McElreath, \citet{McElreath2016}) and 2 (McElreath, \citet{McElreath2020}).
 The models are listed at [Models](#models).
 
 We have tried our best to let this site be without mistakes.
@@ -58,7 +58,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m13.2](models/multinomial-poisson): Multinomial Poisson regression
 - [m13.3](models/varying-intercepts-admission): Varying intercepts admission decisions
 
-### 1st Edition (2015)
+### 1st Edition (2016)
 
 - [m2.1](models/globe-tossing): Globe tossing
 - [m4.1](models/height): Gaussian model of height
@@ -88,12 +88,14 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 
 ## References
 
-\biblabel{McElreath2015}{2015}
-McElreath, R. (2015).
-Statistical Rethinking: A Bayesian course with examples in R and Stan. 
+\biblabel{McElreath2015}{2016}
+McElreath, R. (2016).
+Statistical Rethinking: A Bayesian Course with Examples in R and Stan. 
 CRC press.
+<https://doi.org/10.1201/9781315372495>
 
 \biblabel{McElreath2020}{2020}
 McElreath, R. (2020). 
-Statistical Rethinking: A Bayesian course with examples in R and Stan. 
+Statistical Rethinking: A Bayesian Course with Examples in R and Stan. 
 CRC press.
+<https://doi.org/10.1201/9780429029608>
