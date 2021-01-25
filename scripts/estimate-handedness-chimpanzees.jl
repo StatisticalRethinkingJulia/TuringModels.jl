@@ -8,6 +8,7 @@ using StatsFuns
 
 data_path = joinpath(TuringModels.project_root, "data", "chimpanzees.csv")
 df = CSV.read(data_path, DataFrame; delim=';')
+first(df, 10)
 
 # ## Model
 

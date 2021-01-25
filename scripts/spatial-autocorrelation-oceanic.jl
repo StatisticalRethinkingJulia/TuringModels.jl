@@ -14,7 +14,8 @@ df = CSV.read(kline_path, DataFrame; delim=';')
 dmat_path = joinpath(data_dir, "islandsDistMatrix.rda")
 dmat = load(dmat_path)["islandsDistMatrix"]
 
-df.society = 1:10
+df.society = 1:10;
+df
 
 # ## Model
 
