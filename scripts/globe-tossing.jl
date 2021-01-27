@@ -5,17 +5,17 @@ k = 6;
 
 # ## Model
 
-using DataFrames
-using Random
 using Turing
 
 @model function globe_toss(n, k)
-  θ ~ Beta(1, 1) # prior
-  k ~ Binomial(n, θ) # model
-  return k, θ
+    θ ~ Beta(1, 1)
+    k ~ Binomial(n, θ)
+    return k, θ
 end;
 
 # ## Output
+
+using Random
 
 Random.seed!(1)
 chains = sample(globe_toss(n, k), NUTS(0.65), 1000)
