@@ -8,9 +8,7 @@ k = 6;
 using Turing
 
 @model function globe_toss(n, k)
-    # Prior.
     θ ~ Beta(1, 1)
-    # Model.
     k ~ Binomial(n, θ)
     return k, θ
 end;
