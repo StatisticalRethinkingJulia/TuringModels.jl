@@ -5,9 +5,6 @@
 
 # ## Model
 
-import CSV
-
-using StatsPlots
 using Turing
 
 @model function gdemo(x, y)
