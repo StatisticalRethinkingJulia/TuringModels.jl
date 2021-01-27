@@ -88,7 +88,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 
 ## References
 
-\biblabel{McElreath2015}{2016}
+\biblabel{McElreath2016}{2016}
 McElreath, R. (2016).
 Statistical Rethinking: A Bayesian Course with Examples in R and Stan. 
 CRC press.
