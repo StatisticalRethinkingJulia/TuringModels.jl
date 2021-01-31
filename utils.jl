@@ -30,11 +30,11 @@ function lx_defaultoutput(com, _)
     ```julia:plot
     using StatsPlots
 
-    write_svg("chains", # hide
-    StatsPlots.plot(chains)
+    write_svg("chns", # hide
+    StatsPlots.plot(chns)
     ) # hide
     ```
     \output{plot}
-    \fig{chains.svg}
+    \fig{chns.svg}
     """
 end
