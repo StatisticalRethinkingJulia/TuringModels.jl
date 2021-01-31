@@ -31,7 +31,7 @@ model = m10_4(df.pulled_left, df.actor, df.condition, df.prosoc_left);
 
 # ## Output
 
-chains = sample(model, NUTS(0.65), 1000)
+chns = sample(model, NUTS(0.65), 1000)
 
 # \defaultoutput{}
 

@@ -40,7 +40,7 @@ model = model_fn(df.log_gdp, df.rugged, df.cont_africa);
 
 # ## Output
 
-chains = sample(model, NUTS(0.65), 1000)
+chns = sample(model, NUTS(0.65), 1000)
 
 # \defaultoutput{}
 

@@ -26,7 +26,7 @@ end;
 
 # ## Output
 
-chains = sample(m_pois(df.admit, df.reject), NUTS(0.65), 1000)
+chns = sample(m_pois(df.admit, df.reject), NUTS(0.65), 1000)
 
 # \defaultoutput{}
 

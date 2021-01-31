@@ -15,7 +15,7 @@ end;
 
 # ## Output
 
-chains = sample(m8_2(y), NUTS(0.65), 1000)
+chns = sample(m8_2(y), NUTS(0.65), 1000)
 
 # \defaultoutput{}
 
