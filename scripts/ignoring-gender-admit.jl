@@ -32,7 +32,7 @@ end;
 
 # ## Output
 
-chains = sample(
+chns = sample(
     m13_4(df.applications, df.dept_id, df.male, df.admit),
     Turing.NUTS(0.65),
     5000

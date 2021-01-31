@@ -25,7 +25,7 @@ model = line(df.height);
 
 # ## Output
 
-chains = sample(model, NUTS(0.65), 1000)
+chns = sample(model, NUTS(0.65), 1000)
 
 # \defaultoutput{}
 

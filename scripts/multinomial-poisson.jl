@@ -27,7 +27,7 @@ df.dept_id = [dept_map[de] for de in df.dept]
     admit .~ BinomialLogit.(applications, logit_p)
 end
 
-chains = sample(
+chns = sample(
     m13_2(df.applications, df.dept_id, df.male, df.admit),
     Turing.NUTS(0.65),
     1000

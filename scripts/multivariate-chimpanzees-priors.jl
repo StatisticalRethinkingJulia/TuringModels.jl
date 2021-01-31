@@ -52,7 +52,7 @@ end
 
 # ## Output
 
-chains = sample(
+chns = sample(
     m13_6(df.actor, df.block_id, df.condition, df.prosoc_left, df.pulled_left),
     NUTS(0.95),
     1000

@@ -38,7 +38,7 @@ using Turing
     total_tools .~ Poisson.(exp.(log_lambda))
 end
 
-chains = sample(
+chns = sample(
     m13_7(dmat, df.society, df.logpop, df.total_tools),
     NUTS(0.65),
     5000

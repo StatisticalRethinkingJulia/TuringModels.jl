@@ -35,7 +35,7 @@ end;
 
 # ## Output
 
-chains = sample(
+chns = sample(
     m12_6(df.total_tools, df.log_pop, df.society), 
     NUTS(0.95), 
     1000

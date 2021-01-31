@@ -26,7 +26,7 @@ end;
 
 n = nrow(df)
 model = reedfrogs(df.density, df.tank, df.surv, n)
-chains = sample(model, NUTS(0.65), 1000)
+chns = sample(model, NUTS(0.65), 1000)
 
 # \defaultoutput{}
 
