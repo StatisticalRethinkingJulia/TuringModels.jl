@@ -8,17 +8,17 @@ using TuringModels
 data_path = joinpath(TuringModels.project_root, "data", "reedfrogs.csv")
 df = CSV.read(data_path, DataFrame; delim=';');
 @assert size(df) == (48, 5) ## hide
-df.tank_index = 1:nrow(df)
 df
 
 # ## Model
 
 using Turing
+using StatsFuns: logistic
 
 @model function reedfrogs(Nᵢ, i, Sᵢ)
     αₜₐₙₖ ~ filldist(Normal(0, 1.5), length(i))
-    logit_pᵢ = αₜₐₙₖ[i]
-    Sᵢ .~ BinomialLogit.(Nᵢ, logit_pᵢ)
+    pᵢ = logistic.(αₜₐₙₖ[i])
+    Sᵢ .~ Binomial.(Nᵢ, pᵢ)
 end;
 
 # ## Output
