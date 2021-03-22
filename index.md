@@ -23,15 +23,14 @@ This website is built with Julia \textoutput{version} and
 
 ```julia:packages
 # hideall
-using Pkg
+import Pkg
 
-io = IOBuffer()
-Pkg.status(; io)
-text = String(take!(io))
-lines = split(text, '\n')[3:end-1]
-lines_without_id = [l[14:end] for l in lines]
-list = join(lines_without_id, '\n')
-println(list)
+deps = [pair.second for pair in Pkg.dependencies()]
+deps = filter(p -> p.is_direct_dep, deps)
+deps = filter(p -> !isnothing(p.version), deps)
+list = ["$(p.name) $(p.version)" for p in deps]
+sort!(list)
+println(join(list, '\n'))
 ```
 \output{packages}
 

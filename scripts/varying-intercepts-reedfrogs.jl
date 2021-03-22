@@ -8,24 +8,24 @@ using TuringModels
 data_path = joinpath(TuringModels.project_root, "data", "reedfrogs.csv")
 df = CSV.read(data_path, DataFrame; delim=';');
 @assert size(df) == (48, 5) ## hide
-df.tank = 1:nrow(df)
+df.tank_index = 1:nrow(df)
 df
 
 # ## Model
 
 using Turing
+using StatsFuns: logistic
 
-@model function reedfrogs(density, tank, surv, n)
-    a_tank ~ filldist(Normal(0, 1.5), n)
-
-    logitp = a_tank[tank]
-    surv .~ BinomialLogit.(density, logitp)
+@model function reedfrogs(Nᵢ, i, Sᵢ)
+    αₜₐₙₖ ~ filldist(Normal(0, 1.5), length(i))
+    pᵢ = logistic.(αₜₐₙₖ[i])
+    Sᵢ .~ Binomial.(Nᵢ, pᵢ)
 end;
 
 # ## Output
 
 n = nrow(df)
-model = reedfrogs(df.density, df.tank, df.surv, n)
+model = reedfrogs(df.density, df.tank_index, df.surv)
 chns = sample(model, NUTS(0.65), 1000)
 
 # \defaultoutput{}
