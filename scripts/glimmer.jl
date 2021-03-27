@@ -1,8 +1,8 @@
 # ## Data
 
-## outcome and predictor almost perfectly associated
-x = repeat([-1], 9); append!(x, repeat([1],11))
-y = repeat([0], 10); append!(y, repeat([1],10))
+## Outcome and predictor almost perfectly associated.
+x = repeat([-1], 9); append!(x, repeat([1],11));
+y = repeat([0], 10); append!(y, repeat([1],10));
 
 # ## Model
 
@@ -15,7 +15,7 @@ using Turing
     logits = α .+ β * x
 
     y .~ BinomialLogit.(1, logits)
-end
+end;
 
 # ## Output
 
