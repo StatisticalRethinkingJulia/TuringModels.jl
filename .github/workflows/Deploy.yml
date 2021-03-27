@@ -31,6 +31,10 @@ jobs:
             using NodeJS; run(`$(npm_cmd()) install highlight.js`);
             using Franklin; optimize(); verify_links()' > build.log;
           cat build.log
+        env:
+          # Fixes 'GKS: can't connect to GKS socket application' errors
+          # and quality of output plots in GR back end.
+          GKSwstype: nul
 
       - name: Deploy to secondary branch
         if: ${{ github.event_name == 'push' }}
