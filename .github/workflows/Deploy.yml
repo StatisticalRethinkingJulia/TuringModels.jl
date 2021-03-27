@@ -36,9 +36,9 @@ jobs:
           # and quality of output plots in GR back end.
           GKSwstype: nul
 
-      - name: Deploy to secondary branch
+      - name: Deploy to GitHub Pages
         if: ${{ github.event_name == 'push' }}
-        uses: JamesIves/github-pages-deploy-action@4
+        uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
