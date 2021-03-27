@@ -37,9 +37,12 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: __site
-          CLEAN: true
+          branch: gh-pages
+          # To reduce state.
+          clean: true
+          # To save space; we don't really need older versions.
+          single-commit: true
+          folder: __site
 
       # The site is deployed even if an error occurs to ease debugging.
       - name: Validate output
