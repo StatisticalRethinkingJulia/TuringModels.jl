@@ -36,6 +36,11 @@ jobs:
           # and quality of output plots in GR back end.
           GKSwstype: nul
 
+      - name: Remove unneeded folders
+        # Without removing these, it seems that Franklin will just copy them to __site.
+        # Especially data is big and not needed.
+        run: rm -rf data models scripts src test
+
       - name: Deploy to GitHub Pages
         if: ${{ github.event_name == 'push' }}
         uses: JamesIves/github-pages-deploy-action@4.1.0
