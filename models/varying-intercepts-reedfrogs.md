@@ -1,10 +1,7 @@
 +++
 title = "Varying intercepts Reedfrogs"
 showall = true
-reeval = true
 +++
-
-
 
 On page 402 of Edition 2, this model is defined as
 
