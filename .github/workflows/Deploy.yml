@@ -38,8 +38,7 @@ jobs:
 
       - name: Remove unneeded folders
         # Without removing these, it seems that Franklin will just copy them to __site.
-        # Especially data is big and not needed.
-        run: rm -rf data models scripts src test
+        run: rm -rf __site/data
 
       - name: Deploy to GitHub Pages
         if: ${{ github.event_name == 'push' }}
