@@ -16,7 +16,7 @@ $$
   \end{aligned}
 $$
 
-\toc 
+\toc
 
 \literate{/scripts/height.jl}
 
