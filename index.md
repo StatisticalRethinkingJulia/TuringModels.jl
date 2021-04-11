@@ -50,7 +50,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 
 - [globe.qa](models/globe-tossing): Globe tossing
 - [m4.1](models/height): Gaussian model of height
-- [m8.1](models/africa): Africa
+- [m8.1](models/africa-first-candidate): Africa first candidate model
 - [m12.1](models/beta-binomial): Beta-binomial
 - [m13.1](models/varying-intercepts-reedfrogs): Varying intercepts Reedfrogs
 - [m13.1](models/varying-slopes-cafe): Varying slopes cafes

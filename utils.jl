@@ -19,8 +19,8 @@ function lx_defaultoutput(com, _)
     raw"""
     ```julia:write_helper
     # hideall
-    output_dir = @OUTPUT 
-    function write_svg(name, p) 
+    output_dir = @OUTPUT
+    function write_svg(name, p)
       fig_path = joinpath(output_dir, "$name.svg")
       StatsPlots.savefig(fig_path)
     end;
@@ -33,6 +33,46 @@ function lx_defaultoutput(com, _)
     write_svg("chns", # hide
     StatsPlots.plot(chns)
     ) # hide
+    ```
+    \output{plot}
+    \fig{chns.svg}
+    """
+end
+
+"""
+    \\defaultgadflyoutput{}
+
+Plot `chns` via Gadfly.
+Don't combine this with a call to StatsPlots or `\\defaultoutput` to avoid conflict errors.
+"""
+function lx_defaultgadflyoutput(com, _)
+    raw"""
+    ```julia:write_helper
+    # hideall
+    using DataFrames
+    using Gadfly
+    using TuringModels
+
+    output_dir = @OUTPUT
+    function write_svg(name, p, width, height)
+      fig_path = joinpath(output_dir, "$name.svg")
+      draw(SVG(fig_path, width, height), p)
+    end;
+
+    df = DataFrame(chns)
+    params = names(chns, :parameters)
+    width = 8inch
+    height = length(params) * 2inch
+    nothing
+    ```
+    \output{write_helper}
+
+    ```julia:plot
+
+    write_svg("chns", # hide
+    TuringModels.gadfly_plot(chns)
+    , width, height) # hide
+    nothing # hide
     ```
     \output{plot}
     \fig{chns.svg}

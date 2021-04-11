@@ -124,21 +124,48 @@ h6 {
 .franklin-content h6 a:hover { text-decoration: none; }
 
 .franklin-content table {
-  margin-left: auto;
-  margin-right: auto;
-  border-collapse: collapse;
-  text-align: center;
+  margin-top:1.5em;
+  margin-left:auto;
+  margin-right:auto;
+  border-collapse:collapse;
+  text-align:center
+}
+
+.franklin-content th, td {
+    font-size: 14px;
+    padding: 10px;
+}
+
+.franklin-content th, td, tr {
+  border-left: none !important;
+  border-right: none !important;
+}
+
+tr:first-of-type {
+  /* background: #eae9f4; */
+  border-top: 2px solid rgba(0, 0, 0, 0.2);
+  border-right: none;
+}
+
+tr:last-of-type {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+tr:first-of-type>th {
+ text-align:center
+}
+tr,
+th,
+td {
+ padding: 8px;
+ border: 1px solid lightgray;
+}
+table tbody tr td {
+ border:1px solid lightgray
 }
 
 .franklin-toc ol ol {
   list-style-type: lower-alpha;
-}
-
-.franklin-content th,
-td {
-  font-size: var(--small);
-  padding: 10px;
-  border: 1px solid black;
 }
 
 .franklin-content blockquote {
@@ -186,13 +213,6 @@ td {
   margin-bottom: 10px;
 }
 
-.franklin-content .fndef tr,
-td {
-  padding: 0;
-  border: 0;
-  text-align: left;
-}
-
 .franklin-content .fndef tr {
   border-left: 2px solid lightgray;
 }
@@ -210,9 +230,8 @@ td {
 }
 
 .franklin-content img {
-  width: 70%;
+  width: 100%;
   text-align: center;
-  padding-left: 10%;
 }
 
 .franklin-content .img-small img {

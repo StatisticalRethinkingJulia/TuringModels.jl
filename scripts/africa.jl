@@ -1,4 +1,5 @@
 # This is the first Stan model in Statistical Rethinking Edition 1 (page 249).
+# In Edition 2 (page 242)
 
 # \toc
 
@@ -14,10 +15,7 @@ data_path = joinpath(TuringModels.project_root, "data", "rugged.csv")
 df = CSV.read(data_path, DataFrame)
 
 df.log_gdp = log.(df.rgdppc_2000)
-
-## TODO: "Replace by dropmissing or something similar."
-notisnan(e) = !ismissing(e)
-df = df[map(notisnan, df[:, :rgdppc_2000]), :]
+dropmissing!(df)
 
 df = select(df, :log_gdp, :rugged, :cont_africa);
 
