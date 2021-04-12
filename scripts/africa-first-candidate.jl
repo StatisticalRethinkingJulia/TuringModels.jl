@@ -24,17 +24,17 @@ first(df, 8)
 @model function model_fn(log_gdp_std, rugged_std, mean_rugged)
     α ~ Normal(1, 0.1)
     β ~ Normal(0, 0.3)
-    σ ~ truncated(Exponential(1), 0, Inf)
+    σ ~ Exponential(1)
 
     μ = α .+ β*(rugged_std .- mean_rugged)
     log_gdp_std .~ Normal.(μ, σ)
 end
 
-model = model_fn(df.log_gdp, df.rugged_std, mean(df.rugged));
+model = model_fn(df.log_gdp, df.rugged_std, mean(df.rugged_std));
 
 # ## Output
 
-chns = sample(model, NUTS(0.65), MCMCThreads(), 1000, 3)
+chns = sample(model, NUTS(), MCMCThreads(), 1000, 3)
 
 # \defaultgadflyoutput{}
 

@@ -10,7 +10,8 @@ $$
     \log(y_i) &\sim \text{Normal}(\mu_i, \sigma) \\
     \mu_i &= \alpha + \beta(r_i - \overline{r}) \\
     \alpha &\sim \text{Normal}(1, 1) \\
-    \beta &\sim \text{Normal}(0, 1)
+    \beta &\sim \text{Normal}(0, 1) \\
+    \sigma &\sim \text{Exponential}(1)
   \end{aligned}
 $$
 
@@ -27,6 +28,10 @@ $$
 $$
 
 where $y_i$ is the GDPs for nation $i$, $r_i$ is terrain ruggedness for nation $i$ and $\overline{r}$ is the mean of the ruggedness in the whole sample.
+
+McElreath calls two models `m8.1`.
+We have tried to get close to the `precis` output on page 245, but both `m8.1` seem to give a different output for $\sigma$.
+For `\sigma` and `\beta`, our results on this page correspond to the resutls by McElreath.
 
 \literate{/scripts/africa-first-candidate.jl}
 
