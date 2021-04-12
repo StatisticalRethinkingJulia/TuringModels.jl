@@ -33,7 +33,7 @@ model = m11_5(df.admit, df.applications);
 
 # ## Output
 
-chns = sample(model, NUTS(0.65), 1000)
+chns = sample(model, NUTS(), 1000)
 
 # \defaultoutput{}
 

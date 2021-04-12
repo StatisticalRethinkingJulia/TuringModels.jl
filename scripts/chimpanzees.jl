@@ -25,7 +25,7 @@ end
 # ## Output
 
 model = m10_3(df.pulled_left, df.condition, df.prosoc_left)
-chns = sample(model, NUTS(0.65), 2000)
+chns = sample(model, NUTS(), 2000)
 
 # \defaultoutput{}
 

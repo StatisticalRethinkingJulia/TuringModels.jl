@@ -19,7 +19,7 @@ using Turing
     y .~ Normal(α₁ + α₂, σ)
 end
 
-chns = sample(m8_4(y), NUTS(0.65), 2000)
+chns = sample(m8_4(y), NUTS(), 2000)
 
 # ## Output
 

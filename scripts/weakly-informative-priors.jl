@@ -16,7 +16,7 @@ end;
 
 # ## Output
 
-chns = sample(m8_3(y), NUTS(0.65), 1000)
+chns = sample(m8_3(y), NUTS(), 1000)
 
 # \defaultoutput{}
 

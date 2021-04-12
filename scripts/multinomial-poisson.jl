@@ -21,15 +21,15 @@ df.dept_id = [dept_map[de] for de in df.dept]
     bm ~ Normal(0, 1)
     a ~ Normal(0, 10)
     a_dept ~ filldist(Normal(a, sigma_dept), 6)
-    
+
     logit_p = a_dept[dept_id] + bm*male
-    
+
     admit .~ BinomialLogit.(applications, logit_p)
 end
 
 chns = sample(
     m13_2(df.applications, df.dept_id, df.male, df.admit),
-    Turing.NUTS(0.65),
+    NUTS(),
     1000
 )
 
@@ -43,7 +43,7 @@ chns = sample(
 Inference for Stan model: 359c2483e3bdbf74fd0484be27c2909b.
     3 chains, each with iter=4500; warmup=500; thin=1; 
     post-warmup draws per chain=4000, total post-warmup draws=12000.
-    
+
                    mean se_mean   sd     2.5%      25%      50%      75%    97.5%
     a_dept[1]      0.67    0.00 0.10     0.48     0.61     0.67     0.74     0.87
     a_dept[2]      0.63    0.00 0.12     0.40     0.55     0.63     0.71     0.85

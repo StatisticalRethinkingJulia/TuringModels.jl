@@ -19,7 +19,7 @@ end;
 
 # ## Output
 
-chns = sample(m_good_stan(x, y), NUTS(0.65), 1000)
+chns = sample(m_good_stan(x, y), NUTS(), 1000)
 
 # \defaultoutput{}
 

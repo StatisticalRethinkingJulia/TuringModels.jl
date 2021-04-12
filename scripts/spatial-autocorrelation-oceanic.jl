@@ -40,7 +40,7 @@ end
 
 chns = sample(
     m13_7(dmat, df.society, df.logpop, df.total_tools),
-    NUTS(0.65),
+    NUTS(),
     5000
 )
 
