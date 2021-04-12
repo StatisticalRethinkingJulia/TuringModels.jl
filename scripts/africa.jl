@@ -38,7 +38,7 @@ model = model_fn(df.log_gdp, df.rugged, df.cont_africa);
 
 # ## Output
 
-chns = sample(model, NUTS(0.65), 1000)
+chns = sample(model, NUTS(), 1000)
 
 # \defaultoutput{}
 

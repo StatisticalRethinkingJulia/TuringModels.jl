@@ -36,7 +36,7 @@ end;
 
 chns = sample(
     m10_10stan_c(df.total_tools, df.log_pop_c, df.contact_high),
-    NUTS(0.65), 
+    NUTS(),
     1000
 )
 

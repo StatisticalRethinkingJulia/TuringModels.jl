@@ -18,7 +18,7 @@ end;
 using Random
 
 Random.seed!(1)
-chns = sample(globe_toss(n, k), NUTS(0.65), 1000)
+chns = sample(globe_toss(n, k), NUTS(), 1000)
 
 # \defaultoutput{}
 

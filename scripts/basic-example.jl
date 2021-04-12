@@ -18,6 +18,6 @@ end;
 
 # and run the sampler:
 
-chns = sample(gdemo(1.5, 2), NUTS(0.65), 1000)
+chns = sample(gdemo(1.5, 2), NUTS(), 1000)
 
 # \defaultoutput{}

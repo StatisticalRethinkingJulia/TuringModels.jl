@@ -31,7 +31,7 @@ end;
 
 chns = sample(
     m12_2(df.density, df.tank, df.surv),
-    NUTS(0.65),
+    NUTS(),
     1000
 )
 
