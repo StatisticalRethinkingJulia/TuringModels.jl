@@ -28,6 +28,7 @@ jobs:
       - name: Build site
         run: |
           julia --project -e '
+            using Pkg; Pkg.add("NodeJS");
             using NodeJS; run(`$(npm_cmd()) install highlight.js`);
             using Franklin; optimize(); verify_links()' > build.log;
           cat build.log
