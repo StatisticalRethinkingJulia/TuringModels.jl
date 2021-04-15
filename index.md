@@ -56,6 +56,7 @@ Before you look at the models below, you might want to look at the [Basic Exampl
 - [m13.1](models/varying-slopes-cafe): Varying slopes cafes
 - [m13.2](models/multinomial-poisson): Multinomial Poisson regression
 - [m13.3](models/varying-intercepts-admission): Varying intercepts admission decisions
+- [m16.5](models/lynx-hare): Lynx and hare populations
 
 ### 1st Edition (2016)
 
