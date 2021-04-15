@@ -22,9 +22,6 @@ jobs:
         with:
           version: 1 # Latest stable release, for example, `1.5.3`.
 
-      - name: Install dependencies listed in Project.toml and build package
-        uses: julia-actions/julia-buildpkg@master
-
       - name: Build site
         run: |
           julia --project -e '

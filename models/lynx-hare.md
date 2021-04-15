@@ -1,9 +1,7 @@
 +++
 title = "Lynx and hare populations"
 showall = true
-reeval = true
 +++
-
 
 The last model in the 2nd edition of the Statistical Rethinking book is a time series model of hare and lynx populations.
 The model below is based on the book and the [Turing.jl tutorials](https://turing.ml).
