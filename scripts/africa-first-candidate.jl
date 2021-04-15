@@ -38,4 +38,4 @@ chns = sample(model, NUTS(), MCMCThreads(), 1000, 3)
 
 # \defaultgadflyoutput{}
 
-# 
+#

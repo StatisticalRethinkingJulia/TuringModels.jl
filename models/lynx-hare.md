@@ -7,6 +7,7 @@ reeval = true
 
 The last model in the 2nd edition of the Statistical Rethinking book is a time series model of hare and lynx populations.
 The model below is based on the book and the [Turing.jl tutorials](https://turing.ml).
+The main differences with the Turing tutorial are that below we use Gadfly for plotting and that the Turing tutorial has more explanation.
 
 In the book, the model, `m16.5`, is defined around page 547 as
 

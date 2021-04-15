@@ -24,7 +24,7 @@ Turing = "fce5fe82-541a-59a6-adf8-730c64b5f9a0"
 [compat]
 CSV = "0.8"
 CategoricalArrays = "0.9"
-DataFrames = "0.22"
+DataFrames = "0.23"
 Distributions = "0.24"
 Franklin = "0.10"
 Gadfly = "1.3"
