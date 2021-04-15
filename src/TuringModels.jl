@@ -13,7 +13,7 @@ Return output directory for some model or script such as "africa".
 This works around the OUTPUT macro from Franklin, because that macro doesn't work in Literate scripts.
 """
 function output_dir(name)
-    joinpath(project_root, "assets", "models", name, "code", "output")
+    joinpath(project_root, "__site", "assets", "models", name, "code")
 end
 
 function write_gadfly_svg(output_dir, name, p; width=6inch, height=4inch)
