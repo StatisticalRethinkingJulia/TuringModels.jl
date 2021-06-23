@@ -11,7 +11,7 @@ $$
 \begin{aligned}
   s_i &\sim \text{Binomial}(n_i, \overline{p}_i) \\
   \text{logit}(p_i) &= \alpha_{\text{POND}[i]} \\
-  \alpha_{\text{POND}} &\sim \text{Normal}(0, \sigma) \\
+  \alpha_{\text{POND}} &\sim \text{Normal}(\alpha, \sigma) \\
   \alpha &= \text{Normal}(0, 1) \\
   \sigma &\sim \text{HalfCauchy}(1)
 \end{aligned}
