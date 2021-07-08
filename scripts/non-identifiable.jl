@@ -3,7 +3,7 @@
 using Distributions
 using Random
 
-Random.seed!(1234)
+Random.seed!(1)
 y = rand(Normal(0,1), 100);
 
 # ## Model

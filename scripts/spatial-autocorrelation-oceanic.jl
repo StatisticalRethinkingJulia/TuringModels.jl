@@ -1,11 +1,14 @@
 # ## Data
 
 import CSV
+import Random
 import TuringModels
 
 using DataFrames
 using RData
 using LinearAlgebra
+
+Random.seed!(1)
 
 data_dir = joinpath(TuringModels.project_root, "data")
 kline_path = joinpath(data_dir, "Kline2.csv") 

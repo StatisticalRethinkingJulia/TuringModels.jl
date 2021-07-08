@@ -1,6 +1,10 @@
 # ## Data
 
-n = 9 
+import Random
+
+Random.seed!(1)
+
+n = 9
 k = 6;
 
 # ## Model

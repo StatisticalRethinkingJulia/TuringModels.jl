@@ -3,8 +3,11 @@
 import CSV
 
 using DataFrames
+using Random
 using Turing
 using TuringModels
+
+Random.seed!(1)
 
 data_path = joinpath(TuringModels.project_root, "data", "Howell1.csv")
 df = CSV.read(data_path, DataFrame; delim=';')

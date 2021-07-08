@@ -1,9 +1,12 @@
 # ## Data
 
 import CSV
+import Random
 import TuringModels
 
 using DataFrames
+
+Random.seed!(1)
 
 delim = ';'
 data_path = joinpath(TuringModels.project_root, "data", "Kline.csv")
