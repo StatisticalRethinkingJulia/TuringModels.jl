@@ -2,12 +2,16 @@
 title = "Non-centered Chimpanzees"
 +++
 
-This model is not executed on each change because it is similar to 
+This model is not executed on each change because it is similar to
 [multivariate-chimpanzees-priors](/models/multivariate-chimpanzees-priors).
 
 ```
+import Random
+
 using TuringModels
 using LinearAlgebra
+
+Random.seed!(1)
 
 # This script requires latest LKJ bijectors support.
 # `] add Bijectors#master` to get latest Bijectors.

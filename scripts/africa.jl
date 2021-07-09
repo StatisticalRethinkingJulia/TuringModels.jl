@@ -5,11 +5,14 @@
 
 # ## Data
 
+import CSV
+import Random
+
 using DataFrames
 using Turing
 using TuringModels
 
-import CSV
+Random.seed!(1)
 
 data_path = joinpath(TuringModels.project_root, "data", "rugged.csv")
 df = CSV.read(data_path, DataFrame)

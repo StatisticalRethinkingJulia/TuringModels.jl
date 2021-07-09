@@ -1,10 +1,13 @@
 # ## Data
 
 import CSV
+import Random
 import TuringModels
 
 using DataFrames
 using Statistics: mean
+
+Random.seed!(1)
 
 data_path = joinpath(TuringModels.project_root, "data", "Kline.csv")
 df = CSV.read(data_path, DataFrame; delim=';')

@@ -1,5 +1,10 @@
 ## hideall
+
+import Random
+
 using TuringModels
+
+Random.seed!(1)
 
 output_dir = TuringModels.output_dir("lynx-hare") # hide
 mkpath(output_dir)

@@ -4,7 +4,11 @@ y = [-1, 1]
 
 # ## Model
 
+import Random
+
 using Turing
+
+Random.seed!(1)
 
 @model function m8_2(y)
     σ ~ FlatPos(0.0) ## improper prior with probability one everywhere above 0.0

@@ -1,8 +1,12 @@
 # ## Data
 
+import Random
+
 using DataFrames
 using StatsFuns: logistic
 using Turing
+
+Random.seed!(1)
 
 μ = 1.4
 σ = 1.5

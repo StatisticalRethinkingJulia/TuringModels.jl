@@ -1,11 +1,14 @@
 # ## Data
 
+import Random
+import TuringModels
+
 using CSV
 using DataFrames
 using StatsFuns
 using Turing
 
-import TuringModels
+Random.seed!(1)
 
 file_path = joinpath(TuringModels.project_root, "data", "UCBadmit.csv")
 df = CSV.read(file_path, DataFrame; delim=';')
