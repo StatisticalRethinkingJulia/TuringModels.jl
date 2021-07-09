@@ -1,0 +1,105 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Ignoring gender for admittance</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Ignoring gender for admittance</h1> </div> <div class=franklin-content > <p>This is model 13.4 from Statistical Rethinking Edition 1.</p> <div class=franklin-toc ><ol><li><a href="#data">Data</a><li><a href="#model">Model</a><li><a href="#output">Output</a><li><a href="#original_output">Original output</a></ol></div> <h2 id=data ><a href="#data" class=header-anchor >Data</a></h2> <pre><code class=language-julia >import CSV
+import Random
+
+using DataFrames
+using Turing
+using TuringModels
+
+Random.seed&#33;&#40;1&#41;
+
+data_path &#61; joinpath&#40;TuringModels.project_root, &quot;data&quot;, &quot;UCBadmit.csv&quot;&#41;
+df &#61; CSV.read&#40;data_path, DataFrame; delim&#61;&#39;;&#39;&#41;
+
+dept_map &#61; Dict&#40;key &#61;&gt; idx for &#40;idx, key&#41; in enumerate&#40;unique&#40;df.dept&#41;&#41;&#41;
+df.male &#61; &#91;g &#61;&#61; &quot;male&quot; ? 1 : 0 for g in df.gender&#93;
+df.dept_id &#61; &#91;dept_map&#91;de&#93; for de in df.dept&#93;
+df</code></pre><pre><code class=plaintext >12×7 DataFrame
+ Row │ dept    gender  admit  reject  applications  male   dept_id
+     │ String  String  Int64  Int64   Int64         Int64  Int64
+─────┼─────────────────────────────────────────────────────────────
+   1 │ A       male      512     313           825      1        1
+   2 │ A       female     89      19           108      0        1
+   3 │ B       male      353     207           560      1        2
+   4 │ B       female     17       8            25      0        2
+   5 │ C       male      120     205           325      1        3
+   6 │ C       female    202     391           593      0        3
+   7 │ D       male      138     279           417      1        4
+   8 │ D       female    131     244           375      0        4
+   9 │ E       male       53     138           191      1        5
+  10 │ E       female     94     299           393      0        5
+  11 │ F       male       22     351           373      1        6
+  12 │ F       female     24     317           341      0        6</code></pre> <h2 id=model ><a href="#model" class=header-anchor >Model</a></h2> <pre><code class=language-julia >@model function m13_4&#40;applications, dept_id, male, admit&#41;
+    sigma_dept ~ truncated&#40;Cauchy&#40;0, 2&#41;, 0, Inf&#41;
+    a ~ Normal&#40;0, 10&#41;
+    a_dept ~ filldist&#40;Normal&#40;a, sigma_dept&#41;, 6&#41;
+
+    logit_p &#61; a_dept&#91;dept_id&#93;
+
+    admit .~ BinomialLogit.&#40;applications, logit_p&#41;
+end;</code></pre> <h2 id=output ><a href="#output" class=header-anchor >Output</a></h2> <pre><code class=language-julia >chns &#61; sample&#40;
+    m13_4&#40;df.applications, df.dept_id, df.male, df.admit&#41;,
+    Turing.NUTS&#40;&#41;,
+    5000
+&#41;</code></pre><pre><code class=plaintext >Chains MCMC chain (5000×20×1 Array{Float64, 3}):
+
+Iterations        = 1001:1:6000
+Number of chains  = 1
+Samples per chain = 5000
+Wall duration     = 8.43 seconds
+Compute duration  = 8.43 seconds
+parameters        = a, a_dept[1], a_dept[4], a_dept[5], a_dept[2], sigma_dept, a_dept[6], a_dept[3]
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+
+Summary Statistics
+  parameters      mean       std   naive_se      mcse         ess      rhat   ess_per_sec
+      Symbol   Float64   Float64    Float64   Float64     Float64   Float64       Float64
+
+  sigma_dept    1.4539    0.5758     0.0081    0.0099   3293.9732    0.9998      390.6978
+           a   -0.6432    0.6322     0.0089    0.0108   3373.5155    0.9998      400.1323
+   a_dept[1]    0.5898    0.0687     0.0010    0.0007   5952.8463    1.0007      706.0665
+   a_dept[2]    0.5369    0.0874     0.0012    0.0010   7325.8361    0.9998      868.9166
+   a_dept[3]   -0.6162    0.0713     0.0010    0.0009   6746.1081    0.9998      800.1552
+   a_dept[4]   -0.6662    0.0741     0.0010    0.0008   6137.3194    0.9998      727.9468
+   a_dept[5]   -1.0862    0.0945     0.0013    0.0012   6927.3429    0.9998      821.6514
+   a_dept[6]   -2.6537    0.1489     0.0021    0.0015   6955.6970    0.9998      825.0145
+
+Quantiles
+  parameters      2.5%     25.0%     50.0%     75.0%     97.5%
+      Symbol   Float64   Float64   Float64   Float64   Float64
+
+  sigma_dept    0.7642    1.0643    1.3227    1.6828    2.9444
+           a   -1.9242   -0.9910   -0.6327   -0.2856    0.6164
+   a_dept[1]    0.4524    0.5441    0.5904    0.6346    0.7255
+   a_dept[2]    0.3677    0.4786    0.5373    0.5949    0.7090
+   a_dept[3]   -0.7540   -0.6631   -0.6161   -0.5700   -0.4738
+   a_dept[4]   -0.8122   -0.7165   -0.6671   -0.6150   -0.5227
+   a_dept[5]   -1.2777   -1.1479   -1.0846   -1.0227   -0.9024
+   a_dept[6]   -2.9548   -2.7529   -2.6506   -2.5519   -2.3709
+</code></pre> </p> <pre><code class=language-julia >using StatsPlots
+
+StatsPlots.plot&#40;chns&#41;</code></pre> <p> <img src="/TuringModels.jl/assets/models/ignoring-gender-admit/code/output/chns.svg" alt=""> <h2 id=original_output ><a href="#original_output" class=header-anchor >Original output</a></h2> <pre><code class=language-julia >m_13_4_rethinking &#61; &quot;&quot;&quot;
+Inference for Stan model: 0c5c36512c20c41995d1bd25be525138.
+    3 chains, each with iter&#61;4500; warmup&#61;500; thin&#61;1;
+    post-warmup draws per chain&#61;4000, total post-warmup draws&#61;12000.
+
+                   mean se_mean   sd     2.5&#37;      25&#37;      50&#37;      75&#37;    97.5&#37;
+    a_dept&#91;1&#93;      0.59    0.00 0.07     0.46     0.54     0.59     0.64     0.73
+    a_dept&#91;2&#93;      0.54    0.00 0.09     0.37     0.48     0.54     0.60     0.71
+    a_dept&#91;3&#93;     -0.62    0.00 0.07    -0.75    -0.66    -0.62    -0.57    -0.49
+    a_dept&#91;4&#93;     -0.67    0.00 0.08    -0.81    -0.72    -0.67    -0.62    -0.52
+    a_dept&#91;5&#93;     -1.09    0.00 0.10    -1.28    -1.15    -1.09    -1.03    -0.90
+    a_dept&#91;6&#93;     -2.65    0.00 0.15    -2.96    -2.75    -2.65    -2.55    -2.37
+    a             -0.63    0.01 0.63    -1.89    -1.01    -0.64    -0.26     0.66
+    sigma_dept     1.45    0.01 0.57     0.77     1.08     1.33     1.68     2.90
+    lp__       -2602.37    0.03 2.08 -2607.45 -2603.49 -2602.01 -2600.86 -2599.35
+               n_eff Rhat
+    a_dept&#91;1&#93;  11285    1
+    a_dept&#91;2&#93;  11943    1
+    a_dept&#91;3&#93;  12707    1
+    a_dept&#91;4&#93;  11592    1
+    a_dept&#91;5&#93;  14598    1
+    a_dept&#91;6&#93;  13363    1
+    a           6965    1
+    sigma_dept  5643    1
+    lp__        5322    1
+&quot;&quot;&quot;;</code></pre> <div class=page-foot > <div class=copyright > <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: July 09, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>. </div> </div> </div> <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script> <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: ' '});</script>

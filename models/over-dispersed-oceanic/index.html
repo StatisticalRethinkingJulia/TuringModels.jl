@@ -1,0 +1,110 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Over-dispersed Oceanic tool complexity</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Over-dispersed Oceanic tool complexity</h1> </div> <div class=franklin-content > <p>This is model <code>m12.6</code> in Statistical Rethinking Edition 1.</p> <div class=franklin-toc ><ol><li><a href="#data">Data</a><li><a href="#model">Model</a><li><a href="#output">Output</a><li><a href="#original_output">Original output</a></ol></div> <h2 id=data ><a href="#data" class=header-anchor >Data</a></h2> <pre><code class=language-julia >import CSV
+import Random
+
+using DataFrames
+using TuringModels: project_root
+
+Random.seed&#33;&#40;1&#41;
+
+path &#61; joinpath&#40;project_root, &quot;data&quot;, &quot;Kline.csv&quot;&#41;
+df &#61; CSV.read&#40;path, DataFrame; delim&#61;&#39;;&#39;&#41;
+df.log_pop &#61; log.&#40;df.population&#41;
+df.society &#61; 1:nrow&#40;df&#41;
+df</code></pre><pre><code class=plaintext >10×7 DataFrame
+ Row │ culture     population  contact  total_tools  mean_TU  log_pop   society
+     │ String      Int64       String   Int64        Float64  Float64   Int64
+─────┼──────────────────────────────────────────────────────────────────────────
+   1 │ Malekula          1100  low               13      3.2   7.00307        1
+   2 │ Tikopia           1500  low               22      4.7   7.31322        2
+   3 │ Santa Cruz        3600  low               24      4.0   8.18869        3
+   4 │ Yap               4791  high              43      5.0   8.47449        4
+   5 │ Lau Fiji          7400  high              33      5.0   8.90924        5
+   6 │ Trobriand         8000  high              19      4.0   8.9872         6
+   7 │ Chuuk             9200  high              40      3.8   9.12696        7
+   8 │ Manus            13000  low               28      6.6   9.4727         8
+   9 │ Tonga            17500  high              55      5.4   9.76996        9
+  10 │ Hawaii          275000  low               71      6.6  12.5245        10</code></pre> <h2 id=model ><a href="#model" class=header-anchor >Model</a></h2> <pre><code class=language-julia >using Turing
+
+@model function m12_6&#40;total_tools, log_pop, society&#41;
+    N &#61; length&#40;total_tools&#41;
+
+    α ~ Normal&#40;0, 10&#41;
+    βp ~ Normal&#40;0, 1&#41;
+
+    σ_society ~ truncated&#40;Cauchy&#40;0, 1&#41;, 0, Inf&#41;
+
+    N_society &#61; length&#40;unique&#40;society&#41;&#41; ## 10
+
+    α_society ~ filldist&#40;Normal&#40;0, σ_society&#41;, N_society&#41;
+
+    for i in 1:N
+        λ &#61; exp&#40;α &#43; α_society&#91;society&#91;i&#93;&#93; &#43; βp*log_pop&#91;i&#93;&#41;
+        total_tools&#91;i&#93; ~ Poisson&#40;λ&#41;
+    end
+end;</code></pre> <h2 id=output ><a href="#output" class=header-anchor >Output</a></h2> <pre><code class=language-julia >chns &#61; sample&#40;
+    m12_6&#40;df.total_tools, df.log_pop, df.society&#41;,
+    NUTS&#40;0.95&#41;,
+    1000
+&#41;</code></pre><pre><code class=plaintext >Chains MCMC chain (1000×25×1 Array{Float64, 3}):
+
+Iterations        = 501:1:1500
+Number of chains  = 1
+Samples per chain = 1000
+Wall duration     = 10.93 seconds
+Compute duration  = 10.93 seconds
+parameters        = α, α_society[9], α_society[8], α_society[1], α_society[3], α_society[10], α_society[5], α_society[7], σ_society, α_society[6], α_society[2], βp, α_society[4]
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+
+Summary Statistics
+     parameters      mean       std   naive_se      mcse        ess      rhat   ess_per_sec
+         Symbol   Float64   Float64    Float64   Float64    Float64   Float64       Float64
+
+              α    1.1688    0.6922     0.0219    0.0405   260.6561    1.0047       23.8478
+             βp    0.2540    0.0759     0.0024    0.0041   266.3444    1.0036       24.3682
+      σ_society    0.3237    0.1331     0.0042    0.0042   190.3927    0.9996       17.4193
+   α_society[1]   -0.2325    0.2484     0.0079    0.0108   387.8535    0.9993       35.4852
+   α_society[2]    0.0323    0.2143     0.0068    0.0115   418.7738    1.0035       38.3142
+   α_society[3]   -0.0520    0.2029     0.0064    0.0107   487.5709    1.0052       44.6085
+   α_society[4]    0.3286    0.1953     0.0062    0.0130   277.0484    1.0051       25.3475
+   α_society[5]    0.0375    0.1813     0.0057    0.0075   496.7051    1.0035       45.4442
+   α_society[6]   -0.3321    0.2146     0.0068    0.0114   369.8285    0.9990       33.8361
+   α_society[7]    0.1434    0.1745     0.0055    0.0098   482.4804    1.0021       44.1428
+   α_society[8]   -0.1881    0.1933     0.0061    0.0089   446.6104    0.9994       40.8610
+   α_society[9]    0.2771    0.1842     0.0058    0.0123   370.3378    0.9998       33.8827
+  α_society[10]   -0.0743    0.2863     0.0091    0.0144   302.9755    1.0007       27.7196
+
+Quantiles
+     parameters      2.5%     25.0%     50.0%     75.0%     97.5%
+         Symbol   Float64   Float64   Float64   Float64   Float64
+
+              α   -0.2201    0.7466    1.2131    1.6150    2.5312
+             βp    0.1170    0.2039    0.2502    0.3000    0.4158
+      σ_society    0.1209    0.2323    0.3050    0.3884    0.6423
+   α_society[1]   -0.7531   -0.3841   -0.2134   -0.0634    0.1858
+   α_society[2]   -0.4063   -0.1000    0.0336    0.1585    0.4673
+   α_society[3]   -0.4878   -0.1743   -0.0363    0.0761    0.3444
+   α_society[4]   -0.0482    0.1938    0.3282    0.4578    0.7136
+   α_society[5]   -0.3088   -0.0782    0.0350    0.1523    0.4055
+   α_society[6]   -0.7949   -0.4626   -0.3137   -0.1801    0.0310
+   α_society[7]   -0.1799    0.0227    0.1293    0.2537    0.4878
+   α_society[8]   -0.5970   -0.3033   -0.1767   -0.0628    0.1623
+   α_society[9]   -0.0802    0.1502    0.2768    0.3935    0.6670
+  α_society[10]   -0.7015   -0.2424   -0.0593    0.1151    0.4698
+</code></pre> </p> <pre><code class=language-julia >using StatsPlots
+
+StatsPlots.plot&#40;chns&#41;</code></pre> <p> <img src="/TuringModels.jl/assets/models/over-dispersed-oceanic/code/output/chns.svg" alt=""> <h2 id=original_output ><a href="#original_output" class=header-anchor >Original output</a></h2> <pre><code class=language-julia >m12_6rethinking &#61; &quot;
+              Mean StdDev lower 0.89 upper 0.89 n_eff Rhat
+a              1.11   0.75      -0.05       2.24  1256    1
+bp             0.26   0.08       0.13       0.38  1276    1
+a_society&#91;1&#93;  -0.20   0.24      -0.57       0.16  2389    1
+a_society&#91;2&#93;   0.04   0.21      -0.29       0.38  2220    1
+a_society&#91;3&#93;  -0.05   0.19      -0.36       0.25  3018    1
+a_society&#91;4&#93;   0.32   0.18       0.01       0.60  2153    1
+a_society&#91;5&#93;   0.04   0.18      -0.22       0.33  3196    1
+a_society&#91;6&#93;  -0.32   0.21      -0.62       0.02  2574    1
+a_society&#91;7&#93;   0.14   0.17      -0.13       0.40  2751    1
+a_society&#91;8&#93;  -0.18   0.19      -0.46       0.12  2952    1
+a_society&#91;9&#93;   0.27   0.17      -0.02       0.52  2540    1
+a_society&#91;10&#93; -0.10   0.30      -0.52       0.37  1433    1
+sigma_society  0.31   0.13       0.11       0.47  1345    1
+&quot;;</code></pre> <div class=page-foot > <div class=copyright > <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: July 09, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>. </div> </div> </div> <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script> <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: ' '});</script>

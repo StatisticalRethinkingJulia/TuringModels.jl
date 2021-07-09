@@ -1,0 +1,4 @@
+Sitemap: https://statisticalrethinkingjulia.github.io/TuringModels.jl/sitemap.xml
+
+User-agent: *
+Disallow:

@@ -1,0 +1,125 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Spatial autocorrelation in Oceanic tools</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Spatial autocorrelation in Oceanic tools</h1> </div> <div class=franklin-content > <div class=franklin-toc ><ol><li><a href="#data">Data</a><li><a href="#model">Model</a><li><a href="#output">Output</a><li><a href="#original_output">Original output</a></ol></div> <h2 id=data ><a href="#data" class=header-anchor >Data</a></h2> <pre><code class=language-julia >import CSV
+import Random
+import TuringModels
+
+using DataFrames
+using RData
+using LinearAlgebra
+
+Random.seed&#33;&#40;1&#41;
+
+data_dir &#61; joinpath&#40;TuringModels.project_root, &quot;data&quot;&#41;
+kline_path &#61; joinpath&#40;data_dir, &quot;Kline2.csv&quot;&#41;
+df &#61; CSV.read&#40;kline_path, DataFrame; delim&#61;&#39;;&#39;&#41;
+
+dmat_path &#61; joinpath&#40;data_dir, &quot;islandsDistMatrix.rda&quot;&#41;
+dmat &#61; load&#40;dmat_path&#41;&#91;&quot;islandsDistMatrix&quot;&#93;
+
+df.society &#61; 1:10;
+df</code></pre><pre><code class=plaintext >10×10 DataFrame
+ Row │ culture     population  contact  total_tools  mean_TU  lat      lon      lon2     logpop    society
+     │ String      Int64       String   Int64        Float64  Float64  Float64  Float64  Float64   Int64
+─────┼─────────────────────────────────────────────────────────────────────────────────────────────────────
+   1 │ Malekula          1100  low               13      3.2    -16.3    167.5    -12.5   7.00307        1
+   2 │ Tikopia           1500  low               22      4.7    -12.3    168.8    -11.2   7.31322        2
+   3 │ Santa Cruz        3600  low               24      4.0    -10.7    166.0    -14.0   8.18869        3
+   4 │ Yap               4791  high              43      5.0      9.5    138.1    -41.9   8.47449        4
+   5 │ Lau Fiji          7400  high              33      5.0    -17.7    178.1     -1.9   8.90924        5
+   6 │ Trobriand         8000  high              19      4.0     -8.7    150.9    -29.1   8.9872         6
+   7 │ Chuuk             9200  high              40      3.8      7.4    151.6    -28.4   9.12696        7
+   8 │ Manus            13000  low               28      6.6     -2.1    146.9    -33.1   9.4727         8
+   9 │ Tonga            17500  high              55      5.4    -21.2   -175.2      4.8   9.76996        9
+  10 │ Hawaii          275000  low               71      6.6     19.9   -155.6     24.4  12.5245        10</code></pre> <h2 id=model ><a href="#model" class=header-anchor >Model</a></h2> <pre><code class=language-julia >using Turing
+
+@model function m13_7&#40;Dmat, society, logpop, total_tools&#41;
+    rhosq ~ truncated&#40;Cauchy&#40;0, 1&#41;, 0, Inf&#41;
+    etasq ~ truncated&#40;Cauchy&#40;0, 1&#41;, 0, Inf&#41;
+    bp ~ Normal&#40;0, 1&#41;
+    a ~ Normal&#40;0, 10&#41;
+
+    # GPL2
+    SIGMA_Dmat &#61; etasq * exp.&#40;-rhosq * Dmat.^2&#41;
+    SIGMA_Dmat &#61; SIGMA_Dmat &#43; 0.01I
+    SIGMA_Dmat &#61; &#40;SIGMA_Dmat&#39; &#43; SIGMA_Dmat&#41; / 2
+    g ~ MvNormal&#40;zeros&#40;10&#41;, SIGMA_Dmat&#41;
+
+    log_lambda &#61; a .&#43; g&#91;society&#93; .&#43; bp * logpop
+
+    total_tools .~ Poisson.&#40;exp.&#40;log_lambda&#41;&#41;
+end
+
+chns &#61; sample&#40;
+    m13_7&#40;dmat, df.society, df.logpop, df.total_tools&#41;,
+    NUTS&#40;&#41;,
+    5000
+&#41;</code></pre><pre><code class=plaintext >Chains MCMC chain (5000×26×1 Array{Float64, 3}):
+
+Iterations        = 1001:1:6000
+Number of chains  = 1
+Samples per chain = 5000
+Wall duration     = 34.78 seconds
+Compute duration  = 34.78 seconds
+parameters        = g[5], g[8], rhosq, etasq, g[4], g[2], g[3], g[10], g[1], a, bp, g[6], g[7], g[9]
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+
+Summary Statistics
+  parameters      mean       std   naive_se      mcse         ess      rhat   ess_per_sec
+      Symbol   Float64   Float64    Float64   Float64     Float64   Float64       Float64
+
+       rhosq    1.7599   15.8709     0.2244    0.3105   2520.4902    1.0001       72.4591
+       etasq    0.3414    0.5419     0.0077    0.0175    977.4809    1.0000       28.1006
+          bp    0.2457    0.1174     0.0017    0.0035   1171.1881    1.0002       33.6693
+           a    1.3149    1.1886     0.0168    0.0412    815.6917    1.0004       23.4495
+        g[1]   -0.2843    0.4430     0.0063    0.0182    539.2571    1.0008       15.5026
+        g[2]   -0.1300    0.4296     0.0061    0.0180    497.9664    1.0010       14.3155
+        g[3]   -0.1766    0.4155     0.0059    0.0177    474.9734    1.0006       13.6545
+        g[4]    0.2928    0.3684     0.0052    0.0153    489.3930    1.0005       14.0691
+        g[5]    0.0177    0.3638     0.0051    0.0147    499.8716    1.0009       14.3703
+        g[6]   -0.4648    0.3711     0.0052    0.0141    545.9610    1.0001       15.6953
+        g[7]    0.0900    0.3557     0.0050    0.0147    497.0951    1.0005       14.2905
+        g[8]   -0.2704    0.3594     0.0051    0.0138    530.2566    1.0007       15.2438
+        g[9]    0.2291    0.3404     0.0048    0.0132    517.2954    1.0001       14.8712
+       g[10]   -0.1263    0.4591     0.0065    0.0126    938.2384    0.9998       26.9725
+
+Quantiles
+  parameters      2.5%     25.0%     50.0%     75.0%     97.5%
+      Symbol   Float64   Float64   Float64   Float64   Float64
+
+       rhosq    0.0385    0.1634    0.4168    0.9973    8.3822
+       etasq    0.0323    0.1028    0.2017    0.3976    1.4627
+          bp   -0.0055    0.1784    0.2473    0.3162    0.4873
+           a   -1.0408    0.6011    1.2784    1.9755    3.9084
+        g[1]   -1.2873   -0.5072   -0.2466   -0.0294    0.5490
+        g[2]   -1.0689   -0.3529   -0.1012    0.1233    0.6761
+        g[3]   -1.0850   -0.3853   -0.1450    0.0708    0.5763
+        g[4]   -0.5083    0.1139    0.3092    0.4957    0.9871
+        g[5]   -0.7479   -0.1571    0.0307    0.2187    0.7161
+        g[6]   -1.2947   -0.6559   -0.4308   -0.2397    0.1628
+        g[7]   -0.7016   -0.0754    0.1059    0.2832    0.7525
+        g[8]   -1.0826   -0.4448   -0.2431   -0.0639    0.3910
+        g[9]   -0.4782    0.0704    0.2461    0.4079    0.8664
+       g[10]   -1.0698   -0.3770   -0.1139    0.1344    0.7732
+</code></pre> <h2 id=output ><a href="#output" class=header-anchor >Output</a></h2> </p> <pre><code class=language-julia >using StatsPlots
+
+StatsPlots.plot&#40;chns&#41;</code></pre> <p> <img src="/TuringModels.jl/assets/models/spatial-autocorrelation-oceanic/code/output/chns.svg" alt=""> <h2 id=original_output ><a href="#original_output" class=header-anchor >Original output</a></h2> <pre><code class=language-julia >m_13_7_rethinking &#61; &quot;&quot;&quot;
+Inference for Stan model: 6422d8042e9cdd08dae2420ad26842f1.
+    4 chains, each with iter&#61;10000; warmup&#61;2000; thin&#61;1;
+    post-warmup draws per chain&#61;8000, total post-warmup draws&#61;32000.
+
+            mean se_mean    sd   2.5&#37;    25&#37;    50&#37;    75&#37;  97.5&#37; n_eff Rhat
+    g&#91;1&#93;   -0.27    0.01  0.44  -1.26  -0.50  -0.24  -0.01   0.53  3278    1
+    g&#91;2&#93;   -0.13    0.01  0.43  -1.07  -0.34  -0.10   0.12   0.67  3144    1
+    g&#91;3&#93;   -0.17    0.01  0.42  -1.10  -0.37  -0.14   0.07   0.59  3096    1
+    g&#91;4&#93;    0.30    0.01  0.37  -0.51   0.12   0.30   0.50   1.02  3145    1
+    g&#91;5&#93;    0.03    0.01  0.37  -0.77  -0.15   0.04   0.22   0.72  3055    1
+    g&#91;6&#93;   -0.46    0.01  0.38  -1.31  -0.64  -0.42  -0.23   0.19  3306    1
+    g&#91;7&#93;    0.10    0.01  0.36  -0.70  -0.07   0.11   0.29   0.78  3175    1
+    g&#91;8&#93;   -0.26    0.01  0.37  -1.07  -0.43  -0.24  -0.06   0.40  3246    1
+    g&#91;9&#93;    0.23    0.01  0.35  -0.52   0.07   0.25   0.42   0.89  3302    1
+    g&#91;10&#93;  -0.12    0.01  0.45  -1.04  -0.36  -0.11   0.13   0.77  5359    1
+    a       1.31    0.02  1.15  -0.98   0.61   1.31   2.00   3.69  4389    1
+    bp      0.25    0.00  0.11   0.02   0.18   0.24   0.31   0.47  5634    1
+    etasq   0.34    0.01  0.53   0.03   0.10   0.20   0.39   1.52  5643    1
+    rhosq   1.52    0.09 11.82   0.03   0.16   0.39   0.96   7.96 15955    1
+    lp__  925.98    0.03  2.96 919.16 924.20 926.34 928.14 930.67  7296    1
+&quot;&quot;&quot;;</code></pre> <div class=page-foot > <div class=copyright > <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: July 09, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>. </div> </div> </div> <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script> <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: ' '});</script>

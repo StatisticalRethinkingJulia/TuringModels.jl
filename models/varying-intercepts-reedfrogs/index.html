@@ -1,0 +1,239 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/katex/katex.min.css"> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Varying intercepts Reedfrogs</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Varying intercepts Reedfrogs</h1> </div> <div class=franklin-content > <p>On page 402 of Edition 2, this model is defined as</p> <span class=katex-display ><span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML" display=block ><semantics><mtable rowspacing=0.24999999999999992em  columnalign="right left" columnspacing=0em ><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><msub><mi>S</mi><mi>i</mi></msub></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>∼</mo><mtext>Binomial</mtext><mo stretchy=false >(</mo><msub><mi>N</mi><mi>i</mi></msub><mo separator=true >,</mo><msub><mi>p</mi><mi>i</mi></msub><mo stretchy=false >)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mtext>logit</mtext><mo stretchy=false >(</mo><msub><mi>p</mi><mi>i</mi></msub><mo stretchy=false >)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>=</mo><msub><mi>α</mi><mtext>TANK[i]</mtext></msub></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><msub><mi>α</mi><mtext>TANK[i]</mtext></msub></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>∼</mo><mtext>Normal</mtext><mo stretchy=false >(</mo><mn>0</mn><mo separator=true >,</mo><mn>1.5</mn><mo stretchy=false >)</mo></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex"> \begin{aligned} S_i &amp;\sim \text{Binomial}(N_i, p_i) \\ \text{logit}(p_i) &amp;= \alpha_\text{TANK[i]} \\ \alpha_\text{TANK[i]} &amp;\sim \text{Normal}(0, 1.5) \end{aligned} </annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:4.500000000000002em;vertical-align:-2.000000000000001em;"></span><span class=mord ><span class=mtable ><span class=col-align-r ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:2.5000000000000004em;"><span style="top:-4.66em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.16em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class="mord text"><span class=mord >logit</span></span><span class=mopen >(</span><span class=mord ><span class="mord mathnormal">p</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span><span class=mclose >)</span></span></span><span style="top:-1.6599999999999993em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.34480000000000005em;"><span style="top:-2.5198em;margin-left:-0.0037em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord mtight">TANK[i]</span></span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.3551999999999999em;"><span></span></span></span></span></span></span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:2.000000000000001em;"><span></span></span></span></span></span><span class=col-align-l ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:2.5000000000000004em;"><span style="top:-4.66em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >∼</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class=mord >Binomial</span></span><span class=mopen >(</span><span class=mord ><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.16666666666666666em;"></span><span class=mord ><span class="mord mathnormal">p</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span><span class=mclose >)</span></span></span><span style="top:-3.16em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >=</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.34480000000000005em;"><span style="top:-2.5198em;margin-left:-0.0037em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord mtight">TANK[i]</span></span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.3551999999999999em;"><span></span></span></span></span></span></span></span></span><span style="top:-1.6599999999999993em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >∼</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class=mord >Normal</span></span><span class=mopen >(</span><span class=mord >0</span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.16666666666666666em;"></span><span class=mord >1</span><span class=mord >.</span><span class=mord >5</span><span class=mclose >)</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:2.000000000000001em;"><span></span></span></span></span></span></span></span></span></span></span></span> <div class=franklin-toc ><ol><li><a href="#data">Data</a><li><a href="#model">Model</a><li><a href="#output">Output</a><li><a href="#original_output_edition_1">Original output &#40;Edition 1&#41;</a></ol></div> <h2 id=data ><a href="#data" class=header-anchor >Data</a></h2> <pre><code class=language-julia >import CSV
+import Random
+
+using DataFrames
+using TuringModels
+
+Random.seed&#33;&#40;1&#41;
+
+data_path &#61; joinpath&#40;TuringModels.project_root, &quot;data&quot;, &quot;reedfrogs.csv&quot;&#41;
+df &#61; CSV.read&#40;data_path, DataFrame; delim&#61;&#39;;&#39;&#41;;
+df.tank_index &#61; 1:nrow&#40;df&#41;
+df</code></pre><pre><code class=plaintext >48×6 DataFrame
+ Row │ density  pred    size    surv   propsurv  tank_index
+     │ Int64    String  String  Int64  Float64   Int64
+─────┼──────────────────────────────────────────────────────
+   1 │      10  no      big         9  0.9                1
+   2 │      10  no      big        10  1.0                2
+   3 │      10  no      big         7  0.7                3
+   4 │      10  no      big        10  1.0                4
+   5 │      10  no      small       9  0.9                5
+   6 │      10  no      small       9  0.9                6
+   7 │      10  no      small      10  1.0                7
+   8 │      10  no      small       9  0.9                8
+   9 │      10  pred    big         4  0.4                9
+  10 │      10  pred    big         9  0.9               10
+  11 │      10  pred    big         7  0.7               11
+  12 │      10  pred    big         6  0.6               12
+  13 │      10  pred    small       7  0.7               13
+  14 │      10  pred    small       5  0.5               14
+  15 │      10  pred    small       9  0.9               15
+  16 │      10  pred    small       9  0.9               16
+  17 │      25  no      big        24  0.96              17
+  18 │      25  no      big        23  0.92              18
+  19 │      25  no      big        22  0.88              19
+  20 │      25  no      big        25  1.0               20
+  21 │      25  no      small      23  0.92              21
+  22 │      25  no      small      23  0.92              22
+  23 │      25  no      small      23  0.92              23
+  24 │      25  no      small      21  0.84              24
+  25 │      25  pred    big         6  0.24              25
+  26 │      25  pred    big        13  0.52              26
+  27 │      25  pred    big         4  0.16              27
+  28 │      25  pred    big         9  0.36              28
+  29 │      25  pred    small      13  0.52              29
+  30 │      25  pred    small      20  0.8               30
+  31 │      25  pred    small       8  0.32              31
+  32 │      25  pred    small      10  0.4               32
+  33 │      35  no      big        34  0.971429          33
+  34 │      35  no      big        33  0.942857          34
+  35 │      35  no      big        33  0.942857          35
+  36 │      35  no      big        31  0.885714          36
+  37 │      35  no      small      31  0.885714          37
+  38 │      35  no      small      35  1.0               38
+  39 │      35  no      small      33  0.942857          39
+  40 │      35  no      small      32  0.914286          40
+  41 │      35  pred    big         4  0.114286          41
+  42 │      35  pred    big        12  0.342857          42
+  43 │      35  pred    big        13  0.371429          43
+  44 │      35  pred    big        14  0.4               44
+  45 │      35  pred    small      22  0.628571          45
+  46 │      35  pred    small      12  0.342857          46
+  47 │      35  pred    small      31  0.885714          47
+  48 │      35  pred    small      17  0.485714          48</code></pre> <h2 id=model ><a href="#model" class=header-anchor >Model</a></h2> <pre><code class=language-julia >using Turing
+using StatsFuns: logistic
+
+@model function reedfrogs&#40;Nᵢ, i, Sᵢ&#41;
+    αₜₐₙₖ ~ filldist&#40;Normal&#40;0, 1.5&#41;, length&#40;i&#41;&#41;
+    pᵢ &#61; logistic.&#40;αₜₐₙₖ&#91;i&#93;&#41;
+    Sᵢ .~ Binomial.&#40;Nᵢ, pᵢ&#41;
+end;</code></pre> <h2 id=output ><a href="#output" class=header-anchor >Output</a></h2> <pre><code class=language-julia >n &#61; nrow&#40;df&#41;
+model &#61; reedfrogs&#40;df.density, df.tank_index, df.surv&#41;
+chns &#61; sample&#40;model, NUTS&#40;&#41;, 1000&#41;</code></pre><pre><code class=plaintext >Chains MCMC chain (1000×60×1 Array{Float64, 3}):
+
+Iterations        = 501:1:1500
+Number of chains  = 1
+Samples per chain = 1000
+Wall duration     = 7.82 seconds
+Compute duration  = 7.82 seconds
+parameters        = αₜₐₙₖ[16], αₜₐₙₖ[13], αₜₐₙₖ[28], αₜₐₙₖ[7], αₜₐₙₖ[44], αₜₐₙₖ[12], αₜₐₙₖ[6], αₜₐₙₖ[41], αₜₐₙₖ[45], αₜₐₙₖ[8], αₜₐₙₖ[47], αₜₐₙₖ[30], αₜₐₙₖ[17], αₜₐₙₖ[21], αₜₐₙₖ[42], αₜₐₙₖ[2], αₜₐₙₖ[29], αₜₐₙₖ[23], αₜₐₙₖ[1], αₜₐₙₖ[43], αₜₐₙₖ[4], αₜₐₙₖ[48], αₜₐₙₖ[26], αₜₐₙₖ[27], αₜₐₙₖ[40], αₜₐₙₖ[14], αₜₐₙₖ[31], αₜₐₙₖ[3], αₜₐₙₖ[36], αₜₐₙₖ[19], αₜₐₙₖ[9], αₜₐₙₖ[15], αₜₐₙₖ[46], αₜₐₙₖ[38], αₜₐₙₖ[25], αₜₐₙₖ[34], αₜₐₙₖ[24], αₜₐₙₖ[20], αₜₐₙₖ[22], αₜₐₙₖ[33], αₜₐₙₖ[37], αₜₐₙₖ[10], αₜₐₙₖ[32], αₜₐₙₖ[11], αₜₐₙₖ[35], αₜₐₙₖ[18], αₜₐₙₖ[39], αₜₐₙₖ[5]
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+
+Summary Statistics
+  parameters      mean       std   naive_se      mcse         ess      rhat   ess_per_sec
+      Symbol   Float64   Float64    Float64   Float64     Float64   Float64       Float64
+
+    αₜₐₙₖ[1]    1.6678    0.7762     0.0245    0.0147   1320.6237    0.9990      168.8345
+    αₜₐₙₖ[2]    2.4205    0.9295     0.0294    0.0224   1746.3398    0.9994      223.2600
+    αₜₐₙₖ[3]    0.7386    0.6304     0.0199    0.0165   2152.3322    0.9991      275.1639
+    αₜₐₙₖ[4]    2.4057    0.8943     0.0283    0.0199   1723.3183    0.9990      220.3168
+    αₜₐₙₖ[5]    1.7260    0.7378     0.0233    0.0172   1411.7927    1.0005      180.4900
+    αₜₐₙₖ[6]    1.7439    0.7743     0.0245    0.0190   1909.7708    0.9990      244.1538
+    αₜₐₙₖ[7]    2.3672    0.8714     0.0276    0.0267   1457.9927    1.0003      186.3964
+    αₜₐₙₖ[8]    1.7050    0.7634     0.0241    0.0114   2141.2771    0.9993      273.7506
+    αₜₐₙₖ[9]   -0.3968    0.5806     0.0184    0.0166   1677.6531    0.9993      214.4788
+   αₜₐₙₖ[10]    1.7416    0.7427     0.0235    0.0161   1789.7015    0.9990      228.8036
+   αₜₐₙₖ[11]    0.7518    0.6648     0.0210    0.0172   2165.1738    0.9996      276.8056
+   αₜₐₙₖ[12]    0.3678    0.6271     0.0198    0.0125   1696.1572    0.9990      216.8444
+   αₜₐₙₖ[13]    0.7602    0.6321     0.0200    0.0174   1503.9658    0.9991      192.2738
+   αₜₐₙₖ[14]   -0.0089    0.5591     0.0177    0.0169   2251.7398    0.9990      287.8726
+   αₜₐₙₖ[15]    1.7186    0.7513     0.0238    0.0191   1701.2954    0.9991      217.5013
+   αₜₐₙₖ[16]    1.7052    0.8352     0.0264    0.0255   2561.0844    0.9994      327.4207
+   αₜₐₙₖ[17]    2.5293    0.6807     0.0215    0.0114   2335.2608    0.9999      298.5503
+   αₜₐₙₖ[18]    2.1538    0.6106     0.0193    0.0094   2017.5408    0.9994      257.9316
+   αₜₐₙₖ[19]    1.8211    0.5541     0.0175    0.0148   2040.7464    0.9991      260.8983
+   αₜₐₙₖ[20]    3.1182    0.8090     0.0256    0.0130   1860.2350    0.9990      237.8209
+   αₜₐₙₖ[21]    2.1118    0.5939     0.0188    0.0113   2154.4957    1.0004      275.4405
+   αₜₐₙₖ[22]    2.1330    0.5403     0.0171    0.0090   1977.3792    0.9991      252.7971
+   αₜₐₙₖ[23]    2.1404    0.6296     0.0199    0.0133   1597.7011    0.9996      204.2574
+   αₜₐₙₖ[24]    1.5428    0.5133     0.0162    0.0063   2564.4389    0.9999      327.8495
+   αₜₐₙₖ[25]   -1.0897    0.4634     0.0147    0.0088   2311.6748    0.9992      295.5350
+   αₜₐₙₖ[26]    0.0814    0.4085     0.0129    0.0085   1540.2659    0.9990      196.9146
+   αₜₐₙₖ[27]   -1.5639    0.5140     0.0163    0.0175   1536.3644    1.0001      196.4158
+   αₜₐₙₖ[28]   -0.5354    0.4277     0.0135    0.0097   1693.7501    1.0015      216.5367
+   αₜₐₙₖ[29]    0.0727    0.4244     0.0134    0.0065   2843.2748    0.9990      363.4972
+   αₜₐₙₖ[30]    1.3104    0.4524     0.0143    0.0113   2570.4760    0.9993      328.6213
+   αₜₐₙₖ[31]   -0.7293    0.4217     0.0133    0.0087   1539.9226    0.9996      196.8707
+   αₜₐₙₖ[32]   -0.3756    0.3968     0.0125    0.0086   2113.3073    0.9991      270.1748
+   αₜₐₙₖ[33]    2.8705    0.6783     0.0214    0.0101   1703.4320    0.9990      217.7745
+   αₜₐₙₖ[34]    2.4523    0.5466     0.0173    0.0112   2068.7305    0.9990      264.4759
+   αₜₐₙₖ[35]    2.4406    0.6026     0.0191    0.0111   2475.6821    0.9993      316.5024
+   αₜₐₙₖ[36]    1.9179    0.4763     0.0151    0.0152   1917.7756    0.9990      245.1771
+   αₜₐₙₖ[37]    1.9135    0.5010     0.0158    0.0144   1296.2046    0.9996      165.7127
+   αₜₐₙₖ[38]    3.3758    0.8253     0.0261    0.0199   1291.2082    0.9995      165.0739
+   αₜₐₙₖ[39]    2.4725    0.6036     0.0191    0.0113   1720.3647    0.9991      219.9392
+   αₜₐₙₖ[40]    2.1440    0.4969     0.0157    0.0113   1753.4820    0.9991      224.1731
+   αₜₐₙₖ[41]   -1.8925    0.4557     0.0144    0.0157   1974.6291    0.9993      252.4456
+   αₜₐₙₖ[42]   -0.6283    0.3449     0.0109    0.0087   1989.7949    0.9999      254.3844
+   αₜₐₙₖ[43]   -0.5123    0.3367     0.0106    0.0080   1763.3956    0.9991      225.4405
+   αₜₐₙₖ[44]   -0.3909    0.3327     0.0105    0.0069   2145.7543    0.9990      274.3230
+   αₜₐₙₖ[45]    0.5078    0.3592     0.0114    0.0042   1976.7262    0.9990      252.7137
+   αₜₐₙₖ[46]   -0.6413    0.3376     0.0107    0.0090   1816.5516    0.9993      232.2362
+   αₜₐₙₖ[47]    1.9353    0.5267     0.0167    0.0114   2106.5737    0.9996      269.3140
+   αₜₐₙₖ[48]   -0.0410    0.3468     0.0110    0.0056   2359.9446    0.9990      301.7060
+
+Quantiles
+  parameters      2.5%     25.0%     50.0%     75.0%     97.5%
+      Symbol   Float64   Float64   Float64   Float64   Float64
+
+    αₜₐₙₖ[1]    0.2694    1.1550    1.6078    2.1583    3.3936
+    αₜₐₙₖ[2]    0.7243    1.7697    2.3538    2.9963    4.3801
+    αₜₐₙₖ[3]   -0.4896    0.3273    0.7345    1.1290    2.0754
+    αₜₐₙₖ[4]    0.8548    1.7689    2.3424    3.0058    4.2713
+    αₜₐₙₖ[5]    0.4060    1.2084    1.6893    2.2203    3.2626
+    αₜₐₙₖ[6]    0.3278    1.2318    1.6867    2.2370    3.3928
+    αₜₐₙₖ[7]    0.8883    1.7269    2.2781    2.9212    4.2139
+    αₜₐₙₖ[8]    0.3293    1.1929    1.6484    2.1340    3.3526
+    αₜₐₙₖ[9]   -1.5661   -0.7822   -0.3866   -0.0117    0.7805
+   αₜₐₙₖ[10]    0.3875    1.2408    1.7127    2.1879    3.3472
+   αₜₐₙₖ[11]   -0.5468    0.2865    0.7516    1.1726    2.1685
+   αₜₐₙₖ[12]   -0.8160   -0.0812    0.3619    0.7980    1.6312
+   αₜₐₙₖ[13]   -0.3960    0.3489    0.7247    1.1509    2.0850
+   αₜₐₙₖ[14]   -1.1464   -0.3696   -0.0063    0.3440    1.0939
+   αₜₐₙₖ[15]    0.4494    1.1834    1.6613    2.2258    3.3030
+   αₜₐₙₖ[16]    0.2264    1.1131    1.6637    2.2285    3.4964
+   αₜₐₙₖ[17]    1.3218    2.0481    2.4716    2.9686    4.0217
+   αₜₐₙₖ[18]    1.0372    1.7577    2.1257    2.5041    3.4587
+   αₜₐₙₖ[19]    0.8206    1.4054    1.7939    2.1906    2.9923
+   αₜₐₙₖ[20]    1.6780    2.5540    3.0383    3.6051    4.9211
+   αₜₐₙₖ[21]    1.0108    1.7116    2.0717    2.4760    3.3297
+   αₜₐₙₖ[22]    1.2312    1.7482    2.0728    2.4794    3.2575
+   αₜₐₙₖ[23]    1.0092    1.7010    2.1121    2.5103    3.5527
+   αₜₐₙₖ[24]    0.6141    1.1762    1.5206    1.8869    2.6036
+   αₜₐₙₖ[25]   -2.0290   -1.3989   -1.0869   -0.7731   -0.1862
+   αₜₐₙₖ[26]   -0.6788   -0.2079    0.0769    0.3606    0.8990
+   αₜₐₙₖ[27]   -2.6793   -1.9015   -1.5391   -1.2086   -0.5469
+   αₜₐₙₖ[28]   -1.3956   -0.8012   -0.5360   -0.2751    0.2666
+   αₜₐₙₖ[29]   -0.7322   -0.2058    0.0778    0.3284    0.8691
+   αₜₐₙₖ[30]    0.4300    1.0080    1.2861    1.5866    2.2842
+   αₜₐₙₖ[31]   -1.5350   -1.0038   -0.7235   -0.4447    0.1090
+   αₜₐₙₖ[32]   -1.2231   -0.6265   -0.3640   -0.1265    0.4005
+   αₜₐₙₖ[33]    1.6639    2.4036    2.8001    3.3225    4.3641
+   αₜₐₙₖ[34]    1.4346    2.0697    2.4250    2.8127    3.5536
+   αₜₐₙₖ[35]    1.4072    2.0030    2.4201    2.7952    3.7704
+   αₜₐₙₖ[36]    1.0631    1.5780    1.8816    2.2376    2.9018
+   αₜₐₙₖ[37]    1.0328    1.5693    1.8792    2.2170    3.0447
+   αₜₐₙₖ[38]    1.9374    2.7992    3.2986    3.8883    5.1105
+   αₜₐₙₖ[39]    1.3844    2.0599    2.4422    2.8266    3.7683
+   αₜₐₙₖ[40]    1.2355    1.8256    2.1181    2.4530    3.1640
+   αₜₐₙₖ[41]   -2.8522   -2.1601   -1.8748   -1.5912   -1.0543
+   αₜₐₙₖ[42]   -1.2909   -0.8678   -0.6247   -0.4012    0.0465
+   αₜₐₙₖ[43]   -1.1707   -0.7438   -0.5124   -0.2802    0.1138
+   αₜₐₙₖ[44]   -1.0568   -0.6073   -0.3802   -0.1650    0.2633
+   αₜₐₙₖ[45]   -0.1564    0.2520    0.4984    0.7473    1.2143
+   αₜₐₙₖ[46]   -1.3230   -0.8526   -0.6355   -0.4140    0.0151
+   αₜₐₙₖ[47]    0.9772    1.5614    1.9208    2.2859    3.0336
+   αₜₐₙₖ[48]   -0.7252   -0.2527   -0.0320    0.1712    0.6416
+</code></pre> </p> <pre><code class=language-julia >using StatsPlots
+
+StatsPlots.plot&#40;chns&#41;</code></pre> <p> <img src="/TuringModels.jl/assets/models/varying-intercepts-reedfrogs/code/output/chns.svg" alt=""> <h2 id=original_output_edition_1 ><a href="#original_output_edition_1" class=header-anchor >Original output &#40;Edition 1&#41;</a></h2> <pre><code class=language-julia >&quot;&quot;&quot;
+             mean   sd  5.5&#37; 94.5&#37; n_eff Rhat
+a_tank&#91;1&#93;   2.49 1.16  0.85  4.53  1079    1
+a_tank&#91;2&#93;   5.69 2.75  2.22 10.89  1055    1
+a_tank&#91;3&#93;   0.89 0.75 -0.23  2.16  1891    1
+a_tank&#91;4&#93;   5.71 2.70  2.21 10.85   684    1
+a_tank&#91;5&#93;   2.52 1.14  0.92  4.42  1640    1
+a_tank&#91;6&#93;   2.49 1.13  0.94  4.52  1164    1
+a_tank&#91;7&#93;   5.74 2.71  2.25 10.86   777    1
+a_tank&#91;8&#93;   2.52 1.19  0.95  4.42  1000    1
+a_tank&#91;9&#93;  -0.46 0.69 -1.62  0.55  2673    1
+a_tank&#91;10&#93;  2.53 1.19  0.93  4.59  1430    1
+a_tank&#91;11&#93;  0.93 0.72 -0.17  2.11  1387    1
+a_tank&#91;12&#93;  0.47 0.74 -0.63  1.70  1346    1
+a_tank&#91;13&#93;  0.91 0.76 -0.25  2.30  1559    1
+a_tank&#91;14&#93;  0.00 0.66 -1.04  1.06  2085    1
+a_tank&#91;15&#93;  2.50 1.19  0.95  4.40  1317    1
+a_tank&#91;16&#93;  2.50 1.14  0.98  4.31  1412    1
+a_tank&#91;17&#93;  3.49 1.12  1.94  5.49   945    1
+a_tank&#91;18&#93;  2.59 0.75  1.50  3.81  1561    1
+a_tank&#91;19&#93;  2.11 0.64  1.15  3.15  1712    1
+a_tank&#91;20&#93;  6.40 2.57  3.11 11.04   996    1
+a_tank&#91;21&#93;  2.59 0.74  1.54  3.93  1233    1
+a_tank&#91;22&#93;  2.63 0.79  1.49  4.01  1184    1
+a_tank&#91;23&#93;  2.64 0.83  1.45  4.13  1379    1
+a_tank&#91;24&#93;  1.74 0.59  0.85  2.72  1736    1
+a_tank&#91;25&#93; -1.19 0.45 -1.90 -0.50  2145    1
+a_tank&#91;26&#93;  0.09 0.41 -0.53  0.78  2167    1
+a_tank&#91;27&#93; -1.75 0.56 -2.65 -0.88  1666    1
+a_tank&#91;28&#93; -0.58 0.43 -1.25  0.08  1567    1
+a_tank&#91;29&#93;  0.08 0.39 -0.54  0.71  3053    1
+a_tank&#91;30&#93;  1.43 0.49  0.66  2.24  2754    1
+a_tank&#91;31&#93; -0.79 0.44 -1.50 -0.12  1299    1
+a_tank&#91;32&#93; -0.42 0.41 -1.12  0.23  1661    1
+a_tank&#91;33&#93;  3.84 1.08  2.31  5.70   808    1
+a_tank&#91;34&#93;  3.00 0.85  1.83  4.36  1038    1
+a_tank&#91;35&#93;  2.96 0.82  1.82  4.25  1578    1
+a_tank&#91;36&#93;  2.14 0.55  1.31  3.08  1734    1
+a_tank&#91;37&#93;  2.12 0.56  1.31  3.04  1131    1
+a_tank&#91;38&#93;  6.72 2.62  3.45 11.44   706    1
+a_tank&#91;39&#93;  2.95 0.73  1.85  4.08  1509    1
+a_tank&#91;40&#93;  2.48 0.65  1.53  3.61  1731    1
+a_tank&#91;41&#93; -2.15 0.57 -3.11 -1.29  1231    1
+a_tank&#91;42&#93; -0.67 0.35 -1.22 -0.14  1444    1
+a_tank&#91;43&#93; -0.54 0.35 -1.12  0.03  1776    1
+a_tank&#91;44&#93; -0.43 0.34 -1.00  0.10  1735    1
+a_tank&#91;45&#93;  0.54 0.36 -0.04  1.14  1376    1
+a_tank&#91;46&#93; -0.67 0.34 -1.25 -0.15  1619    1
+a_tank&#91;47&#93;  2.14 0.55  1.31  3.04  1916    1
+a_tank&#91;48&#93; -0.06 0.35 -0.61  0.50  1932    1
+&quot;&quot;&quot;;</code></pre> <div class=page-foot > <div class=copyright > <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: July 09, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>. </div> </div> </div> <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script> <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: ' '});</script>
