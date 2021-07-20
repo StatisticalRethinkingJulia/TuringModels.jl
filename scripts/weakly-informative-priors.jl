@@ -11,7 +11,7 @@ using Turing
     σ ~ truncated(Cauchy(0, 1), 0, Inf)
 
     μ = α
-    y .~ Normal(μ, σ)
+    y ~ MvNormal(μ, σ)
 end;
 
 # ## Output

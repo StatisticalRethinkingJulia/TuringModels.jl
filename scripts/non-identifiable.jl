@@ -16,7 +16,7 @@ using Turing
     α₂ ~ Uniform(-1000, 3000)
     σ ~ truncated(Cauchy(0,1), 0, Inf)
 
-    y .~ Normal(α₁ + α₂, σ)
+    y ~ MvNormal(α₁ + α₂, σ)
 end
 
 chns = sample(m8_4(y), NUTS(), 2000)

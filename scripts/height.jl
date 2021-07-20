@@ -21,7 +21,7 @@ df = filter(row -> row.age >= 18, df);
     σ ~ Uniform(0, 50)
     μ ~ Normal(178, 20)
 
-    height .~ Normal.(μ, σ)
+    height ~ MvNormal(μ, σ)
 end
 
 model = line(df.height);

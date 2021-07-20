@@ -33,7 +33,7 @@ using Turing
     b_cafe = a_b_cafe[2, :]
 
     μ = a_cafe[cafe] + b_cafe[cafe] .* afternoon
-    wait .~ Normal.(μ, sigma)
+    wait ~ MvNormal(μ, sigma)
 end;
 
 # ## Output

@@ -14,7 +14,7 @@ Random.seed!(1)
     σ ~ FlatPos(0.0) ## improper prior with probability one everywhere above 0.0
     α ~ Flat() ## improper prior with pobability one everywhere
 
-    y .~ Normal(α, σ)
+    y ~ MvNormal(α, σ)
 end;
 
 # ## Output

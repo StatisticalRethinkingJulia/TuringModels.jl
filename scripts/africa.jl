@@ -34,7 +34,7 @@ df = select(df, :log_gdp, :rugged, :cont_africa);
   α ~ Normal(0, 100)
 
   μ = α .+ βR * x₁ .+ βA * x₂ .+ βAR * x₁ .* x₂
-  y .~ Normal.(μ, σ)
+  y ~ MvNormal(μ, σ)
 end
 
 model = model_fn(df.log_gdp, df.rugged, df.cont_africa);

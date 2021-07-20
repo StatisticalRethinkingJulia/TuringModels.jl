@@ -26,8 +26,8 @@ first(df, 8)
     β ~ Normal(0, 0.3)
     σ ~ Exponential(1)
 
-    μ = α .+ β*(rugged_std .- mean_rugged)
-    log_gdp_std .~ Normal.(μ, σ)
+    μ = α .+ β * (rugged_std .- mean_rugged)
+    log_gdp_std ~ MvNormal(μ, σ)
 end
 
 model = model_fn(df.log_gdp, df.rugged_std, mean(df.rugged_std));
