@@ -18,10 +18,10 @@ df = filter(row -> row.age >= 18, df);
 # ## Model
 
 @model function line(height)
-    σ ~ Uniform(0, 50)
     μ ~ Normal(178, 20)
+    σ ~ Uniform(0, 50)
 
-    height ~ MvNormal(μ, σ)
+    height ~ Normal(μ, σ)
 end
 
 model = line(df.height);

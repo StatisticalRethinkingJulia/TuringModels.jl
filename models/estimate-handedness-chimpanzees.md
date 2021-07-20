@@ -1,6 +1,7 @@
 +++
 title = "Estimate handedness for each Chimpanzee"
 showall = true
+reeval = true
 +++
 
 This is model `m10.4` in Statistical Rethinking Edition 1.
