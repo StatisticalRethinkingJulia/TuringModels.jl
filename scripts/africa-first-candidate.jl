@@ -36,6 +36,6 @@ model = model_fn(df.log_gdp, df.rugged_std, mean(df.rugged_std));
 
 chns = sample(model, NUTS(), MCMCThreads(), 1000, 3)
 
-# \defaultgadflyoutput{}
+# \defaultoutput{}
 
 #

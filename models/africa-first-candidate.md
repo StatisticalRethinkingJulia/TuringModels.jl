@@ -1,6 +1,7 @@
 +++
 title = "Africa first candidate model"
 showall = true
+reeval = true
 +++
 
 In Edition 2 on page 244, McElreath defines the model as
