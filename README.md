@@ -1,7 +1,7 @@
 # TuringModels
 
 [![CI][ci-img]][ci-url]
-
+[![Site Analytics](https://img.shields.io/badge/Site-Analytics-blueviolet)](https://app.usefathom.com/share/ovpyqiuq/turingmodels.jl)
 
 ## Introduction
 

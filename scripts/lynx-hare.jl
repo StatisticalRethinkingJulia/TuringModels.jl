@@ -18,7 +18,6 @@ nothing
 
 using DataFrames
 using DifferentialEquations
-using Gadfly
 
 # First, we simulate population dynamics with the Lotka-Volterra model.
 
@@ -110,7 +109,7 @@ model = fitlv(odedata, prob1);
 
 chns = sample(model, NUTS(), MCMCThreads(), 1000, 3)
 
-# \defaultgadflyoutput{}
+# \defaultoutput{}
 
 # We can verify the outcome by retrodicting, that is, comparing the predictions with the true values.
 # Similar to the Turing tutorial, we do this with some randomly picked posterior samples.
