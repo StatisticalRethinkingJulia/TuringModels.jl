@@ -20,7 +20,7 @@ jobs:
 
       - uses: julia-actions/setup-julia@v1
         with:
-          version: 1 # Latest stable release, for example, `1.5.3`.
+          version: '1.6'
 
       - name: Build site
         run: |
