@@ -24,7 +24,7 @@ df
 
 using Turing
 
-@model m10_10stan_c(total_tools, log_pop_c, contact_high) = begin
+@model function m10_10stan_c(total_tools, log_pop_c, contact_high)
     α ~ Normal(0, 100)
     βp ~ Normal(0, 1)
     βc ~ Normal(0, 1)

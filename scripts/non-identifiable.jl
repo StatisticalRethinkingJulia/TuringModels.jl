@@ -10,7 +10,7 @@ y = rand(Normal(0,1), 100);
 
 using Turing
 
-@model m8_4(y) = begin
+@model function m8_4(y)
     ## Can't really set a Uniform[-Inf,Inf] on σ 
     α₁ ~ Uniform(-3000, 1000)
     α₂ ~ Uniform(-1000, 3000)

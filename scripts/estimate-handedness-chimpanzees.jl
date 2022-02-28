@@ -17,7 +17,7 @@ first(df, 10)
 
 using Turing
 
-@model m10_4(y, actors, x₁, x₂) = begin
+@model function m10_4(y, actors, x₁, x₂)
     ## Number of unique actors in the data set
     N_actor = length(unique(actors))
 

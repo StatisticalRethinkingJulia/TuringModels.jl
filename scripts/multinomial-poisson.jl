@@ -19,7 +19,7 @@ dept_map = Dict(key => idx for (idx, key) in enumerate(unique(df.dept)))
 df.male = [g == "male" ? 1 : 0 for g in df.gender]
 df.dept_id = [dept_map[de] for de in df.dept]
 
-@model m13_2(applications, dept_id, male, admit) = begin
+@model function m13_2(applications, dept_id, male, admit)
     sigma_dept ~ truncated(Cauchy(0, 2), 0, Inf)
     bm ~ Normal(0, 1)
     a ~ Normal(0, 10)
