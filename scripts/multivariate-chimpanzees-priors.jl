@@ -17,7 +17,7 @@ df.block_id = df.block
 
 using Turing
 
-@model m13_6(actor, block_id, condition, prosoc_left, pulled_left) = begin
+@model function m13_6(actor, block_id, condition, prosoc_left, pulled_left)
     ## fixed priors
     Rho_block ~ LKJ(3, 4.)
     Rho_actor ~ LKJ(3, 4.)

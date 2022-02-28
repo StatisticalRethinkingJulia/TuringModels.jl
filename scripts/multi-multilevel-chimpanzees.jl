@@ -15,7 +15,7 @@ df = CSV.read(path, DataFrame; delim=';');
 
 using Turing
 
-@model m12_5(pulled_left, actor, block, condition, prosoc_left) = begin
+@model function m12_5(pulled_left, actor, block, condition, prosoc_left)
     ## Total num of y
     N = length(pulled_left)
 

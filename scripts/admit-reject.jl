@@ -15,7 +15,7 @@ df = CSV.read(file_path, DataFrame; delim=';')
 
 # ## Model
 
-@model m_pois(admit, reject) = begin
+@model function m_pois(admit, reject)
    α₁ ~ Normal(0,100)
    α₂ ~ Normal(0,100)
 

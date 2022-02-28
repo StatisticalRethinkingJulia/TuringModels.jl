@@ -25,7 +25,7 @@ dsim.p_nopool = dsim.s ./ dsim.ni;
 
 # ## Model
 
-@model m12_3(pond, s, ni) = begin
+@model function m12_3(pond, s, ni)
     σ ~ truncated(Cauchy(0, 1), 0, Inf)
     α ~ Normal(0, 1)
 
