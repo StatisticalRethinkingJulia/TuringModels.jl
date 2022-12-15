@@ -40,7 +40,7 @@ jobs:
         run: rm -rf __site/data
 
       - name: Deploy to GitHub Pages
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name != 'pull_request' }}
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
           branch: gh-pages
