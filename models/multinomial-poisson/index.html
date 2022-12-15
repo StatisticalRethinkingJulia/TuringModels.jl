@@ -1,0 +1,132 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/katex/katex.min.css"> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Multinomial Poisson regression</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Multinomial Poisson regression</h1> </div> <div class=franklin-content > <p>On page 399 of Statistical Rethinking Edition 1, <code>m13.2</code> is defined as</p> <span class=katex-display ><span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML" display=block ><semantics><mtable rowspacing=0.24999999999999992em  columnalign="right left" columnspacing=0em ><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><msub><mi>A</mi><mi>i</mi></msub></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>∼</mo><mtext>Binomial</mtext><mo stretchy=false >(</mo><msub><mi>n</mi><mi>i</mi></msub><mo separator=true >,</mo><msub><mi>p</mi><mi>i</mi></msub><mo stretchy=false >)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mtext>logit</mtext><mo stretchy=false >(</mo><msub><mi>p</mi><mi>i</mi></msub><mo stretchy=false >)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>=</mo><msub><mi>α</mi><mtext>dept</mtext></msub><mo stretchy=false >[</mo><mi>i</mi><mo stretchy=false >]</mo><mo>+</mo><mi>β</mi><msub><mi>m</mi><mi>i</mi></msub></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><msub><mi>α</mi><mtext>dept</mtext></msub></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>∼</mo><mtext>Normal</mtext><mo stretchy=false >(</mo><mi>α</mi><mo separator=true >,</mo><mi>σ</mi><mo stretchy=false >)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><mi>α</mi></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>∼</mo><mtext>Normal</mtext><mo stretchy=false >(</mo><mn>0</mn><mo separator=true >,</mo><mn>10</mn><mo stretchy=false >)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><mi>β</mi></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>∼</mo><mtext>Normal</mtext><mo stretchy=false >(</mo><mn>0</mn><mo separator=true >,</mo><mn>1</mn><mo stretchy=false >)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><mi>σ</mi></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>∼</mo><mtext>HalfCauchy</mtext><mo stretchy=false >(</mo><mn>0</mn><mo separator=true >,</mo><mn>2</mn><mo stretchy=false >)</mo></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex"> \begin{aligned} A_i &amp;\sim \text{Binomial}(n_i, p_i) \\ \text{logit}(p_i) &amp;= \alpha_\text{dept}[i] + \beta m_i \\ \alpha_\text{dept} &amp;\sim \text{Normal}(\alpha, \sigma) \\ \alpha &amp;\sim \text{Normal}(0, 10) \\ \beta &amp;\sim \text{Normal}(0, 1) \\ \sigma &amp;\sim \text{HalfCauchy}(0, 2) \end{aligned} </annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:9.000000000000002em;vertical-align:-4.250000000000001em;"></span><span class=mord ><span class=mtable ><span class=col-align-r ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:4.750000000000001em;"><span style="top:-6.910000000000001em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ><span class="mord mathnormal">A</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-5.41em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class="mord text"><span class=mord >logit</span></span><span class=mopen >(</span><span class=mord ><span class="mord mathnormal">p</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span><span class=mclose >)</span></span></span><span style="top:-3.9099999999999993em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord mtight">dept</span></span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.286108em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.4099999999999993em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span><span style="top:-0.9099999999999997em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.05278em;">β</span></span></span><span style="top:0.5900000000000007em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:4.250000000000001em;"><span></span></span></span></span></span><span class=col-align-l ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:4.750000000000001em;"><span style="top:-6.910000000000001em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >∼</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class=mord >Binomial</span></span><span class=mopen >(</span><span class=mord ><span class="mord mathnormal">n</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.16666666666666666em;"></span><span class=mord ><span class="mord mathnormal">p</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span><span class=mclose >)</span></span></span><span style="top:-5.41em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >=</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord mtight">dept</span></span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.286108em;"><span></span></span></span></span></span></span><span class=mopen >[</span><span class="mord mathnormal">i</span><span class=mclose >]</span><span class=mspace  style="margin-right:0.2222222222222222em;"></span><span class=mbin >+</span><span class=mspace  style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span><span class=mord ><span class="mord mathnormal">m</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.9099999999999993em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >∼</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class=mord >Normal</span></span><span class=mopen >(</span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class=mclose >)</span></span></span><span style="top:-2.4099999999999993em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >∼</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class=mord >Normal</span></span><span class=mopen >(</span><span class=mord >0</span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.16666666666666666em;"></span><span class=mord >1</span><span class=mord >0</span><span class=mclose >)</span></span></span><span style="top:-0.9099999999999997em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >∼</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class=mord >Normal</span></span><span class=mopen >(</span><span class=mord >0</span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.16666666666666666em;"></span><span class=mord >1</span><span class=mclose >)</span></span></span><span style="top:0.5900000000000007em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >∼</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class=mord >HalfCauchy</span></span><span class=mopen >(</span><span class=mord >0</span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.16666666666666666em;"></span><span class=mord >2</span><span class=mclose >)</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:4.250000000000001em;"><span></span></span></span></span></span></span></span></span></span></span></span> <div class=franklin-toc ><ol><li><a href="#data">Data</a><li><a href="#model">Model</a><li><a href="#output">Output</a><li><a href="#original_output">Original output</a></ol></div> <h2 id=data ><a href="#data" class=header-anchor >Data</a></h2> <pre><code class=language-julia >import CSV
+import Random
+import TuringModels
+
+using DataFrames
+
+Random.seed&#33;&#40;1&#41;
+
+data_path &#61; joinpath&#40;TuringModels.project_root, &quot;data&quot;, &quot;UCBadmit.csv&quot;&#41;
+df &#61; CSV.read&#40;data_path, DataFrame; delim&#61;&#39;;&#39;&#41;</code></pre><pre><code class="plaintext code-output">12×5 DataFrame
+ Row │ dept     gender   admit  reject  applications
+     │ String1  String7  Int64  Int64   Int64
+─────┼───────────────────────────────────────────────
+   1 │ A        male       512     313           825
+   2 │ A        female      89      19           108
+   3 │ B        male       353     207           560
+   4 │ B        female      17       8            25
+   5 │ C        male       120     205           325
+   6 │ C        female     202     391           593
+   7 │ D        male       138     279           417
+   8 │ D        female     131     244           375
+   9 │ E        male        53     138           191
+  10 │ E        female      94     299           393
+  11 │ F        male        22     351           373
+  12 │ F        female      24     317           341</code></pre> <h2 id=model ><a href="#model" class=header-anchor >Model</a></h2> <pre><code class=language-julia >using Turing
+
+dept_map &#61; Dict&#40;key &#61;&gt; idx for &#40;idx, key&#41; in enumerate&#40;unique&#40;df.dept&#41;&#41;&#41;
+df.male &#61; &#91;g &#61;&#61; &quot;male&quot; ? 1 : 0 for g in df.gender&#93;
+df.dept_id &#61; &#91;dept_map&#91;de&#93; for de in df.dept&#93;
+
+@model function m13_2&#40;applications, dept_id, male, admit&#41;
+    sigma_dept ~ truncated&#40;Cauchy&#40;0, 2&#41;, 0, Inf&#41;
+    bm ~ Normal&#40;0, 1&#41;
+    a ~ Normal&#40;0, 10&#41;
+    a_dept ~ filldist&#40;Normal&#40;a, sigma_dept&#41;, 6&#41;
+
+    logit_p &#61; a_dept&#91;dept_id&#93; &#43; bm*male
+
+    admit .~ BinomialLogit.&#40;applications, logit_p&#41;
+end
+
+chns &#61; sample&#40;
+    m13_2&#40;df.applications, df.dept_id, df.male, df.admit&#41;,
+    NUTS&#40;&#41;,
+    1000
+&#41;</code></pre><pre><code class="plaintext code-output">Chains MCMC chain (1000×21×1 Array{Float64, 3}):
+
+Iterations        = 501:1:1500
+Number of chains  = 1
+Samples per chain = 1000
+Wall duration     = 9.1 seconds
+Compute duration  = 9.1 seconds
+parameters        = sigma_dept, bm, a, a_dept[1], a_dept[2], a_dept[3], a_dept[4], a_dept[5], a_dept[6]
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+
+Summary Statistics
+  parameters      mean       std   naive_se      mcse         ess      rhat   ess_per_sec
+      Symbol   Float64   Float64    Float64   Float64     Float64   Float64       Float64
+
+  sigma_dept    1.4562    0.5572     0.0176    0.0224    708.3248    1.0050       77.8293
+          bm   -0.0922    0.0798     0.0025    0.0037    388.0852    1.0126       42.6420
+           a   -0.6067    0.6206     0.0196    0.0221    770.8409    0.9999       84.6985
+   a_dept[1]    0.6706    0.0928     0.0029    0.0036    681.3253    1.0070       74.8627
+   a_dept[2]    0.6263    0.1193     0.0038    0.0052    601.5435    1.0076       66.0964
+   a_dept[3]   -0.5852    0.0695     0.0022    0.0021   1047.1394    1.0023      115.0576
+   a_dept[4]   -0.6182    0.0873     0.0028    0.0031    906.8329    1.0071       99.6410
+   a_dept[5]   -1.0599    0.0976     0.0031    0.0024   1423.1180    1.0000      156.3694
+   a_dept[6]   -2.6078    0.1555     0.0049    0.0050   1288.2488    1.0007      141.5503
+
+Quantiles
+  parameters      2.5%     25.0%     50.0%     75.0%     97.5%
+      Symbol   Float64   Float64   Float64   Float64   Float64
+
+  sigma_dept    0.7463    1.0834    1.3206    1.6934    2.8494
+          bm   -0.2491   -0.1473   -0.0936   -0.0416    0.0693
+           a   -1.8714   -0.9708   -0.6026   -0.2258    0.6506
+   a_dept[1]    0.4914    0.6118    0.6684    0.7369    0.8475
+   a_dept[2]    0.3790    0.5486    0.6270    0.7062    0.8541
+   a_dept[3]   -0.7207   -0.6341   -0.5837   -0.5387   -0.4515
+   a_dept[4]   -0.7834   -0.6776   -0.6174   -0.5568   -0.4519
+   a_dept[5]   -1.2433   -1.1266   -1.0561   -0.9960   -0.8678
+   a_dept[6]   -2.9245   -2.7103   -2.6038   -2.4970   -2.3257
+</code></pre> <h2 id=output ><a href="#output" class=header-anchor >Output</a></h2> </p> <pre><code class=language-julia >using StatsPlots
+
+StatsPlots.plot&#40;chns&#41;</code></pre><pre><code class="plaintext code-output">"/home/runner/work/TuringModels.jl/TuringModels.jl/__site/assets/models/multinomial-poisson/code/output/chns.svg"</code></pre>
+<p> <img src="/TuringModels.jl/assets/models/multinomial-poisson/code/output/chns.svg" alt="">
+<h2 id=original_output ><a href="#original_output" class=header-anchor >Original output</a></h2>
+<pre><code class=language-julia >&quot;&quot;&quot;
+Inference for Stan model: 359c2483e3bdbf74fd0484be27c2909b.
+    3 chains, each with iter&#61;4500; warmup&#61;500; thin&#61;1;
+    post-warmup draws per chain&#61;4000, total post-warmup draws&#61;12000.
+
+                   mean se_mean   sd     2.5&#37;      25&#37;      50&#37;      75&#37;    97.5&#37;
+    a_dept&#91;1&#93;      0.67    0.00 0.10     0.48     0.61     0.67     0.74     0.87
+    a_dept&#91;2&#93;      0.63    0.00 0.12     0.40     0.55     0.63     0.71     0.85
+    a_dept&#91;3&#93;     -0.58    0.00 0.08    -0.73    -0.63    -0.58    -0.53    -0.44
+    a_dept&#91;4&#93;     -0.62    0.00 0.09    -0.79    -0.67    -0.62    -0.56    -0.45
+    a_dept&#91;5&#93;     -1.06    0.00 0.10    -1.26    -1.13    -1.06    -0.99    -0.86
+    a_dept&#91;6&#93;     -2.61    0.00 0.16    -2.92    -2.71    -2.60    -2.50    -2.31
+    a             -0.59    0.01 0.66    -1.94    -0.97    -0.59    -0.21     0.73
+    bm            -0.09    0.00 0.08    -0.25    -0.15    -0.09    -0.04     0.06
+    sigma_dept     1.49    0.01 0.62     0.78     1.09     1.35     1.71     3.01
+    lp__       -2602.27    0.04 2.27 -2607.74 -2603.48 -2601.90 -2600.61 -2598.95
+               n_eff Rhat
+    a_dept&#91;1&#93;   8191    1
+    a_dept&#91;2&#93;   8282    1
+    a_dept&#91;3&#93;  10974    1
+    a_dept&#91;4&#93;  10034    1
+    a_dept&#91;5&#93;  10783    1
+    a_dept&#91;6&#93;  10344    1
+    a           5839    1
+    bm          7137    1
+    sigma_dept  4626    1
+    lp__        4200    1
+&quot;&quot;&quot;;</code></pre>
+
+<div class=page-foot >
+  <div class=copyright >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+    Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: December 15, 2022. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+  </div>
+</div>
+</div>
+    
+        
+
+
+
+    
+    
+        <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

@@ -1,0 +1,52 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Wild chain</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Wild chain</h1> </div> <div class=franklin-content > <p>This model shows what happens if you use extremely flat priors, and is fixed in <a href="/TuringModels.jl/models/weakly-informative-priors">Weakly Informative Priors</a>.</p> <div class=franklin-toc ><ol><li><a href="#data">Data</a><li><a href="#model">Model</a><li><a href="#output">Output</a></ol></div> <h2 id=data ><a href="#data" class=header-anchor >Data</a></h2> <pre><code class=language-julia >y &#61; &#91;-1, 1&#93;</code></pre><pre><code class="plaintext code-output">2-element Vector{Int64}:
+ -1
+  1</code></pre> <h2 id=model ><a href="#model" class=header-anchor >Model</a></h2> <pre><code class=language-julia >import Random
+
+using Turing
+
+Random.seed&#33;&#40;1&#41;
+
+@model function m8_2&#40;y&#41;
+    α ~ Flat&#40;&#41; ## improper prior with pobability one everywhere
+    σ ~ FlatPos&#40;0.0&#41; ## improper prior with probability one everywhere above 0.0
+
+    y ~ Normal&#40;α, σ&#41;
+end;</code></pre> <h2 id=output ><a href="#output" class=header-anchor >Output</a></h2> <pre><code class=language-julia >chns &#61; sample&#40;m8_2&#40;y&#41;, NUTS&#40;&#41;, 1000&#41;</code></pre><pre><code class="plaintext code-output">Chains MCMC chain (1000×14×1 Array{Float64, 3}):
+
+Iterations        = 501:1:1500
+Number of chains  = 1
+Samples per chain = 1000
+Wall duration     = 6.38 seconds
+Compute duration  = 6.38 seconds
+parameters        = α, σ
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+
+Summary Statistics
+  parameters           mean            std      naive_se          mcse        ess      rhat   ess_per_sec
+      Symbol        Float64        Float64       Float64       Float64    Float64   Float64       Float64
+
+           α    275292.2910    237764.2721     7518.7665    42230.8900     2.7848    1.7943        0.4363
+           σ   1687238.3100   8935827.6084   282575.6802   408050.6342   136.2190    1.0172       21.3442
+
+Quantiles
+  parameters         2.5%        25.0%         50.0%          75.0%           97.5%
+      Symbol      Float64      Float64       Float64        Float64         Float64
+
+           α   -1211.5846    6502.3064   311091.2879    478292.6367     696694.7196
+           σ      29.9480   21584.9752   429059.9961   1164936.2456   10441460.6944
+</code></pre> </p> <pre><code class=language-julia >using StatsPlots
+
+StatsPlots.plot&#40;chns&#41;</code></pre><pre><code class="plaintext code-output">"/home/runner/work/TuringModels.jl/TuringModels.jl/__site/assets/models/wild-chain/code/output/chns.svg"</code></pre>
+<p> <img src="/TuringModels.jl/assets/models/wild-chain/code/output/chns.svg" alt="">
+
+<div class=page-foot >
+  <div class=copyright >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+    Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: December 15, 2022. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+  </div>
+</div>
+</div>
+    
+    
+        <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

@@ -1,0 +1,46 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Basic Example</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Basic Example</h1> </div> <div class=franklin-content > <p>We define a simple Gaussian model with unknown mean and variance.</p> <div class=franklin-toc ><ol><li><a href="#model">Model</a><li><a href="#output">Output</a></ol></div> <h2 id=model ><a href="#model" class=header-anchor >Model</a></h2> <pre><code class=language-julia >using Turing
+
+@model function gdemo&#40;x, y&#41;
+  s ~ InverseGamma&#40;2, 3&#41;
+  m ~ Normal&#40;0, sqrt&#40;s&#41;&#41;
+  x ~ Normal&#40;m, sqrt&#40;s&#41;&#41;
+  y ~ Normal&#40;m, sqrt&#40;s&#41;&#41;
+end;</code></pre> <h2 id=output ><a href="#output" class=header-anchor >Output</a></h2> <p>and run the sampler:</p> <pre><code class=language-julia >chns &#61; sample&#40;gdemo&#40;1.5, 2&#41;, NUTS&#40;&#41;, 1000&#41;</code></pre><pre><code class="plaintext code-output">Chains MCMC chain (1000×14×1 Array{Float64, 3}):
+
+Iterations        = 501:1:1500
+Number of chains  = 1
+Samples per chain = 1000
+Wall duration     = 5.53 seconds
+Compute duration  = 5.53 seconds
+parameters        = s, m
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+
+Summary Statistics
+  parameters      mean       std   naive_se      mcse        ess      rhat   ess_per_sec
+      Symbol   Float64   Float64    Float64   Float64    Float64   Float64       Float64
+
+           s    2.0921    1.8996     0.0601    0.0989   449.9904    0.9991       81.3726
+           m    1.0945    0.8506     0.0269    0.0484   446.9420    0.9990       80.8213
+
+Quantiles
+  parameters      2.5%     25.0%     50.0%     75.0%     97.5%
+      Symbol   Float64   Float64   Float64   Float64   Float64
+
+           s    0.6175    1.0745    1.5660    2.3691    6.9518
+           m   -0.7651    0.6135    1.1405    1.6455    2.5919
+</code></pre> </p> <pre><code class=language-julia >using StatsPlots
+
+StatsPlots.plot&#40;chns&#41;</code></pre><pre><code class="plaintext code-output">"/home/runner/work/TuringModels.jl/TuringModels.jl/__site/assets/models/basic-example/code/output/chns.svg"</code></pre>
+<p> <img src="/TuringModels.jl/assets/models/basic-example/code/output/chns.svg" alt="">
+
+<div class=page-foot >
+  <div class=copyright >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+    Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: December 15, 2022. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+  </div>
+</div>
+</div>
+    
+    
+        <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

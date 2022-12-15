@@ -1,0 +1,11 @@
+CSV 0.10.8
+CategoricalArrays 0.10.7
+DataFrames 1.4.4
+DifferentialEquations 7.6.0
+Distributions 0.25.79
+Franklin 0.10.51
+NodeJS 1.3.0
+RData 1.0.0
+StatsFuns 1.1.1
+StatsPlots 0.15.4
+Turing 0.23.1

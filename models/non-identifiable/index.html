@@ -1,0 +1,63 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Non-identifiable model</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Non-identifiable model</h1> </div> <div class=franklin-content > <div class=franklin-toc ><ol><li><a href="#data">Data</a><li><a href="#model">Model</a><li><a href="#output">Output</a><li><a href="#original_output">Original output</a></ol></div> <h2 id=data ><a href="#data" class=header-anchor >Data</a></h2> <pre><code class=language-julia >using Distributions
+using Random
+
+Random.seed&#33;&#40;1&#41;
+y &#61; rand&#40;Normal&#40;0,1&#41;, 100&#41;;</code></pre> <h2 id=model ><a href="#model" class=header-anchor >Model</a></h2> <pre><code class=language-julia >using Turing
+
+@model function m8_4&#40;y&#41;
+    # Can&#39;t really set a Uniform&#91;-Inf,Inf&#93; on σ
+    α₁ ~ Uniform&#40;-3000, 1000&#41;
+    α₂ ~ Uniform&#40;-1000, 3000&#41;
+    σ ~ truncated&#40;Cauchy&#40;0,1&#41;, 0, Inf&#41;
+
+    y ~ Normal&#40;α₁ &#43; α₂, σ&#41;
+end
+
+chns &#61; sample&#40;m8_4&#40;y&#41;, NUTS&#40;&#41;, 2000&#41;</code></pre><pre><code class="plaintext code-output">Chains MCMC chain (2000×15×1 Array{Float64, 3}):
+
+Iterations        = 1001:1:3000
+Number of chains  = 1
+Samples per chain = 2000
+Wall duration     = 33.9 seconds
+Compute duration  = 33.9 seconds
+parameters        = α₁, α₂, σ
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+
+Summary Statistics
+  parameters         mean        std   naive_se      mcse       ess      rhat   ess_per_sec
+      Symbol      Float64    Float64    Float64   Float64   Float64   Float64       Float64
+
+          α₁   -1710.0216   558.0246    12.4778   82.7690    6.0734    1.0338        0.1791
+          α₂    1710.0292   558.0239    12.4778   82.7690    6.0734    1.0338        0.1791
+           σ       1.0841     0.1126     0.0025    0.0165    7.4392    1.1503        0.2194
+
+Quantiles
+  parameters         2.5%        25.0%        50.0%        75.0%       97.5%
+      Symbol      Float64      Float64      Float64      Float64     Float64
+
+          α₁   -2564.0394   -2196.4236   -1688.2252   -1391.0186   -651.0298
+          α₂     650.8972    1391.0622    1688.2500    2196.4034   2564.1365
+           σ       0.9320       1.0136       1.0525       1.1278      1.3738
+</code></pre> <h2 id=output ><a href="#output" class=header-anchor >Output</a></h2> </p> <pre><code class=language-julia >using StatsPlots
+
+StatsPlots.plot&#40;chns&#41;</code></pre><pre><code class="plaintext code-output">"/home/runner/work/TuringModels.jl/TuringModels.jl/__site/assets/models/non-identifiable/code/output/chns.svg"</code></pre>
+<p> <img src="/TuringModels.jl/assets/models/non-identifiable/code/output/chns.svg" alt="">
+<h2 id=original_output ><a href="#original_output" class=header-anchor >Original output</a></h2>
+<pre><code class=language-julia >&quot;&quot;&quot;
+         mean      sd     5.5&#37;   94.5&#37; n_eff Rhat
+ a1    -861.15 558.17 -1841.89  -31.04     7 1.43
+ a2     861.26 558.17    31.31 1842.00     7 1.43
+ sigma    0.97   0.07     0.89    1.09     9 1.17
+&quot;&quot;&quot;;</code></pre>
+
+<div class=page-foot >
+  <div class=copyright >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+    Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: December 15, 2022. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+  </div>
+</div>
+</div>
+    
+    
+        <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

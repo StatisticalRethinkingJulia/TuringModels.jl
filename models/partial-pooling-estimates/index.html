@@ -1,0 +1,265 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/katex/katex.min.css"> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Partial-pooling estimates</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Partial-pooling estimates</h1> </div> <div class=franklin-content > <p>In model <code>m12.3</code> in Statistical Rethinking Edition 1, representative values for the tadpole data are generated.</p> <p>The multilevel binomial model is defined as </p> <span class=katex-display ><span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML" display=block ><semantics><mtable rowspacing=0.24999999999999992em  columnalign="right left" columnspacing=0em ><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><msub><mi>s</mi><mi>i</mi></msub></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>∼</mo><mtext>Binomial</mtext><mo stretchy=false >(</mo><msub><mi>n</mi><mi>i</mi></msub><mo separator=true >,</mo><msub><mover accent=true ><mi>p</mi><mo stretchy=true >‾</mo></mover><mi>i</mi></msub><mo stretchy=false >)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mtext>logit</mtext><mo stretchy=false >(</mo><msub><mi>p</mi><mi>i</mi></msub><mo stretchy=false >)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>=</mo><msub><mi>α</mi><mrow><mtext>POND</mtext><mo stretchy=false >[</mo><mi>i</mi><mo stretchy=false >]</mo></mrow></msub></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><msub><mi>α</mi><mtext>POND</mtext></msub></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>∼</mo><mtext>Normal</mtext><mo stretchy=false >(</mo><mi>α</mi><mo separator=true >,</mo><mi>σ</mi><mo stretchy=false >)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><mi>α</mi></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>=</mo><mtext>Normal</mtext><mo stretchy=false >(</mo><mn>0</mn><mo separator=true >,</mo><mn>1</mn><mo stretchy=false >)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><mi>σ</mi></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>∼</mo><mtext>HalfCauchy</mtext><mo stretchy=false >(</mo><mn>1</mn><mo stretchy=false >)</mo></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex"> \begin{aligned} s_i &amp;\sim \text{Binomial}(n_i, \overline{p}_i) \\ \text{logit}(p_i) &amp;= \alpha_{\text{POND}[i]} \\ \alpha_{\text{POND}} &amp;\sim \text{Normal}(\alpha, \sigma) \\ \alpha &amp;= \text{Normal}(0, 1) \\ \sigma &amp;\sim \text{HalfCauchy}(1) \end{aligned} </annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:7.500000000000002em;vertical-align:-3.5000000000000018em;"></span><span class=mord ><span class=mtable ><span class=col-align-r ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:4em;"><span style="top:-6.16em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ><span class="mord mathnormal">s</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-4.659999999999999em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class="mord text"><span class=mord >logit</span></span><span class=mopen >(</span><span class=mord ><span class="mord mathnormal">p</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span><span class=mclose >)</span></span></span><span style="top:-3.1599999999999984em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">POND</span></span></span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-1.6599999999999984em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span><span style="top:-0.15999999999999837em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:3.5000000000000018em;"><span></span></span></span></span></span><span class=col-align-l ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:4em;"><span style="top:-6.16em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >∼</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class=mord >Binomial</span></span><span class=mopen >(</span><span class=mord ><span class="mord mathnormal">n</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.16666666666666666em;"></span><span class=mord ><span class="mord overline"><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.63056em;"><span style="top:-3em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class="mord mathnormal">p</span></span></span><span style="top:-3.55056em;"><span class=pstrut  style="height:3em;"></span><span class=overline-line  style="border-bottom-width:0.04em;"></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.19444em;"><span></span></span></span></span></span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.21752399999999997em;"><span style="top:-2.4558600000000004em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.24414em;"><span></span></span></span></span></span></span><span class=mclose >)</span></span></span><span style="top:-4.659999999999999em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >=</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.34480000000000005em;"><span style="top:-2.5198em;margin-left:-0.0037em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">POND</span></span><span class="mopen mtight">[</span><span class="mord mathnormal mtight">i</span><span class="mclose mtight">]</span></span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.3551999999999999em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.1599999999999984em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >∼</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class=mord >Normal</span></span><span class=mopen >(</span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class=mclose >)</span></span></span><span style="top:-1.6599999999999984em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >=</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class=mord >Normal</span></span><span class=mopen >(</span><span class=mord >0</span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.16666666666666666em;"></span><span class=mord >1</span><span class=mclose >)</span></span></span><span style="top:-0.15999999999999837em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >∼</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class=mord >HalfCauchy</span></span><span class=mopen >(</span><span class=mord >1</span><span class=mclose >)</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:3.5000000000000018em;"><span></span></span></span></span></span></span></span></span></span></span></span> <div class=franklin-toc ><ol><li><a href="#data">Data</a><li><a href="#model">Model</a><li><a href="#output">Output</a><li><a href="#original_output">Original output</a></ol></div> <h2 id=data ><a href="#data" class=header-anchor >Data</a></h2> <pre><code class=language-julia >import Random
+
+using DataFrames
+using StatsFuns: logistic
+using Turing
+
+Random.seed&#33;&#40;1&#41;
+
+μ &#61; 1.4
+σ &#61; 1.5
+nponds &#61; 60
+ni &#61; repeat&#40;&#91;5,10,25,35&#93;, inner&#61;15&#41;
+
+a_pond &#61; rand&#40;Normal&#40;μ, σ&#41;, nponds&#41;
+
+dsim &#61; DataFrame&#40;pond &#61; 1:nponds, ni &#61; ni, true_a &#61; a_pond&#41;
+
+prob &#61; logistic.&#40;dsim.true_a&#41;
+
+dsim.s &#61; &#91;rand&#40;Binomial&#40;ni&#91;i&#93;, prob&#91;i&#93;&#41;&#41; for i in 1:nponds&#93;
+
+dsim.p_nopool &#61; dsim.s ./ dsim.ni;</code></pre> <h2 id=model ><a href="#model" class=header-anchor >Model</a></h2> <pre><code class=language-julia >@model function m12_3&#40;pond, s, ni&#41;
+    σ ~ truncated&#40;Cauchy&#40;0, 1&#41;, 0, Inf&#41;
+    α ~ Normal&#40;0, 1&#41;
+
+    N_ponds &#61; length&#40;pond&#41;
+
+    α_pond ~ filldist&#40;Normal&#40;α, σ&#41;, N_ponds&#41;
+
+    logitp &#61; α_pond&#91;pond&#93;
+    s .~ BinomialLogit.&#40;ni, logitp&#41;
+end;</code></pre> <h2 id=output ><a href="#output" class=header-anchor >Output</a></h2> <pre><code class=language-julia >chns &#61; sample&#40;
+    m12_3&#40;dsim.pond, dsim.s, dsim.ni&#41;,
+    NUTS&#40;&#41;,
+    1000
+&#41;</code></pre><pre><code class="plaintext code-output">Chains MCMC chain (1000×74×1 Array{Float64, 3}):
+
+Iterations        = 501:1:1500
+Number of chains  = 1
+Samples per chain = 1000
+Wall duration     = 15.36 seconds
+Compute duration  = 15.36 seconds
+parameters        = σ, α, α_pond[1], α_pond[2], α_pond[3], α_pond[4], α_pond[5], α_pond[6], α_pond[7], α_pond[8], α_pond[9], α_pond[10], α_pond[11], α_pond[12], α_pond[13], α_pond[14], α_pond[15], α_pond[16], α_pond[17], α_pond[18], α_pond[19], α_pond[20], α_pond[21], α_pond[22], α_pond[23], α_pond[24], α_pond[25], α_pond[26], α_pond[27], α_pond[28], α_pond[29], α_pond[30], α_pond[31], α_pond[32], α_pond[33], α_pond[34], α_pond[35], α_pond[36], α_pond[37], α_pond[38], α_pond[39], α_pond[40], α_pond[41], α_pond[42], α_pond[43], α_pond[44], α_pond[45], α_pond[46], α_pond[47], α_pond[48], α_pond[49], α_pond[50], α_pond[51], α_pond[52], α_pond[53], α_pond[54], α_pond[55], α_pond[56], α_pond[57], α_pond[58], α_pond[59], α_pond[60]
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+
+Summary Statistics
+  parameters      mean       std   naive_se      mcse         ess      rhat   ess_per_sec
+      Symbol   Float64   Float64    Float64   Float64     Float64   Float64       Float64
+
+           σ    1.8009    0.2546     0.0081    0.0135    384.2791    1.0010       25.0214
+           α    1.5445    0.2587     0.0082    0.0091    571.5669    1.0034       37.2162
+   α_pond[1]    2.9456    1.3747     0.0435    0.0477    856.9236    0.9992       55.7966
+   α_pond[2]    2.9122    1.3460     0.0426    0.0337    929.2347    1.0033       60.5049
+   α_pond[3]    1.6562    1.0080     0.0319    0.0303   1061.6547    0.9995       69.1271
+   α_pond[4]    2.8702    1.3196     0.0417    0.0431   1048.0109    1.0009       68.2388
+   α_pond[5]    2.9209    1.3346     0.0422    0.0475    823.2436    0.9991       53.6036
+   α_pond[6]    2.8979    1.2955     0.0410    0.0329   1237.6350    0.9990       80.5857
+   α_pond[7]    2.8859    1.3473     0.0426    0.0327   1317.3384    1.0007       85.7754
+   α_pond[8]   -0.7466    0.8979     0.0284    0.0262   1254.0289    1.0010       81.6531
+   α_pond[9]    1.6310    0.9941     0.0314    0.0326    852.6673    0.9991       55.5194
+  α_pond[10]    0.7736    0.8738     0.0276    0.0225   1430.4703    0.9992       93.1417
+  α_pond[11]    1.6287    1.0356     0.0327    0.0288   1206.4127    0.9990       78.5527
+  α_pond[12]    1.6440    1.0025     0.0317    0.0227   1436.5007    0.9990       93.5344
+  α_pond[13]    2.9310    1.3123     0.0415    0.0520    692.6341    0.9990       45.0992
+  α_pond[14]    2.9884    1.3382     0.0423    0.0467    848.4459    1.0004       55.2446
+  α_pond[15]    2.9607    1.3207     0.0418    0.0487    735.7561    1.0049       47.9070
+  α_pond[16]    3.3630    1.2441     0.0393    0.0407    754.5678    1.0005       49.1319
+  α_pond[17]    3.3882    1.2444     0.0394    0.0383    832.6468    1.0013       54.2158
+  α_pond[18]    3.3242    1.2384     0.0392    0.0398    941.6705    1.0018       61.3147
+  α_pond[19]    1.5157    0.7267     0.0230    0.0211    984.0112    0.9990       64.0716
+  α_pond[20]    2.2549    0.9146     0.0289    0.0312   1003.9205    1.0033       65.3679
+  α_pond[21]    2.1919    0.9270     0.0293    0.0295   1108.0611    1.0019       72.1488
+  α_pond[22]   -0.5924    0.6676     0.0211    0.0223    699.9895    1.0011       45.5782
+  α_pond[23]    1.0377    0.6964     0.0220    0.0191   1653.2369    0.9990      107.6466
+  α_pond[24]    3.3448    1.2732     0.0403    0.0421   1026.3001    0.9997       66.8251
+  α_pond[25]    0.6058    0.6269     0.0198    0.0182    970.8337    1.0001       63.2135
+  α_pond[26]    3.4360    1.3507     0.0427    0.0433    892.4738    1.0004       58.1113
+  α_pond[27]    3.3562    1.1970     0.0379    0.0316   1148.5416    0.9990       74.7846
+  α_pond[28]    3.3755    1.2703     0.0402    0.0462    752.3470    1.0017       48.9873
+  α_pond[29]   -0.1797    0.5872     0.0186    0.0132   1771.5999    0.9993      115.3536
+  α_pond[30]   -0.5753    0.6247     0.0198    0.0156   1341.5381    0.9990       87.3511
+  α_pond[31]    3.8807    1.0604     0.0335    0.0400    838.5016    0.9990       54.5971
+  α_pond[32]    1.0401    0.4468     0.0141    0.0111   1209.1466    0.9990       78.7307
+  α_pond[33]    3.9757    1.1786     0.0373    0.0311   1121.2720    1.0003       73.0090
+  α_pond[34]    2.4749    0.6767     0.0214    0.0245    860.9840    0.9990       56.0609
+  α_pond[35]    0.6438    0.4074     0.0129    0.0103   2039.2275    0.9992      132.7795
+  α_pond[36]    2.4406    0.7111     0.0225    0.0229    996.8285    1.0030       64.9061
+  α_pond[37]    0.8283    0.4398     0.0139    0.0116   1411.0920    1.0000       91.8799
+  α_pond[38]    1.7294    0.5332     0.0169    0.0198    660.2453    1.0030       42.9903
+  α_pond[39]    1.2423    0.4584     0.0145    0.0112   1279.2957    0.9993       83.2983
+  α_pond[40]   -1.2411    0.5151     0.0163    0.0131   1259.7507    0.9996       82.0257
+  α_pond[41]    1.0367    0.4556     0.0144    0.0158    738.5686    0.9991       48.0902
+  α_pond[42]    3.0647    0.9037     0.0286    0.0277   1260.6724    0.9997       82.0857
+  α_pond[43]   -0.1574    0.4179     0.0132    0.0110   1615.2679    0.9990      105.1744
+  α_pond[44]    0.6613    0.4128     0.0131    0.0135    786.5108    1.0008       51.2118
+  α_pond[45]    1.4483    0.5242     0.0166    0.0145   1209.3514    0.9995       78.7441
+  α_pond[46]    1.0988    0.3802     0.0120    0.0128    708.9005    0.9992       46.1584
+  α_pond[47]    2.4128    0.5905     0.0187    0.0189    941.7316    0.9990       61.3186
+  α_pond[48]    2.7997    0.6385     0.0202    0.0208    935.7683    1.0009       60.9304
+  α_pond[49]    2.8003    0.6622     0.0209    0.0194   1076.5409    1.0001       70.0964
+  α_pond[50]   -1.2775    0.3896     0.0123    0.0092   1951.7548    1.0002      127.0839
+  α_pond[51]    0.4757    0.3611     0.0114    0.0087   1800.3932    1.0011      117.2284
+  α_pond[52]   -0.9645    0.3651     0.0115    0.0143   1053.1285    0.9991       68.5720
+  α_pond[53]    1.4315    0.4124     0.0130    0.0114   1241.0271    0.9991       80.8066
+  α_pond[54]   -0.5752    0.3387     0.0107    0.0127    816.5744    0.9993       53.1693
+  α_pond[55]   -1.4491    0.4380     0.0139    0.0115   1393.2439    1.0039       90.7178
+  α_pond[56]   -2.3787    0.5605     0.0177    0.0221    850.4970    1.0006       55.3781
+  α_pond[57]    2.8014    0.6389     0.0202    0.0194   1062.9600    0.9993       69.2121
+  α_pond[58]    3.3421    0.8725     0.0276    0.0299   1022.8664    0.9991       66.6015
+  α_pond[59]    0.2279    0.3378     0.0107    0.0099    985.1045    1.0005       64.1428
+  α_pond[60]    1.2862    0.3872     0.0122    0.0102   1305.9014    0.9990       85.0307
+
+Quantiles
+  parameters      2.5%     25.0%     50.0%     75.0%     97.5%
+      Symbol   Float64   Float64   Float64   Float64   Float64
+
+           σ    1.3557    1.6183    1.7856    1.9661    2.3300
+           α    1.0713    1.3577    1.5417    1.7192    2.0382
+   α_pond[1]    0.5568    1.9688    2.8001    3.8156    6.0519
+   α_pond[2]    0.5924    1.9462    2.7717    3.6928    5.9424
+   α_pond[3]   -0.1537    0.9668    1.5982    2.3438    3.6991
+   α_pond[4]    0.7078    1.9286    2.7376    3.6813    5.6706
+   α_pond[5]    0.7441    1.9642    2.7829    3.7098    5.8995
+   α_pond[6]    0.7198    1.9699    2.7845    3.7469    5.7244
+   α_pond[7]    0.6369    1.9186    2.7893    3.7337    5.7659
+   α_pond[8]   -2.6227   -1.2896   -0.7124   -0.1582    0.8904
+   α_pond[9]   -0.1302    0.8959    1.5833    2.2647    3.6451
+  α_pond[10]   -0.8590    0.2036    0.7510    1.3598    2.6028
+  α_pond[11]   -0.1340    0.9038    1.5460    2.3231    3.7764
+  α_pond[12]   -0.2087    0.9158    1.6396    2.3287    3.7049
+  α_pond[13]    0.7129    2.0685    2.8336    3.6838    5.9100
+  α_pond[14]    0.7384    2.0262    2.8672    3.8032    5.9406
+  α_pond[15]    0.6733    2.0174    2.9014    3.7628    5.7862
+  α_pond[16]    1.2601    2.4578    3.2418    4.1804    6.0656
+  α_pond[17]    1.2886    2.5407    3.2223    4.1354    6.2083
+  α_pond[18]    1.3123    2.4339    3.1828    4.1064    5.9721
+  α_pond[19]    0.1554    1.0021    1.4874    1.9905    3.0045
+  α_pond[20]    0.6853    1.6019    2.1769    2.7844    4.3713
+  α_pond[21]    0.6222    1.5499    2.1386    2.7733    4.0952
+  α_pond[22]   -1.9984   -0.9900   -0.5767   -0.1719    0.6546
+  α_pond[23]   -0.2023    0.5691    0.9948    1.4978    2.4355
+  α_pond[24]    1.2337    2.4523    3.2124    4.1475    5.9780
+  α_pond[25]   -0.6484    0.1921    0.5854    1.0095    1.9133
+  α_pond[26]    1.2560    2.4876    3.2679    4.2234    6.4553
+  α_pond[27]    1.3658    2.5129    3.2522    4.0746    6.0685
+  α_pond[28]    1.3053    2.4913    3.2514    4.1248    6.2159
+  α_pond[29]   -1.2736   -0.5874   -0.1826    0.2360    0.9325
+  α_pond[30]   -1.8882   -0.9621   -0.5655   -0.1456    0.5820
+  α_pond[31]    2.1720    3.0881    3.7838    4.4961    6.2932
+  α_pond[32]    0.2137    0.7549    1.0347    1.2970    1.9924
+  α_pond[33]    2.0444    3.1100    3.8427    4.7508    6.5654
+  α_pond[34]    1.2903    1.9685    2.4322    2.9291    3.9418
+  α_pond[35]   -0.1048    0.3764    0.6252    0.8907    1.5131
+  α_pond[36]    1.2439    1.9123    2.3936    2.8881    4.0584
+  α_pond[37]    0.0168    0.5422    0.8201    1.1027    1.6976
+  α_pond[38]    0.7950    1.3525    1.6991    2.0844    2.8302
+  α_pond[39]    0.4156    0.9262    1.2258    1.5304    2.2246
+  α_pond[40]   -2.3607   -1.5852   -1.2061   -0.8680   -0.3567
+  α_pond[41]    0.2185    0.7347    0.9945    1.2861    2.0946
+  α_pond[42]    1.6087    2.4099    2.9706    3.5998    5.1271
+  α_pond[43]   -0.9936   -0.4250   -0.1627    0.1165    0.6477
+  α_pond[44]   -0.1432    0.3822    0.6423    0.9272    1.4871
+  α_pond[45]    0.4655    1.0780    1.4200    1.7619    2.5498
+  α_pond[46]    0.3486    0.8620    1.0853    1.3332    1.8817
+  α_pond[47]    1.3069    2.0037    2.3858    2.8219    3.6859
+  α_pond[48]    1.7151    2.3510    2.7574    3.2094    4.1283
+  α_pond[49]    1.6422    2.3094    2.7463    3.2274    4.2894
+  α_pond[50]   -2.0730   -1.5289   -1.2659   -0.9992   -0.5879
+  α_pond[51]   -0.2350    0.2337    0.4698    0.7013    1.1762
+  α_pond[52]   -1.7125   -1.2197   -0.9661   -0.7033   -0.2851
+  α_pond[53]    0.6613    1.1326    1.4126    1.6987    2.2572
+  α_pond[54]   -1.2222   -0.8091   -0.5755   -0.3349    0.0740
+  α_pond[55]   -2.3760   -1.7280   -1.4480   -1.1444   -0.6256
+  α_pond[56]   -3.5959   -2.7393   -2.3199   -1.9973   -1.4114
+  α_pond[57]    1.7441    2.3458    2.7264    3.1951    4.2290
+  α_pond[58]    1.8799    2.7485    3.2505    3.8229    5.4142
+  α_pond[59]   -0.4061   -0.0079    0.2399    0.4633    0.8684
+  α_pond[60]    0.5417    1.0222    1.2756    1.5405    2.0490
+</code></pre> </p> <pre><code class=language-julia >using StatsPlots
+
+StatsPlots.plot&#40;chns&#41;</code></pre><pre><code class="plaintext code-output">"/home/runner/work/TuringModels.jl/TuringModels.jl/__site/assets/models/partial-pooling-estimates/code/output/chns.svg"</code></pre>
+<p> <img src="/TuringModels.jl/assets/models/partial-pooling-estimates/code/output/chns.svg" alt="">
+<h2 id=original_output ><a href="#original_output" class=header-anchor >Original output</a></h2>
+<pre><code class=language-julia >m123rethinking &#61; &quot;
+                  mean   sd  5.5&#37; 94.5&#37; n_eff Rhat
+a                 1.30 0.23  0.94  1.67  8064    1
+sigma         1.55 0.21  1.24  1.92  3839    1
+a_pond&#91;1&#93;   2.57 1.17  0.85  4.57  9688    1
+a_pond&#91;2&#93;   2.58 1.19  0.83  4.56  9902    1
+a_pond&#91;3&#93;   2.56 1.16  0.84  4.57 12841    1
+a_pond&#91;4&#93;   1.49 0.92  0.12  3.03 15532    1
+a_pond&#91;5&#93;   1.51 0.95  0.07  3.09 14539    1
+a_pond&#91;6&#93;   0.72 0.84 -0.59  2.08 13607    1
+a_pond&#91;7&#93;   2.56 1.16  0.86  4.51 12204    1
+a_pond&#91;8&#93;   1.50 0.93  0.07  3.05 19903    1
+a_pond&#91;9&#93;   2.56 1.15  0.86  4.51 11054    1
+a_pond&#91;10&#93;  1.49 0.95  0.05  3.09 14134    1
+a_pond&#91;11&#93; -0.64 0.86 -2.06  0.70 15408    1
+a_pond&#91;12&#93;  2.56 1.16  0.86  4.53 11512    1
+a_pond&#91;13&#93;  1.49 0.95  0.05  3.10 16270    1
+a_pond&#91;14&#93;  0.71 0.84 -0.59  2.07 17077    1
+a_pond&#91;15&#93;  1.50 0.93  0.10  3.05 16996    1
+a_pond&#91;16&#93;  2.98 1.07  1.45  4.84  9033    1
+a_pond&#91;17&#93;  2.09 0.84  0.85  3.54 14636    1
+a_pond&#91;18&#93;  1.01 0.66  0.00  2.10 12971    1
+a_pond&#91;19&#93;  1.01 0.68 -0.03  2.13 12598    1
+a_pond&#91;20&#93;  1.48 0.72  0.38  2.67 15500    1
+a_pond&#91;21&#93;  2.96 1.09  1.42  4.87 11204    1
+a_pond&#91;22&#93; -2.04 0.87 -3.53 -0.75  9065    1
+a_pond&#91;23&#93;  0.99 0.67 -0.04  2.11 15365    1
+a_pond&#91;24&#93;  1.48 0.72  0.41  2.67 14879    1
+a_pond&#91;25&#93;  2.10 0.85  0.85  3.53 13298    1
+a_pond&#91;26&#93;  1.00 0.65  0.01  2.06 18583    1
+a_pond&#91;27&#93;  3.00 1.08  1.44  4.86  9312    1
+a_pond&#91;28&#93;  0.98 0.66 -0.03  2.09 14703    1
+a_pond&#91;29&#93;  0.21 0.61 -0.76  1.19 15554    1
+a_pond&#91;30&#93;  2.95 1.05  1.45  4.73  9816    1
+a_pond&#91;31&#93;  1.70 0.53  0.89  2.59 19148    1
+a_pond&#91;32&#93;  0.82 0.42  0.17  1.51 13556    1
+a_pond&#91;33&#93;  0.32 0.40 -0.33  0.96 19388    1
+a_pond&#91;34&#93; -0.15 0.40 -0.79  0.48 18684    1
+a_pond&#91;35&#93;  3.57 0.98  2.19  5.26  8769    1
+a_pond&#91;36&#93;  0.16 0.40 -0.46  0.80 17595    1
+a_pond&#91;37&#93;  2.00 0.58  1.13  2.99 14669    1
+a_pond&#91;38&#93; -1.41 0.49 -2.22 -0.65 12957    1
+a_pond&#91;39&#93;  1.21 0.46  0.49  1.97 14185    1
+a_pond&#91;40&#93; -1.18 0.46 -1.95 -0.48 16142    1
+a_pond&#91;41&#93;  2.86 0.78  1.73  4.18 10508    1
+a_pond&#91;42&#93;  0.00 0.39 -0.61  0.63 16138    1
+a_pond&#91;43&#93;  1.43 0.48  0.70  2.24 17100    1
+a_pond&#91;44&#93;  2.86 0.77  1.75  4.15 12002    1
+a_pond&#91;45&#93; -1.40 0.49 -2.21 -0.66 14292    1
+a_pond&#91;46&#93;  0.12 0.33 -0.40  0.66 20425    1
+a_pond&#91;47&#93; -0.56 0.36 -1.14  0.00 18981    1
+a_pond&#91;48&#93;  1.11 0.38  0.52  1.73 14176    1
+a_pond&#91;49&#93;  3.81 0.95  2.47  5.45  8841    1
+a_pond&#91;50&#93;  2.05 0.50  1.31  2.88 15898    1
+a_pond&#91;51&#93; -1.40 0.41 -2.08 -0.76 17188    1
+a_pond&#91;52&#93; -0.11 0.34 -0.65  0.43 17158    1
+a_pond&#91;53&#93;  1.61 0.44  0.94  2.36 15132    1
+a_pond&#91;54&#93;  2.05 0.50  1.30  2.89 15799    1
+a_pond&#91;55&#93;  3.14 0.75  2.08  4.40 12702    1
+a_pond&#91;56&#93;  3.13 0.74  2.07  4.41 11143    1
+a_pond&#91;57&#93;  1.26 0.40  0.65  1.92 14587    1
+a_pond&#91;58&#93;  1.11 0.38  0.51  1.74 21740    1
+a_pond&#91;59&#93;  2.33 0.56  1.50  3.25 13116    1
+a_pond&#91;60&#93;  1.27 0.40  0.66  1.91 15611    1
+&quot;;</code></pre>
+
+<div class=page-foot >
+  <div class=copyright >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+    Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: December 15, 2022. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+  </div>
+</div>
+</div>
+    
+        
+
+
+
+    
+    
+        <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

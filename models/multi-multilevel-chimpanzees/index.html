@@ -1,0 +1,133 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Multi-multilevel Chimpanzees</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Multi-multilevel Chimpanzees</h1> </div> <div class=franklin-content > <p>In Statistical Rethinking Edition 1, McElreath adds yet another varying intercept, adaptive prior and standard deviation parameter to the Chimpanzees model.</p> <div class=franklin-toc ><ol><li><a href="#data">Data</a><li><a href="#model">Model</a><li><a href="#output">Output</a><li><a href="#original_output">Original output</a></ol></div> <h2 id=data ><a href="#data" class=header-anchor >Data</a></h2> <pre><code class=language-julia >import CSV
+import Random
+
+using TuringModels: project_root
+using DataFrames
+
+Random.seed&#33;&#40;1&#41;
+
+path &#61; joinpath&#40;project_root, &quot;data&quot;, &quot;chimpanzees.csv&quot;&#41;
+df &#61; CSV.read&#40;path, DataFrame; delim&#61;&#39;;&#39;&#41;;</code></pre> <h2 id=model ><a href="#model" class=header-anchor >Model</a></h2> <pre><code class=language-julia >using Turing
+
+@model function m12_5&#40;pulled_left, actor, block, condition, prosoc_left&#41;
+    # Total num of y
+    N &#61; length&#40;pulled_left&#41;
+
+    # Separate σ priors for each actor and block
+    σ_actor ~ truncated&#40;Cauchy&#40;0, 1&#41;, 0, Inf&#41;
+    σ_block ~ truncated&#40;Cauchy&#40;0, 1&#41;, 0, Inf&#41;
+
+    # Number of unique actors in the data set
+    N_actor &#61; length&#40;unique&#40;actor&#41;&#41; ## 7
+    N_block &#61; length&#40;unique&#40;block&#41;&#41;
+
+    # Vector of actors &#40;1,..,7&#41; which we&#39;ll set priors on
+    α_actor ~ filldist&#40;Normal&#40;0, σ_actor&#41;, N_actor&#41;
+    α_block ~ filldist&#40;Normal&#40;0, σ_block&#41;, N_block&#41;
+
+    # Prior for intercept, prosoc_left, and the interaction
+    α ~ Normal&#40;0, 10&#41;
+    βp ~ Normal&#40;0, 10&#41;
+    βpC ~ Normal&#40;0, 10&#41;
+
+    logitp &#61; α .&#43; α_actor&#91;actor&#93; &#43; α_block&#91;block&#93; .&#43;
+            &#40;βp .&#43; βpC * condition&#41; .* prosoc_left
+
+    pulled_left .~ BinomialLogit.&#40;1, logitp&#41;
+end;</code></pre> <h2 id=output ><a href="#output" class=header-anchor >Output</a></h2> <pre><code class=language-julia >chns &#61; sample&#40;
+    m12_5&#40;df.pulled_left, df.actor, df.block, df.condition, df.prosoc_left&#41;,
+    NUTS&#40;&#41;,
+    1000
+&#41;</code></pre><pre><code class="plaintext code-output">Chains MCMC chain (1000×30×1 Array{Float64, 3}):
+
+Iterations        = 501:1:1500
+Number of chains  = 1
+Samples per chain = 1000
+Wall duration     = 45.46 seconds
+Compute duration  = 45.46 seconds
+parameters        = σ_actor, σ_block, α_actor[1], α_actor[2], α_actor[3], α_actor[4], α_actor[5], α_actor[6], α_actor[7], α_block[1], α_block[2], α_block[3], α_block[4], α_block[5], α_block[6], α, βp, βpC
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+
+Summary Statistics
+  parameters      mean       std   naive_se      mcse        ess      rhat   ess_per_sec
+      Symbol   Float64   Float64    Float64   Float64    Float64   Float64       Float64
+
+     σ_actor    2.3310    0.8672     0.0274    0.0418   365.6152    1.0044        8.0419
+     σ_block    0.2207    0.1830     0.0058    0.0161    94.2725    0.9995        2.0736
+  α_actor[1]   -1.2235    1.0401     0.0329    0.0736   118.8476    1.0079        2.6141
+  α_actor[2]    4.2879    1.6140     0.0510    0.0717   342.6241    1.0016        7.5362
+  α_actor[3]   -1.5604    1.0916     0.0345    0.0853   103.8677    1.0079        2.2846
+  α_actor[4]   -1.5227    1.0468     0.0331    0.0691   136.5992    1.0051        3.0046
+  α_actor[5]   -1.1980    1.0397     0.0329    0.0728   127.1956    1.0065        2.7977
+  α_actor[6]   -0.2838    1.0446     0.0330    0.0766   115.5663    1.0071        2.5419
+  α_actor[7]    1.2631    1.0570     0.0334    0.0702   132.5026    1.0037        2.9145
+  α_block[1]   -0.1801    0.2333     0.0074    0.0144   222.2837    1.0019        4.8892
+  α_block[2]    0.0354    0.1921     0.0061    0.0083   471.4053    1.0000       10.3688
+  α_block[3]    0.0609    0.1909     0.0060    0.0100   379.9256    0.9990        8.3566
+  α_block[4]    0.0161    0.1989     0.0063    0.0080   521.0579    1.0006       11.4609
+  α_block[5]   -0.0269    0.1997     0.0063    0.0066   670.8440    0.9990       14.7555
+  α_block[6]    0.1291    0.2198     0.0069    0.0154   160.5180    0.9990        3.5307
+           α    0.5006    1.0393     0.0329    0.0763   115.4567    1.0069        2.5395
+          βp    0.8101    0.2554     0.0081    0.0117   565.9032    0.9993       12.4473
+         βpC   -0.1143    0.2804     0.0089    0.0139   274.3352    1.0003        6.0341
+
+Quantiles
+  parameters      2.5%     25.0%     50.0%     75.0%     97.5%
+      Symbol   Float64   Float64   Float64   Float64   Float64
+
+     σ_actor    1.1228    1.7370    2.2017    2.6502    4.6599
+     σ_block    0.0100    0.0898    0.1835    0.3056    0.6436
+  α_actor[1]   -3.5271   -1.9313   -1.1593   -0.5713    0.6940
+  α_actor[2]    1.5648    3.2389    4.1227    5.0220    8.0411
+  α_actor[3]   -4.0609   -2.2213   -1.4697   -0.8300    0.4615
+  α_actor[4]   -3.7577   -2.2805   -1.4886   -0.8100    0.4479
+  α_actor[5]   -3.6033   -1.8557   -1.1535   -0.5074    0.7350
+  α_actor[6]   -2.5555   -0.9572   -0.2244    0.4165    1.6665
+  α_actor[7]   -1.0878    0.5387    1.3108    1.9438    3.2808
+  α_block[1]   -0.7237   -0.3120   -0.1179   -0.0073    0.1409
+  α_block[2]   -0.3480   -0.0547    0.0079    0.1114    0.5236
+  α_block[3]   -0.2912   -0.0302    0.0249    0.1402    0.5236
+  α_block[4]   -0.3935   -0.0637    0.0006    0.0970    0.4743
+  α_block[5]   -0.5081   -0.1158   -0.0074    0.0629    0.3774
+  α_block[6]   -0.1957   -0.0003    0.0675    0.2325    0.7214
+           α   -1.4900   -0.1654    0.4352    1.1683    2.7828
+          βp    0.3483    0.6347    0.7885    0.9851    1.3176
+         βpC   -0.6666   -0.3049   -0.1047    0.1136    0.4307
+</code></pre> </p> <pre><code class=language-julia >using StatsPlots
+
+StatsPlots.plot&#40;chns&#41;</code></pre><pre><code class="plaintext code-output">"/home/runner/work/TuringModels.jl/TuringModels.jl/__site/assets/models/multi-multilevel-chimpanzees/code/output/chns.svg"</code></pre>
+<p> <img src="/TuringModels.jl/assets/models/multi-multilevel-chimpanzees/code/output/chns.svg" alt="">
+<h2 id=original_output ><a href="#original_output" class=header-anchor >Original output</a></h2>
+<pre><code class=language-julia >m125rethinking &#61; &quot;
+             Mean StdDev lower 0.89 upper 0.89 n_eff Rhat
+a_actor&#91;1&#93;  -1.19   0.98      -2.66       0.35  3451    1
+a_actor&#91;2&#93;   4.14   1.59       1.87       6.38  5514    1
+a_actor&#91;3&#93;  -1.49   0.99      -2.96       0.05  3493    1
+a_actor&#91;4&#93;  -1.50   0.98      -3.00       0.01  3340    1
+a_actor&#91;5&#93;  -1.19   0.99      -2.68       0.34  3447    1
+a_actor&#91;6&#93;  -0.25   0.99      -1.79       1.25  3361    1
+a_actor&#91;7&#93;   1.30   1.01      -0.21       2.89  3673    1
+a_block&#91;1&#93;  -0.19   0.23      -0.56       0.10  3825    1
+a_block&#91;2&#93;   0.04   0.19      -0.24       0.34  9346    1
+a_block&#91;3&#93;   0.06   0.19      -0.22       0.37  9202    1
+a_block&#91;4&#93;   0.00   0.18      -0.29       0.29 11314    1
+a_block&#91;5&#93;  -0.03   0.19      -0.33       0.25 10596    1
+a_block&#91;6&#93;   0.11   0.21      -0.16       0.45  6040    1
+a            0.47   0.97      -1.01       1.99  3273    1
+bp           0.83   0.26       0.40       1.24 13225    1
+bpc         -0.15   0.30      -0.61       0.36  8492    1
+sigma_actor  2.27   0.91       1.03       3.35  5677    1
+sigma_block  0.23   0.18       0.01       0.44  2269    1
+&quot;;</code></pre>
+
+<div class=page-foot >
+  <div class=copyright >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+    Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: December 15, 2022. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+  </div>
+</div>
+</div>
+    
+    
+        <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

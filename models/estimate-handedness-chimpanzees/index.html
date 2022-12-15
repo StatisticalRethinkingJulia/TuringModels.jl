@@ -1,0 +1,111 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Estimate handedness for each Chimpanzee</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Estimate handedness for each Chimpanzee</h1> </div> <div class=franklin-content > <p>This is model <code>m10.4</code> in Statistical Rethinking Edition 1.</p> <div class=franklin-toc ><ol><li><a href="#data">Data</a><li><a href="#model">Model</a><li><a href="#output">Output</a><li><a href="#original_output">Original output</a></ol></div> <h2 id=data ><a href="#data" class=header-anchor >Data</a></h2> <pre><code class=language-julia >import CSV
+import Random
+import TuringModels
+
+using DataFrames
+using StatsFuns
+
+Random.seed&#33;&#40;1&#41;
+
+data_path &#61; joinpath&#40;TuringModels.project_root, &quot;data&quot;, &quot;chimpanzees.csv&quot;&#41;
+df &#61; CSV.read&#40;data_path, DataFrame; delim&#61;&#39;;&#39;&#41;
+first&#40;df, 10&#41;</code></pre><pre><code class="plaintext code-output">10×8 DataFrame
+ Row │ actor  recipient  condition  block  trial  prosoc_left  chose_prosoc  pulled_left
+     │ Int64  String3    Int64      Int64  Int64  Int64        Int64         Int64
+─────┼───────────────────────────────────────────────────────────────────────────────────
+   1 │     1  NA                 0      1      2            0             1            0
+   2 │     1  NA                 0      1      4            0             0            1
+   3 │     1  NA                 0      1      6            1             0            0
+   4 │     1  NA                 0      1      8            0             1            0
+   5 │     1  NA                 0      1     10            1             1            1
+   6 │     1  NA                 0      1     12            1             1            1
+   7 │     1  NA                 0      2     14            1             0            0
+   8 │     1  NA                 0      2     16            1             0            0
+   9 │     1  NA                 0      2     18            0             1            0
+  10 │     1  NA                 0      2     20            0             1            0</code></pre> <h2 id=model ><a href="#model" class=header-anchor >Model</a></h2> <pre><code class=language-julia >using Turing
+
+@model function m10_4&#40;y, actors, x₁, x₂&#41;
+    # Number of unique actors in the data set
+    N_actor &#61; length&#40;unique&#40;actors&#41;&#41;
+
+    # Set an TArray for the priors/param
+    α ~ filldist&#40;Normal&#40;0, 10&#41;, N_actor&#41;
+    βp ~ Normal&#40;0, 10&#41;
+    βpC ~ Normal&#40;0, 10&#41;
+
+    logits &#61; α&#91;actors&#93; .&#43; &#40;βp .&#43; βpC * x₁&#41; .* x₂
+    y .~ BinomialLogit.&#40;1, logits&#41;
+end
+
+model &#61; m10_4&#40;df.pulled_left, df.actor, df.condition, df.prosoc_left&#41;;</code></pre> <h2 id=output ><a href="#output" class=header-anchor >Output</a></h2> <pre><code class=language-julia >chns &#61; sample&#40;model, NUTS&#40;&#41;, 1000&#41;</code></pre><pre><code class="plaintext code-output">Chains MCMC chain (1000×21×1 Array{Float64, 3}):
+
+Iterations        = 501:1:1500
+Number of chains  = 1
+Samples per chain = 1000
+Wall duration     = 15.75 seconds
+Compute duration  = 15.75 seconds
+parameters        = α[1], α[2], α[3], α[4], α[5], α[6], α[7], βp, βpC
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+
+Summary Statistics
+  parameters      mean       std   naive_se      mcse        ess      rhat   ess_per_sec
+      Symbol   Float64   Float64    Float64   Float64    Float64   Float64       Float64
+
+        α[1]   -0.7377    0.2721     0.0086    0.0091   639.1715    0.9992       40.5772
+        α[2]   11.0303    5.3937     0.1706    0.2720   437.6148    0.9992       27.7815
+        α[3]   -1.0428    0.2809     0.0089    0.0107   704.7983    1.0030       44.7434
+        α[4]   -1.0307    0.2784     0.0088    0.0107   762.8908    0.9990       48.4314
+        α[5]   -0.7349    0.2638     0.0083    0.0115   710.3632    0.9990       45.0967
+        α[6]    0.2367    0.2601     0.0082    0.0106   751.8580    1.0052       47.7310
+        α[7]    1.8006    0.3624     0.0115    0.0104   922.3958    0.9990       58.5574
+          βp    0.8205    0.2536     0.0080    0.0127   407.3226    0.9992       25.8585
+         βpC   -0.1236    0.2932     0.0093    0.0130   588.2313    0.9998       37.3433
+
+Quantiles
+  parameters      2.5%     25.0%     50.0%     75.0%     97.5%
+      Symbol   Float64   Float64   Float64   Float64   Float64
+
+        α[1]   -1.2618   -0.9355   -0.7342   -0.5380   -0.2085
+        α[2]    4.1721    6.7234    9.7425   14.0508   24.0123
+        α[3]   -1.6250   -1.2202   -1.0342   -0.8548   -0.5200
+        α[4]   -1.6213   -1.2198   -1.0251   -0.8215   -0.5257
+        α[5]   -1.2286   -0.9079   -0.7375   -0.5509   -0.2255
+        α[6]   -0.2670    0.0567    0.2375    0.4183    0.7570
+        α[7]    1.1343    1.5544    1.7847    2.0550    2.5570
+          βp    0.3095    0.6572    0.8175    0.9947    1.3043
+         βpC   -0.6576   -0.3275   -0.1176    0.0704    0.4420
+</code></pre> </p> <pre><code class=language-julia >using StatsPlots
+
+StatsPlots.plot&#40;chns&#41;</code></pre><pre><code class="plaintext code-output">"/home/runner/work/TuringModels.jl/TuringModels.jl/__site/assets/models/estimate-handedness-chimpanzees/code/output/chns.svg"</code></pre>
+<p> <img src="/TuringModels.jl/assets/models/estimate-handedness-chimpanzees/code/output/chns.svg" alt="">
+<h2 id=original_output ><a href="#original_output" class=header-anchor >Original output</a></h2>
+<pre><code class=language-julia >m_10_04s_result &#61; &quot;
+Iterations &#61; 1:1000
+Thinning interval &#61; 1
+Chains &#61; 1,2,3,4
+Samples per chain &#61; 1000
+
+Empirical Posterior Estimates:
+        Mean        SD       Naive SE       MCSE      ESS
+a.1 -0.74503184 0.26613979 0.0042080396 0.0060183398 1000
+a.2 10.77955494 5.32538998 0.0842018089 0.1269148045 1000
+a.3 -1.04982353 0.28535997 0.0045119373 0.0049074219 1000
+a.4 -1.04898135 0.28129307 0.0044476339 0.0056325117 1000
+a.5 -0.74390933 0.26949936 0.0042611590 0.0052178124 1000
+a.6  0.21599365 0.26307574 0.0041595927 0.0045153523 1000
+a.7  1.81090866 0.39318577 0.0062168129 0.0071483527 1000
+bp  0.83979926 0.26284676 0.0041559722 0.0059795826 1000
+bpC -0.12913322 0.29935741 0.0047332562 0.0049519863 1000
+&quot;;</code></pre>
+
+<div class=page-foot >
+  <div class=copyright >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+    Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: December 15, 2022. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+  </div>
+</div>
+</div>
+    
+    
+        <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

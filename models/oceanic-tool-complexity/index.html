@@ -1,0 +1,95 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Oceanic tool complexity</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Oceanic tool complexity</h1> </div> <div class=franklin-content > <p>This is supposed to be a &quot;bad&quot; model since we take non-centered data for the predictor <code>log_pop</code>. A centered version can be found at <a href="/TuringModels.jl/models/centered-oceanic-tool-complexity">centered oceanic tool complexity</a>.</p> <div class=franklin-toc ><ol><li><a href="#data">Data</a><li><a href="#model">Model</a><li><a href="#output">Output</a><li><a href="#original_output">Original output</a></ol></div> <h2 id=data ><a href="#data" class=header-anchor >Data</a></h2> <pre><code class=language-julia >import CSV
+import Random
+import TuringModels
+
+using DataFrames
+
+Random.seed&#33;&#40;1&#41;
+
+delim &#61; &#39;;&#39;
+data_path &#61; joinpath&#40;TuringModels.project_root, &quot;data&quot;, &quot;Kline.csv&quot;&#41;
+df &#61; CSV.read&#40;data_path, DataFrame; delim&#41;
+
+df.log_pop &#61; log.&#40;df.population&#41;
+df.contact_high &#61; &#91;contact &#61;&#61; &quot;high&quot; ? 1 : 0 for contact in df.contact&#93;
+df</code></pre><pre><code class="plaintext code-output">10×7 DataFrame
+ Row │ culture     population  contact  total_tools  mean_TU  log_pop   contact_high
+     │ String15    Int64       String7  Int64        Float64  Float64   Int64
+─────┼───────────────────────────────────────────────────────────────────────────────
+   1 │ Malekula          1100  low               13      3.2   7.00307             0
+   2 │ Tikopia           1500  low               22      4.7   7.31322             0
+   3 │ Santa Cruz        3600  low               24      4.0   8.18869             0
+   4 │ Yap               4791  high              43      5.0   8.47449             1
+   5 │ Lau Fiji          7400  high              33      5.0   8.90924             1
+   6 │ Trobriand         8000  high              19      4.0   8.9872              1
+   7 │ Chuuk             9200  high              40      3.8   9.12696             1
+   8 │ Manus            13000  low               28      6.6   9.4727              0
+   9 │ Tonga            17500  high              55      5.4   9.76996             1
+  10 │ Hawaii          275000  low               71      6.6  12.5245              0</code></pre> <h2 id=model ><a href="#model" class=header-anchor >Model</a></h2> <pre><code class=language-julia >using Turing
+
+@model function m10_10stan&#40;total_tools, log_pop, contact_high&#41;
+    α ~ Normal&#40;0, 100&#41;
+    βp ~ Normal&#40;0, 1&#41;
+    βc ~ Normal&#40;0, 1&#41;
+    βpc ~ Normal&#40;0, 1&#41;
+
+    for i ∈ 1:length&#40;total_tools&#41;
+        λ &#61; exp&#40;α &#43; βp*log_pop&#91;i&#93; &#43; βc*contact_high&#91;i&#93; &#43;
+            βpc*contact_high&#91;i&#93;*log_pop&#91;i&#93;&#41;
+        total_tools&#91;i&#93; ~ Poisson&#40;λ&#41;
+    end
+end;</code></pre> <h2 id=output ><a href="#output" class=header-anchor >Output</a></h2> <pre><code class=language-julia >chns &#61; sample&#40;
+    m10_10stan&#40;df.total_tools, df.log_pop, df.contact_high&#41;,
+    NUTS&#40;&#41;,
+    1000
+&#41;</code></pre><pre><code class="plaintext code-output">Chains MCMC chain (1000×16×1 Array{Float64, 3}):
+
+Iterations        = 501:1:1500
+Number of chains  = 1
+Samples per chain = 1000
+Wall duration     = 10.46 seconds
+Compute duration  = 10.46 seconds
+parameters        = α, βp, βc, βpc
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+
+Summary Statistics
+  parameters      mean       std   naive_se      mcse        ess      rhat   ess_per_sec
+      Symbol   Float64   Float64    Float64   Float64    Float64   Float64       Float64
+
+           α    0.9405    0.3622     0.0115    0.0196   326.1608    1.0046       31.1877
+          βp    0.2641    0.0350     0.0011    0.0019   320.7521    1.0046       30.6705
+          βc   -0.0679    0.8847     0.0280    0.0500   272.4546    1.0028       26.0523
+         βpc    0.0401    0.0968     0.0031    0.0055   274.0906    1.0033       26.2087
+
+Quantiles
+  parameters      2.5%     25.0%     50.0%     75.0%     97.5%
+      Symbol   Float64   Float64   Float64   Float64   Float64
+
+           α    0.2322    0.6806    0.9625    1.2130    1.5952
+          βp    0.2010    0.2382    0.2627    0.2892    0.3355
+          βc   -1.7875   -0.6647   -0.0906    0.5256    1.6761
+         βpc   -0.1578   -0.0224    0.0420    0.1045    0.2285
+</code></pre> </p> <pre><code class=language-julia >using StatsPlots
+
+StatsPlots.plot&#40;chns&#41;</code></pre><pre><code class="plaintext code-output">"/home/runner/work/TuringModels.jl/TuringModels.jl/__site/assets/models/oceanic-tool-complexity/code/output/chns.svg"</code></pre>
+<p> <img src="/TuringModels.jl/assets/models/oceanic-tool-complexity/code/output/chns.svg" alt="">
+<h2 id=original_output ><a href="#original_output" class=header-anchor >Original output</a></h2>
+<pre><code class=language-julia >m_10_10t_result &#61; &quot;
+     mean   sd  5.5&#37; 94.5&#37; n_eff Rhat
+ a    0.94 0.37  0.36  1.53  3379    1
+ bp   0.26 0.04  0.21  0.32  3347    1
+ bc  -0.08 0.84 -1.41  1.23  2950    1
+ bpc  0.04 0.09 -0.10  0.19  2907    1
+&quot;;</code></pre>
+
+<div class=page-foot >
+  <div class=copyright >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+    Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: December 15, 2022. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+  </div>
+</div>
+</div>
+    
+    
+        <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

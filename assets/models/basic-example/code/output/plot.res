@@ -1,0 +1,1 @@
+"/home/runner/work/TuringModels.jl/TuringModels.jl/__site/assets/models/basic-example/code/output/chns.svg"

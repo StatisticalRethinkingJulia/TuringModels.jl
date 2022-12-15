@@ -1,0 +1,144 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Africa</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Africa</h1> </div> <div class=franklin-content ><p>This is the first Stan model in Statistical Rethinking Edition 1 &#40;page 249&#41;. In Edition 2 &#40;page 242&#41;</p> <div class=franklin-toc ><ol><li><a href="#data">Data</a><li><a href="#model">Model</a><li><a href="#output">Output</a><li><a href="#original_output">Original output</a><li><a href="#df">df</a></ol></div> <h2 id=data ><a href="#data" class=header-anchor >Data</a></h2> <pre><code class=language-julia >import CSV
+import Random
+
+using DataFrames
+using Turing
+using TuringModels
+
+Random.seed&#33;&#40;1&#41;
+
+data_path &#61; joinpath&#40;TuringModels.project_root, &quot;data&quot;, &quot;rugged.csv&quot;&#41;
+df &#61; CSV.read&#40;data_path, DataFrame&#41;
+
+df.log_gdp &#61; log.&#40;df.rgdppc_2000&#41;
+dropmissing&#33;&#40;df&#41;
+
+df &#61; select&#40;df, :log_gdp, :rugged, :cont_africa&#41;;</code></pre> <p>DataFrame <code>df</code> is shown Section <a href="#df">df</a>.</p> <h2 id=model ><a href="#model" class=header-anchor >Model</a></h2> <pre><code class=language-julia >@model function model_fn&#40;y, x₁, x₂&#41;
+  σ ~ truncated&#40;Cauchy&#40;0, 2&#41;, 0, Inf&#41;
+  βAR ~ Normal&#40;0, 10&#41;
+  βR ~ Normal&#40;0, 10&#41;
+  βA ~ Normal&#40;0, 10&#41;
+  α ~ Normal&#40;0, 100&#41;
+
+  μ &#61; α .&#43; βR * x₁ .&#43; βA * x₂ .&#43; βAR * x₁ .* x₂
+  y ~ MvNormal&#40;μ, σ&#41;
+end
+
+model &#61; model_fn&#40;df.log_gdp, df.rugged, df.cont_africa&#41;;</code></pre> <h2 id=output ><a href="#output" class=header-anchor >Output</a></h2> <pre><code class=language-julia >chns &#61; sample&#40;model, NUTS&#40;&#41;, 1000&#41;</code></pre><pre><code class="plaintext code-output">Chains MCMC chain (1000×17×1 Array{Float64, 3}):
+
+Iterations        = 501:1:1500
+Number of chains  = 1
+Samples per chain = 1000
+Wall duration     = 30.71 seconds
+Compute duration  = 30.71 seconds
+parameters        = σ, βAR, βR, βA, α
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+
+Summary Statistics
+  parameters      mean       std   naive_se      mcse        ess      rhat   ess_per_sec
+      Symbol   Float64   Float64    Float64   Float64    Float64   Float64       Float64
+
+           σ    0.9124    0.1038     0.0033    0.0041   564.1423    0.9991       18.3718
+         βAR   -0.4022    6.7703     0.2141    0.3039   364.0892    0.9994       11.8569
+          βR    0.5288    6.7725     0.2142    0.3031   365.8438    0.9994       11.9140
+          βA    0.3043    9.7038     0.3069    0.4403   360.1388    0.9991       11.7282
+           α    7.0447    9.7034     0.3068    0.4383   361.5474    0.9991       11.7741
+
+Quantiles
+  parameters       2.5%     25.0%     50.0%     75.0%     97.5%
+      Symbol    Float64   Float64   Float64   Float64   Float64
+
+           σ     0.7276    0.8384    0.9056    0.9736    1.1367
+         βAR   -13.7031   -5.0066   -0.4931    4.1581   12.3653
+          βR   -12.2815   -4.0114    0.5909    5.1958   13.9103
+          βA   -19.2804   -6.0694   -0.1506    6.9126   19.6269
+           α   -12.2354    0.4536    7.4986   13.4632   26.5998
+</code></pre> </p> <pre><code class=language-julia >using StatsPlots
+
+StatsPlots.plot&#40;chns&#41;</code></pre><pre><code class="plaintext code-output">"/home/runner/work/TuringModels.jl/TuringModels.jl/__site/assets/models/africa/code/output/chns.svg"</code></pre>
+<p> <img src="/TuringModels.jl/assets/models/africa/code/output/chns.svg" alt="">
+<h2 id=original_output ><a href="#original_output" class=header-anchor >Original output</a></h2>
+<pre><code class=language-julia >&quot;&quot;&quot;
+Iterations &#61; 1:1000
+Thinning interval &#61; 1
+Chains &#61; 1,2,3,4
+Samples per chain &#61; 1000
+
+Empirical Posterior Estimates:
+          Mean         SD       Naive SE       MCSE      ESS
+    a  9.22360053 0.139119116 0.0021996664 0.0034632816 1000
+   bR -0.20196346 0.076106388 0.0012033477 0.0018370185 1000
+   bA -1.94430980 0.227080488 0.0035904578 0.0057840746 1000
+  bAR  0.39071684 0.131889143 0.0020853505 0.0032749642 1000
+sigma  0.95036370 0.052161768 0.0008247500 0.0009204073 1000
+
+Quantiles:
+          2.5&#37;       25.0&#37;       50.0&#37;      75.0&#37;        97.5&#37;
+    a  8.95307475  9.12719750  9.2237750  9.31974000  9.490234250
+   bR -0.35217930 -0.25334425 -0.2012855 -0.15124725 -0.054216855
+   bA -2.39010825 -2.09894500 -1.9432550 -1.78643000 -1.513974250
+  bAR  0.13496995  0.30095575  0.3916590  0.47887625  0.650244475
+sigma  0.85376115  0.91363250  0.9484920  0.98405750  1.058573750
+&quot;&quot;&quot;;</code></pre>
+<h2 id=df ><a href="#df" class=header-anchor >df</a></h2>
+<pre><code class=language-julia >df</code></pre><pre><code class="plaintext code-output">45×3 DataFrame
+ Row │ log_gdp  rugged   cont_africa
+     │ Float64  Float64  Int64
+─────┼───────────────────────────────
+   1 │ 7.49261    0.858            1
+   2 │ 6.43238    1.78             1
+   3 │ 6.86612    0.141            1
+   4 │ 6.90617    0.236            1
+   5 │ 8.9493     0.181            1
+   6 │ 7.04582    0.197            1
+   7 │ 7.36241    0.224            1
+   8 │ 7.54046    0.515            1
+   9 │ 6.50528    0.443            1
+  10 │ 6.86422    0.152            1
+  11 │ 7.47886    3.328            1
+  12 │ 8.48861    2.367            1
+  13 │ 8.59747    0.51             1
+  14 │ 8.18822    0.723            1
+  15 │ 8.7191     0.218            1
+  16 │ 7.54582    0.228            1
+  17 │ 7.58873    0.74             1
+  18 │ 7.45483    0.353            1
+  19 │ 6.66246    0.491            1
+  20 │ 9.62836    0.559            1
+  21 │ 6.92631    0.669            1
+  22 │ 7.66037    6.202            1
+  23 │ 8.16446    2.413            1
+  24 │ 6.71568    1.169            1
+  25 │ 6.65878    0.147            1
+  26 │ 6.77636    0.612            1
+  27 │ 7.45542    0.115            1
+  28 │ 9.17186    0.949            1
+  29 │ 6.37375    1.027            1
+  30 │ 8.70911    0.913            1
+  31 │ 6.55556    0.178            1
+  32 │ 6.78286    0.312            1
+  33 │ 6.94618    3.309            1
+  34 │ 7.42814    0.442            1
+  35 │ 7.26898    0.244            1
+  36 │ 6.14557    0.498            1
+  37 │ 8.45136    3.063            1
+  38 │ 6.71071    0.419            1
+  39 │ 7.27021    0.28             1
+  40 │ 8.74058    0.726            1
+  41 │ 6.25734    0.677            1
+  42 │ 7.1257     0.913            1
+  43 │ 9.1505     1.761            1
+  44 │ 6.65158    0.533            1
+  45 │ 7.82373    1.194            1</code></pre>
+
+<div class=page-foot >
+  <div class=copyright >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+    Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: December 15, 2022. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+  </div>
+</div>
+</div>
+    
+    
+        <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

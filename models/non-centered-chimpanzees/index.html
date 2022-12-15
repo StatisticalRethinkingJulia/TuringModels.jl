@@ -1,0 +1,324 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Non-centered Chimpanzees</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Non-centered Chimpanzees</h1> </div> <div class=franklin-content > <p>This model is not executed on each change because it is similar to <a href="/TuringModels.jl/models/multivariate-chimpanzees-priors">multivariate-chimpanzees-priors</a>.</p> <pre><code class=language-julia >import Random
+
+using TuringModels
+using LinearAlgebra
+
+Random.seed&#33;&#40;1&#41;
+
+# This script requires latest LKJ bijectors support.
+# &#96;&#93; add Bijectors#master&#96; to get latest Bijectors.
+
+data_path &#61; joinpath&#40;@__DIR__, &quot;..&quot;, &quot;..&quot;, &quot;data&quot;, &quot;chimpanzees.csv&quot;&#41;
+delim &#61; &quot;;&quot;
+d &#61; CSV.read&#40;data_path, DataFrame; delim&#41;
+
+d.block_id &#61; d.block
+
+# m13.6nc1 is equivalent to m13.6nc in following Turing model
+
+@model m13_6_nc&#40;actor, block_id, condition, prosoc_left, pulled_left&#41; &#61; begin
+    # fixed priors
+    Rho_block ~ LKJ&#40;3, 4.&#41;
+    Rho_actor ~ LKJ&#40;3, 4.&#41;
+    sigma_block ~ filldist&#40;truncated&#40;Cauchy&#40;0, 2&#41;, 0, Inf&#41;, 3&#41;
+    sigma_actor ~ filldist&#40;truncated&#40;Cauchy&#40;0, 2&#41;, 0, Inf&#41;, 3&#41;
+    a ~ Normal&#40;0, 1&#41;
+    bp ~ Normal&#40;0, 1&#41;
+    bpc ~ Normal&#40;0, 1&#41;
+    
+    # adaptive NON-CENTERED priors
+    Rho_block &#61; &#40;Rho_block&#39; &#43; Rho_block&#41; / 2
+    Rho_actor &#61; &#40;Rho_actor&#39; &#43; Rho_actor&#41; / 2
+    
+    L_Rho_block &#61; cholesky&#40;Rho_block&#41;.L
+    L_Rho_actor &#61; cholesky&#40;Rho_actor&#41;.L
+    
+    z_N_block ~ filldist&#40;Normal&#40;0, 1&#41;, 3, 6&#41;
+    z_N_actor ~ filldist&#40;Normal&#40;0, 1&#41;, 3, 7&#41;
+    
+    # @show size&#40;L_Rho_block&#41; size&#40;sigma_block&#41; size&#40;z_N_block_id&#41;
+    
+    a_block_bp_block_bpc_block &#61; sigma_block .* L_Rho_block * z_N_block
+    a_actor_bp_actor_bpc_actor &#61; sigma_actor .* L_Rho_actor * z_N_actor
+    
+    a_block &#61; a_block_bp_block_bpc_block&#91;1, :&#93;
+    bp_block &#61; a_block_bp_block_bpc_block&#91;2, :&#93;
+    bpc_block &#61; a_block_bp_block_bpc_block&#91;3, :&#93;
+    a_actor &#61; a_actor_bp_actor_bpc_actor&#91;1, :&#93;
+    bp_actor &#61; a_actor_bp_actor_bpc_actor&#91;2, :&#93;
+    bpc_actor &#61; a_actor_bp_actor_bpc_actor&#91;3, :&#93;
+    
+    # linear models
+    BPC &#61; bpc .&#43; bpc_actor&#91;actor&#93; &#43; bpc_block&#91;block_id&#93;
+    BP &#61; bp .&#43; bp_actor&#91;actor&#93; &#43; bp_block&#91;block_id&#93;
+    A &#61; a .&#43; a_actor&#91;actor&#93; &#43; a_block&#91;block_id&#93;
+    logit_p &#61; A &#43; &#40;BP &#43; BPC .* condition&#41; .* prosoc_left
+    
+    # likelihood
+    pulled_left .~ BinomialLogit.&#40;1, logit_p&#41;
+end
+
+chns &#61; sample&#40;
+    m13_6_nc&#40;d.actor, d.block_id, d.condition, d.prosoc_left, d.pulled_left&#41;,
+    Turing.NUTS&#40;0.95&#41;,
+    1000
+&#41;
+
+chns |&gt; display
+
+m_13_6_nc_rethinking &#61; &quot;&quot;&quot;
+Inference for Stan model: 78757717ec3ffa528c3819708907eb7f.
+    3 chains, each with iter&#61;5000; warmup&#61;1000; thin&#61;1; 
+    post-warmup draws per chain&#61;4000, total post-warmup draws&#61;12000.
+    
+                         mean se_mean   sd    2.5&#37;     25&#37;     50&#37;     75&#37;   97.5&#37;
+    z_N_block_id&#91;1,1&#93;   -0.44    0.01 0.90   -2.17   -1.03   -0.46    0.13    1.39
+    z_N_block_id&#91;1,2&#93;    0.21    0.01 0.86   -1.50   -0.35    0.22    0.78    1.89
+    z_N_block_id&#91;1,3&#93;    0.34    0.01 0.87   -1.42   -0.22    0.35    0.92    2.02
+    z_N_block_id&#91;1,4&#93;   -0.02    0.01 0.84   -1.71   -0.56   -0.03    0.52    1.63
+    z_N_block_id&#91;1,5&#93;   -0.09    0.01 0.84   -1.73   -0.64   -0.10    0.47    1.56
+    z_N_block_id&#91;1,6&#93;    0.01    0.01 0.92   -1.85   -0.59    0.03    0.63    1.80
+    z_N_block_id&#91;2,1&#93;   -0.37    0.01 0.82   -1.99   -0.90   -0.37    0.15    1.27
+    z_N_block_id&#91;2,2&#93;   -0.18    0.01 0.78   -1.76   -0.66   -0.17    0.31    1.38
+    z_N_block_id&#91;2,3&#93;   -0.36    0.01 0.79   -1.93   -0.87   -0.35    0.16    1.18
+    z_N_block_id&#91;2,4&#93;    0.23    0.01 0.77   -1.33   -0.26    0.23    0.72    1.74
+    z_N_block_id&#91;2,5&#93;    0.04    0.01 0.76   -1.49   -0.46    0.04    0.52    1.58
+    z_N_block_id&#91;2,6&#93;    1.01    0.01 0.84   -0.76    0.49    1.04    1.56    2.58
+    z_N_block_id&#91;3,1&#93;   -0.59    0.01 0.91   -2.32   -1.20   -0.61    0.00    1.28
+    z_N_block_id&#91;3,2&#93;    0.28    0.01 0.88   -1.50   -0.29    0.28    0.86    2.04
+    z_N_block_id&#91;3,3&#93;    0.32    0.01 0.89   -1.46   -0.26    0.34    0.91    2.09
+    z_N_block_id&#91;3,4&#93;   -0.11    0.01 0.89   -1.87   -0.69   -0.10    0.46    1.64
+    z_N_block_id&#91;3,5&#93;   -0.12    0.01 0.86   -1.83   -0.68   -0.12    0.43    1.64
+    z_N_block_id&#91;3,6&#93;    0.20    0.01 0.91   -1.63   -0.40    0.20    0.81    1.99
+    L_Rho_block&#91;1,1&#93;     1.00     NaN 0.00    1.00    1.00    1.00    1.00    1.00
+    L_Rho_block&#91;1,2&#93;     0.00     NaN 0.00    0.00    0.00    0.00    0.00    0.00
+    L_Rho_block&#91;1,3&#93;     0.00     NaN 0.00    0.00    0.00    0.00    0.00    0.00
+    L_Rho_block&#91;2,1&#93;    -0.06    0.00 0.32   -0.65   -0.29   -0.06    0.17    0.57
+    L_Rho_block&#91;2,2&#93;     0.94    0.00 0.07    0.73    0.92    0.97    0.99    1.00
+    L_Rho_block&#91;2,3&#93;     0.00     NaN 0.00    0.00    0.00    0.00    0.00    0.00
+    L_Rho_block&#91;3,1&#93;     0.04    0.00 0.32   -0.57   -0.19    0.04    0.27    0.63
+    L_Rho_block&#91;3,2&#93;    -0.04    0.00 0.31   -0.62   -0.26   -0.04    0.18    0.57
+    L_Rho_block&#91;3,3&#93;     0.89    0.00 0.10    0.64    0.84    0.92    0.97    1.00
+    z_N_actor&#91;1,1&#93;      -0.49    0.01 0.36   -1.25   -0.71   -0.46   -0.24    0.15
+    z_N_actor&#91;1,2&#93;       1.99    0.01 0.62    0.88    1.55    1.96    2.40    3.29
+    z_N_actor&#91;1,3&#93;      -0.63    0.01 0.38   -1.44   -0.87   -0.60   -0.35    0.04
+    z_N_actor&#91;1,4&#93;      -0.65    0.01 0.39   -1.48   -0.89   -0.61   -0.37    0.03
+    z_N_actor&#91;1,5&#93;      -0.48    0.01 0.36   -1.25   -0.71   -0.45   -0.23    0.15
+    z_N_actor&#91;1,6&#93;       0.09    0.00 0.33   -0.56   -0.13    0.09    0.30    0.75
+    z_N_actor&#91;1,7&#93;       0.73    0.01 0.41    0.04    0.45    0.69    0.98    1.62
+    z_N_actor&#91;2,1&#93;       0.06    0.01 0.83   -1.60   -0.49    0.07    0.59    1.71
+    z_N_actor&#91;2,2&#93;       0.14    0.01 0.99   -1.80   -0.52    0.14    0.81    2.07
+    z_N_actor&#91;2,3&#93;       0.38    0.01 0.86   -1.34   -0.18    0.38    0.95    2.04
+    z_N_actor&#91;2,4&#93;       0.25    0.01 0.85   -1.46   -0.29    0.26    0.81    1.91
+    z_N_actor&#91;2,5&#93;       0.13    0.01 0.84   -1.57   -0.41    0.13    0.68    1.79
+    z_N_actor&#91;2,6&#93;      -0.62    0.01 0.87   -2.26   -1.20   -0.65   -0.09    1.20
+    z_N_actor&#91;2,7&#93;      -0.04    0.01 0.92   -1.84   -0.66   -0.04    0.58    1.78
+    z_N_actor&#91;3,1&#93;       0.10    0.01 0.86   -1.63   -0.46    0.10    0.67    1.81
+    z_N_actor&#91;3,2&#93;       0.07    0.01 0.98   -1.84   -0.60    0.08    0.74    1.98
+    z_N_actor&#91;3,3&#93;      -0.35    0.01 0.86   -2.02   -0.94   -0.37    0.22    1.38
+    z_N_actor&#91;3,4&#93;       0.02    0.01 0.86   -1.70   -0.55    0.01    0.58    1.73
+    z_N_actor&#91;3,5&#93;      -0.05    0.01 0.85   -1.73   -0.62   -0.06    0.50    1.65
+    z_N_actor&#91;3,6&#93;      -0.25    0.01 0.89   -1.97   -0.83   -0.26    0.31    1.56
+    z_N_actor&#91;3,7&#93;       0.50    0.01 0.97   -1.43   -0.13    0.50    1.16    2.38
+    L_Rho_actor&#91;1,1&#93;     1.00     NaN 0.00    1.00    1.00    1.00    1.00    1.00
+    L_Rho_actor&#91;1,2&#93;     0.00     NaN 0.00    0.00    0.00    0.00    0.00    0.00
+    L_Rho_actor&#91;1,3&#93;     0.00     NaN 0.00    0.00    0.00    0.00    0.00    0.00
+    L_Rho_actor&#91;2,1&#93;    -0.07    0.00 0.32   -0.65   -0.30   -0.07    0.15    0.56
+    L_Rho_actor&#91;2,2&#93;     0.94    0.00 0.07    0.73    0.92    0.97    0.99    1.00
+    L_Rho_actor&#91;2,3&#93;     0.00     NaN 0.00    0.00    0.00    0.00    0.00    0.00
+    L_Rho_actor&#91;3,1&#93;     0.08    0.00 0.32   -0.55   -0.15    0.09    0.31    0.66
+    L_Rho_actor&#91;3,2&#93;    -0.04    0.00 0.31   -0.64   -0.27   -0.05    0.18    0.57
+    L_Rho_actor&#91;3,3&#93;     0.88    0.00 0.10    0.61    0.83    0.91    0.96    1.00
+    a                    0.24    0.01 0.66   -1.06   -0.19    0.24    0.67    1.56
+    bp                   0.72    0.00 0.40   -0.14    0.47    0.73    0.98    1.48
+    bpc                 -0.03    0.00 0.44   -0.88   -0.31   -0.03    0.25    0.88
+    sigma_actor&#91;1&#93;       2.35    0.01 0.90    1.20    1.73    2.16    2.75    4.67
+    sigma_actor&#91;2&#93;       0.46    0.00 0.37    0.02    0.19    0.39    0.64    1.37
+    sigma_actor&#91;3&#93;       0.53    0.01 0.49    0.02    0.19    0.40    0.72    1.81
+    sigma_block&#91;1&#93;       0.23    0.00 0.20    0.01    0.09    0.18    0.31    0.74
+    sigma_block&#91;2&#93;       0.57    0.01 0.41    0.03    0.29    0.50    0.77    1.56
+    sigma_block&#91;3&#93;       0.52    0.01 0.43    0.02    0.20    0.42    0.72    1.59
+    a_block&#91;1&#93;          -0.12    0.00 0.23   -0.68   -0.22   -0.06    0.01    0.23
+    a_block&#91;2&#93;           0.06    0.00 0.21   -0.32   -0.04    0.02    0.14    0.57
+    a_block&#91;3&#93;           0.10    0.00 0.22   -0.27   -0.02    0.04    0.19    0.65
+    a_block&#91;4&#93;          -0.01    0.00 0.20   -0.44   -0.09    0.00    0.08    0.42
+    a_block&#91;5&#93;          -0.02    0.00 0.20   -0.49   -0.11   -0.01    0.06    0.39
+    a_block&#91;6&#93;           0.00    0.00 0.22   -0.49   -0.09    0.00    0.10    0.46
+    bp_block&#91;1&#93;         -0.18    0.00 0.42   -1.12   -0.42   -0.14    0.05    0.64
+    bp_block&#91;2&#93;         -0.11    0.00 0.41   -0.99   -0.32   -0.07    0.11    0.70
+    bp_block&#91;3&#93;         -0.23    0.00 0.43   -1.24   -0.46   -0.16    0.03    0.54
+    bp_block&#91;4&#93;          0.15    0.00 0.41   -0.59   -0.08    0.09    0.37    1.11
+    bp_block&#91;5&#93;          0.04    0.00 0.40   -0.75   -0.18    0.01    0.24    0.92
+    bp_block&#91;6&#93;          0.63    0.01 0.57   -0.14    0.17    0.53    0.96    1.98
+    bpc_block&#91;1&#93;        -0.37    0.01 0.54   -1.75   -0.63   -0.22   -0.01    0.38
+    bpc_block&#91;2&#93;         0.18    0.00 0.44   -0.57   -0.05    0.09    0.39    1.28
+    bpc_block&#91;3&#93;         0.22    0.00 0.47   -0.56   -0.04    0.11    0.43    1.40
+    bpc_block&#91;4&#93;        -0.08    0.00 0.45   -1.11   -0.28   -0.03    0.12    0.82
+    bpc_block&#91;5&#93;        -0.07    0.00 0.42   -1.02   -0.26   -0.03    0.12    0.78
+    bpc_block&#91;6&#93;         0.09    0.00 0.48   -0.88   -0.13    0.04    0.30    1.19
+    Rho_block&#91;1,1&#93;       1.00     NaN 0.00    1.00    1.00    1.00    1.00    1.00
+    Rho_block&#91;1,2&#93;      -0.06    0.00 0.32   -0.65   -0.29   -0.06    0.17    0.57
+    Rho_block&#91;1,3&#93;       0.04    0.00 0.32   -0.57   -0.19    0.04    0.27    0.63
+    Rho_block&#91;2,1&#93;      -0.06    0.00 0.32   -0.65   -0.29   -0.06    0.17    0.57
+    Rho_block&#91;2,2&#93;       1.00    0.00 0.00    1.00    1.00    1.00    1.00    1.00
+    Rho_block&#91;2,3&#93;      -0.04    0.00 0.31   -0.62   -0.27   -0.05    0.18    0.57
+    Rho_block&#91;3,1&#93;       0.04    0.00 0.32   -0.57   -0.19    0.04    0.27    0.63
+    Rho_block&#91;3,2&#93;      -0.04    0.00 0.31   -0.62   -0.27   -0.05    0.18    0.57
+    Rho_block&#91;3,3&#93;       1.00    0.00 0.00    1.00    1.00    1.00    1.00    1.00
+    a_actor&#91;1&#93;          -1.02    0.01 0.71   -2.43   -1.48   -1.01   -0.55    0.38
+    a_actor&#91;2&#93;           4.44    0.02 1.63    2.09    3.36    4.17    5.21    8.34
+    a_actor&#91;3&#93;          -1.31    0.01 0.72   -2.75   -1.77   -1.30   -0.83    0.11
+    a_actor&#91;4&#93;          -1.35    0.01 0.72   -2.80   -1.82   -1.34   -0.88    0.10
+    a_actor&#91;5&#93;          -1.00    0.01 0.71   -2.42   -1.48   -0.99   -0.53    0.40
+    a_actor&#91;6&#93;           0.20    0.01 0.72   -1.24   -0.28    0.20    0.66    1.60
+    a_actor&#91;7&#93;           1.55    0.01 0.76    0.10    1.05    1.53    2.04    3.08
+    bp_actor&#91;1&#93;          0.05    0.00 0.37   -0.68   -0.13    0.02    0.22    0.89
+    bp_actor&#91;2&#93;          0.03    0.01 0.64   -1.21   -0.24    0.00    0.25    1.46
+    bp_actor&#91;3&#93;          0.22    0.00 0.42   -0.44   -0.02    0.12    0.41    1.25
+    bp_actor&#91;4&#93;          0.16    0.00 0.39   -0.52   -0.05    0.08    0.34    1.09
+    bp_actor&#91;5&#93;          0.10    0.00 0.38   -0.61   -0.09    0.04    0.26    0.99
+    bp_actor&#91;6&#93;         -0.31    0.00 0.42   -1.35   -0.54   -0.21   -0.01    0.28
+    bp_actor&#91;7&#93;         -0.04    0.00 0.43   -1.00   -0.23   -0.02    0.15    0.87
+    bpc_actor&#91;1&#93;         0.02    0.00 0.42   -0.92   -0.15    0.01    0.20    0.94
+    bpc_actor&#91;2&#93;         0.20    0.01 0.83   -1.18   -0.13    0.05    0.41    2.31
+    bpc_actor&#91;3&#93;        -0.28    0.01 0.50   -1.58   -0.49   -0.14    0.02    0.46
+    bpc_actor&#91;4&#93;        -0.05    0.00 0.43   -1.05   -0.22   -0.01    0.15    0.79
+    bpc_actor&#91;5&#93;        -0.08    0.00 0.43   -1.13   -0.25   -0.02    0.12    0.73
+    bpc_actor&#91;6&#93;        -0.14    0.00 0.45   -1.25   -0.32   -0.05    0.08    0.69
+    bpc_actor&#91;7&#93;         0.41    0.01 0.73   -0.41   -0.01    0.18    0.64    2.39
+    Rho_actor&#91;1,1&#93;       1.00     NaN 0.00    1.00    1.00    1.00    1.00    1.00
+    Rho_actor&#91;1,2&#93;      -0.07    0.00 0.32   -0.65   -0.30   -0.07    0.15    0.56
+    Rho_actor&#91;1,3&#93;       0.08    0.00 0.32   -0.55   -0.15    0.09    0.31    0.66
+    Rho_actor&#91;2,1&#93;      -0.07    0.00 0.32   -0.65   -0.30   -0.07    0.15    0.56
+    Rho_actor&#91;2,2&#93;       1.00    0.00 0.00    1.00    1.00    1.00    1.00    1.00
+    Rho_actor&#91;2,3&#93;      -0.05    0.00 0.32   -0.63   -0.28   -0.05    0.17    0.56
+    Rho_actor&#91;3,1&#93;       0.08    0.00 0.32   -0.55   -0.15    0.09    0.31    0.66
+    Rho_actor&#91;3,2&#93;      -0.05    0.00 0.32   -0.63   -0.28   -0.05    0.17    0.56
+    Rho_actor&#91;3,3&#93;       1.00    0.00 0.00    1.00    1.00    1.00    1.00    1.00
+    lp__              -285.47    0.11 6.46 -299.01 -289.56 -285.23 -281.02 -273.65
+                      n_eff Rhat
+    z_N_block_id&#91;1,1&#93; 13367    1
+    z_N_block_id&#91;1,2&#93; 16316    1
+    z_N_block_id&#91;1,3&#93; 13212    1
+    z_N_block_id&#91;1,4&#93; 16245    1
+    z_N_block_id&#91;1,5&#93; 14391    1
+    z_N_block_id&#91;1,6&#93; 13216    1
+    z_N_block_id&#91;2,1&#93; 11937    1
+    z_N_block_id&#91;2,2&#93; 11867    1
+    z_N_block_id&#91;2,3&#93; 12192    1
+    z_N_block_id&#91;2,4&#93; 14644    1
+    z_N_block_id&#91;2,5&#93; 13497    1
+    z_N_block_id&#91;2,6&#93; 10467    1
+    z_N_block_id&#91;3,1&#93; 15608    1
+    z_N_block_id&#91;3,2&#93; 15577    1
+    z_N_block_id&#91;3,3&#93; 17322    1
+    z_N_block_id&#91;3,4&#93; 16464    1
+    z_N_block_id&#91;3,5&#93; 17740    1
+    z_N_block_id&#91;3,6&#93; 15742    1
+    L_Rho_block&#91;1,1&#93;    NaN  NaN
+    L_Rho_block&#91;1,2&#93;    NaN  NaN
+    L_Rho_block&#91;1,3&#93;    NaN  NaN
+    L_Rho_block&#91;2,1&#93;  13964    1
+    L_Rho_block&#91;2,2&#93;   6881    1
+    L_Rho_block&#91;2,3&#93;    NaN  NaN
+    L_Rho_block&#91;3,1&#93;  18184    1
+    L_Rho_block&#91;3,2&#93;  17024    1
+    L_Rho_block&#91;3,3&#93;   5530    1
+    z_N_actor&#91;1,1&#93;     3997    1
+    z_N_actor&#91;1,2&#93;     8100    1
+    z_N_actor&#91;1,3&#93;     4054    1
+    z_N_actor&#91;1,4&#93;     4042    1
+    z_N_actor&#91;1,5&#93;     4067    1
+    z_N_actor&#91;1,6&#93;     4812    1
+    z_N_actor&#91;1,7&#93;     5978    1
+    z_N_actor&#91;2,1&#93;    17688    1
+    z_N_actor&#91;2,2&#93;    19821    1
+    z_N_actor&#91;2,3&#93;    15620    1
+    z_N_actor&#91;2,4&#93;    15806    1
+    z_N_actor&#91;2,5&#93;    16515    1
+    z_N_actor&#91;2,6&#93;    13494    1
+    z_N_actor&#91;2,7&#93;    19772    1
+    z_N_actor&#91;3,1&#93;    16698    1
+    z_N_actor&#91;3,2&#93;    25570    1
+    z_N_actor&#91;3,3&#93;    15609    1
+    z_N_actor&#91;3,4&#93;    17747    1
+    z_N_actor&#91;3,5&#93;    16452    1
+    z_N_actor&#91;3,6&#93;    16474    1
+    z_N_actor&#91;3,7&#93;    17924    1
+    L_Rho_actor&#91;1,1&#93;    NaN  NaN
+    L_Rho_actor&#91;1,2&#93;    NaN  NaN
+    L_Rho_actor&#91;1,3&#93;    NaN  NaN
+    L_Rho_actor&#91;2,1&#93;  20181    1
+    L_Rho_actor&#91;2,2&#93;   5099    1
+    L_Rho_actor&#91;2,3&#93;    NaN  NaN
+    L_Rho_actor&#91;3,1&#93;  16979    1
+    L_Rho_actor&#91;3,2&#93;  16551    1
+    L_Rho_actor&#91;3,3&#93;   5465    1
+    a                  4604    1
+    bp                 9915    1
+    bpc               10895    1
+    sigma_actor&#91;1&#93;     4844    1
+    sigma_actor&#91;2&#93;     7378    1
+    sigma_actor&#91;3&#93;     6330    1
+    sigma_block&#91;1&#93;     7461    1
+    sigma_block&#91;2&#93;     5026    1
+    sigma_block&#91;3&#93;     6372    1
+    a_block&#91;1&#93;        11376    1
+    a_block&#91;2&#93;        14094    1
+    a_block&#91;3&#93;        11484    1
+    a_block&#91;4&#93;        14446    1
+    a_block&#91;5&#93;        12892    1
+    a_block&#91;6&#93;        12830    1
+    bp_block&#91;1&#93;       10766    1
+    bp_block&#91;2&#93;       11464    1
+    bp_block&#91;3&#93;       10088    1
+    bp_block&#91;4&#93;       10004    1
+    bp_block&#91;5&#93;       10791    1
+    bp_block&#91;6&#93;        6266    1
+    bpc_block&#91;1&#93;       9908    1
+    bpc_block&#91;2&#93;      11090    1
+    bpc_block&#91;3&#93;      10070    1
+    bpc_block&#91;4&#93;      12510    1
+    bpc_block&#91;5&#93;      12340    1
+    bpc_block&#91;6&#93;      11472    1
+    Rho_block&#91;1,1&#93;      NaN  NaN
+    Rho_block&#91;1,2&#93;    13964    1
+    Rho_block&#91;1,3&#93;    18184    1
+    Rho_block&#91;2,1&#93;    13964    1
+    Rho_block&#91;2,2&#93;    11984    1
+    Rho_block&#91;2,3&#93;    15006    1
+    Rho_block&#91;3,1&#93;    18184    1
+    Rho_block&#91;3,2&#93;    15006    1
+    Rho_block&#91;3,3&#93;    11786    1
+    a_actor&#91;1&#93;         4930    1
+    a_actor&#91;2&#93;         7208    1
+    a_actor&#91;3&#93;         4880    1
+    a_actor&#91;4&#93;         5074    1
+    a_actor&#91;5&#93;         4983    1
+    a_actor&#91;6&#93;         4827    1
+    a_actor&#91;7&#93;         5096    1
+    bp_actor&#91;1&#93;       12464    1
+    bp_actor&#91;2&#93;       14817    1
+    bp_actor&#91;3&#93;       10567    1
+    bp_actor&#91;4&#93;       12646    1
+    bp_actor&#91;5&#93;       13023    1
+    bp_actor&#91;6&#93;       10818    1
+    bp_actor&#91;7&#93;       14796    1
+    bpc_actor&#91;1&#93;      12189    1
+    bpc_actor&#91;2&#93;      12373    1
+    bpc_actor&#91;3&#93;       8575    1
+    bpc_actor&#91;4&#93;      11896    1
+    bpc_actor&#91;5&#93;      10873    1
+    bpc_actor&#91;6&#93;      10218    1
+    bpc_actor&#91;7&#93;       9055    1
+    Rho_actor&#91;1,1&#93;      NaN  NaN
+    Rho_actor&#91;1,2&#93;    20181    1
+    Rho_actor&#91;1,3&#93;    16979    1
+    Rho_actor&#91;2,1&#93;    20181    1
+    Rho_actor&#91;2,2&#93;    10875    1
+    Rho_actor&#91;2,3&#93;    14880    1
+    Rho_actor&#91;3,1&#93;    16979    1
+    Rho_actor&#91;3,2&#93;    14880    1
+    Rho_actor&#91;3,3&#93;    10080    1
+    lp__               3172    1    
+&quot;&quot;&quot;</code></pre> <div class=page-foot > <div class=copyright > <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: December 15, 2022. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>. </div> </div> </div> <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script> <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: ' '});</script>

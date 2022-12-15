@@ -1,0 +1,92 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel="shortcut icon" type="image/png" href="/TuringModels.jl/assets/favicon.png"/> <link rel=stylesheet  href="/TuringModels.jl/libs/katex/katex.min.css"> <link rel=stylesheet  href="/TuringModels.jl/libs/highlight/github.min.css"> <link rel=stylesheet  href="/TuringModels.jl/css/franklin.css"> <title>Beta-binomial</title> <div class=franklin-content > <div class=top-bar > <a href="/TuringModels.jl/">TuringModels</a> </div> <h1>Beta-binomial</h1> </div> <div class=franklin-content > <p>This beta-binomial model is <code>m11.5</code> in Statistical Rethinking 1st Edition. In Statistical Rethinking 2nd Edition it is <code>m12.1</code> and defined as </p> <span class=katex-display ><span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML" display=block ><semantics><mtable rowspacing=0.24999999999999992em  columnalign="right left" columnspacing=0em ><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><msub><mi>A</mi><mi>i</mi></msub></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>∼</mo><mtext>BetaBinomial</mtext><mo stretchy=false >(</mo><msub><mi>N</mi><mi>i</mi></msub><mo separator=true >,</mo><msub><mover accent=true ><mi>p</mi><mo stretchy=true >‾</mo></mover><mi>i</mi></msub><mo separator=true >,</mo><mi>θ</mi><mo stretchy=false >)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mtext>logit</mtext><mo stretchy=false >(</mo><msub><mover accent=true ><mi>p</mi><mo stretchy=true >‾</mo></mover><mi>i</mi></msub><mo stretchy=false >)</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>=</mo><msub><mi>α</mi><mrow><mtext>GID</mtext><mo stretchy=false >[</mo><mi>i</mi><mo stretchy=false >]</mo></mrow></msub></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><msub><mi>α</mi><mi>j</mi></msub></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>∼</mo><mtext>Normal</mtext><mo stretchy=false >(</mo><mn>0</mn><mo separator=true >,</mo><mn>1.5</mn><mo stretchy=false >)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><mi>θ</mi></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>=</mo><mi>ϕ</mi><mo>+</mo><mn>2</mn></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=0  displaystyle=true ><mi>ϕ</mi></mstyle></mtd><mtd><mstyle scriptlevel=0  displaystyle=true ><mrow><mrow></mrow><mo>∼</mo><mtext>Exponential(1)</mtext></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex"> \begin{aligned} A_i &amp;\sim \text{BetaBinomial}(N_i, \overline{p}_i, \theta) \\ \text{logit}(\overline{p}_i) &amp;= \alpha_{\text{GID}[i]} \\ \alpha_j &amp;\sim \text{Normal}(0, 1.5) \\ \theta &amp;= \phi + 2 \\ \phi &amp;\sim \text{Exponential(1)} \end{aligned} </annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:7.500000000000002em;vertical-align:-3.5000000000000018em;"></span><span class=mord ><span class=mtable ><span class=col-align-r ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:4em;"><span style="top:-6.16em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ><span class="mord mathnormal">A</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-4.659999999999999em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class="mord text"><span class=mord >logit</span></span><span class=mopen >(</span><span class=mord ><span class="mord overline"><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.63056em;"><span style="top:-3em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class="mord mathnormal">p</span></span></span><span style="top:-3.55056em;"><span class=pstrut  style="height:3em;"></span><span class=overline-line  style="border-bottom-width:0.04em;"></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.19444em;"><span></span></span></span></span></span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.21752399999999997em;"><span style="top:-2.4558600000000004em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.24414em;"><span></span></span></span></span></span></span><span class=mclose >)</span></span></span><span style="top:-3.1599999999999984em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.286108em;"><span></span></span></span></span></span></span></span></span><span style="top:-1.6599999999999984em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span></span></span><span style="top:-0.15999999999999837em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class="mord mathnormal">ϕ</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:3.5000000000000018em;"><span></span></span></span></span></span><span class=col-align-l ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:4em;"><span style="top:-6.16em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >∼</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class=mord >BetaBinomial</span></span><span class=mopen >(</span><span class=mord ><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.16666666666666666em;"></span><span class=mord ><span class="mord overline"><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.63056em;"><span style="top:-3em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class="mord mathnormal">p</span></span></span><span style="top:-3.55056em;"><span class=pstrut  style="height:3em;"></span><span class=overline-line  style="border-bottom-width:0.04em;"></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.19444em;"><span></span></span></span></span></span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.21752399999999997em;"><span style="top:-2.4558600000000004em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.24414em;"><span></span></span></span></span></span></span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class=mclose >)</span></span></span><span style="top:-4.659999999999999em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >=</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.34480000000000005em;"><span style="top:-2.5198em;margin-left:-0.0037em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">GID</span></span><span class="mopen mtight">[</span><span class="mord mathnormal mtight">i</span><span class="mclose mtight">]</span></span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.3551999999999999em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.1599999999999984em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >∼</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class=mord >Normal</span></span><span class=mopen >(</span><span class=mord >0</span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.16666666666666666em;"></span><span class=mord >1</span><span class=mord >.</span><span class=mord >5</span><span class=mclose >)</span></span></span><span style="top:-1.6599999999999984em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >=</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord mathnormal">ϕ</span><span class=mspace  style="margin-right:0.2222222222222222em;"></span><span class=mbin >+</span><span class=mspace  style="margin-right:0.2222222222222222em;"></span><span class=mord >2</span></span></span><span style="top:-0.15999999999999837em;"><span class=pstrut  style="height:3em;"></span><span class=mord ><span class=mord ></span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class=mrel >∼</span><span class=mspace  style="margin-right:0.2777777777777778em;"></span><span class="mord text"><span class=mord >Exponential(1)</span></span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:3.5000000000000018em;"><span></span></span></span></span></span></span></span></span></span></span></span> <p><div class=franklin-toc ><ol><li><a href="#data">Data</a><li><a href="#model">Model</a><li><a href="#output">Output</a><li><a href="#original_output">Original output</a></ol></div> </p> <h2 id=data ><a href="#data" class=header-anchor >Data</a></h2> <pre><code class=language-julia >import CSV
+import Random
+import TuringModels
+
+using DataFrames
+
+Random.seed&#33;&#40;1&#41;
+
+data_path &#61; joinpath&#40;TuringModels.project_root, &quot;data&quot;, &quot;UCBadmit.csv&quot;&#41;
+df &#61; CSV.read&#40;data_path, DataFrame; delim&#61;&#39;;&#39;&#41;</code></pre><pre><code class="plaintext code-output">12×5 DataFrame
+ Row │ dept     gender   admit  reject  applications
+     │ String1  String7  Int64  Int64   Int64
+─────┼───────────────────────────────────────────────
+   1 │ A        male       512     313           825
+   2 │ A        female      89      19           108
+   3 │ B        male       353     207           560
+   4 │ B        female      17       8            25
+   5 │ C        male       120     205           325
+   6 │ C        female     202     391           593
+   7 │ D        male       138     279           417
+   8 │ D        female     131     244           375
+   9 │ E        male        53     138           191
+  10 │ E        female      94     299           393
+  11 │ F        male        22     351           373
+  12 │ F        female      24     317           341</code></pre> <h2 id=model ><a href="#model" class=header-anchor >Model</a></h2> <pre><code class=language-julia >using StatsFuns: logistic
+using Turing
+
+@model function m11_5&#40;admit, applications&#41;
+  θ ~ truncated&#40;Exponential&#40;1&#41;, 0, Inf&#41;
+  α ~ Normal&#40;0, 2&#41;
+
+  # alpha and beta for the BetaBinomial must be provided.
+  # The two parameterizations are related by
+  # alpha &#61; prob * theta, and beta &#61; &#40;1-prob&#41; * theta.
+  # See https://github.com/rmcelreath/rethinking/blob/master/man/dbetabinom.Rd
+
+  prob &#61; logistic&#40;α&#41;
+  alpha &#61; prob * θ
+  beta &#61; &#40;1 - prob&#41; * θ
+  admit .~ BetaBinomial.&#40;applications, alpha, beta&#41;
+end
+
+model &#61; m11_5&#40;df.admit, df.applications&#41;;</code></pre> <h2 id=output ><a href="#output" class=header-anchor >Output</a></h2> <pre><code class=language-julia >chns &#61; sample&#40;model, NUTS&#40;&#41;, 1000&#41;</code></pre><pre><code class="plaintext code-output">Chains MCMC chain (1000×14×1 Array{Float64, 3}):
+
+Iterations        = 501:1:1500
+Number of chains  = 1
+Samples per chain = 1000
+Wall duration     = 5.5 seconds
+Compute duration  = 5.5 seconds
+parameters        = θ, α
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+
+Summary Statistics
+  parameters      mean       std   naive_se      mcse         ess      rhat   ess_per_sec
+      Symbol   Float64   Float64    Float64   Float64     Float64   Float64       Float64
+
+           θ    2.7681    0.9337     0.0295    0.0374    769.4660    1.0002      139.8012
+           α   -0.3660    0.3067     0.0097    0.0103   1057.6928    1.0004      192.1680
+
+Quantiles
+  parameters      2.5%     25.0%     50.0%     75.0%     97.5%
+      Symbol   Float64   Float64   Float64   Float64   Float64
+
+           θ    1.3553    2.1160    2.6309    3.2988    4.8986
+           α   -1.0371   -0.5501   -0.3631   -0.1651    0.2537
+</code></pre> </p> <pre><code class=language-julia >using StatsPlots
+
+StatsPlots.plot&#40;chns&#41;</code></pre><pre><code class="plaintext code-output">"/home/runner/work/TuringModels.jl/TuringModels.jl/__site/assets/models/beta-binomial/code/output/chns.svg"</code></pre>
+<p> <img src="/TuringModels.jl/assets/models/beta-binomial/code/output/chns.svg" alt="">
+<h2 id=original_output ><a href="#original_output" class=header-anchor >Original output</a></h2>
+<pre><code class=language-julia >&quot;&quot;&quot;
+        mean   sd  5.5&#37; 94.5&#37; n_eff Rhat
+theta   2.74 0.96  1.43  4.37  3583    1
+a       -0.37 0.31 -0.87  0.12  3210    1
+&quot;&quot;&quot;;</code></pre>
+
+<div class=page-foot >
+  <div class=copyright >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+    Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors. Last modified: December 15, 2022. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+  </div>
+</div>
+</div>
+    
+        
+
+
+
+    
+    
+        <script src="/TuringModels.jl/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>
