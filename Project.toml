@@ -1,7 +1,7 @@
 name = "TuringModels"
 uuid = "ead7e11d-4ba5-55c3-9d74-177ea73ef1fd"
-authors = ["Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors"]
 version = "2.0.2"
+authors = ["Rob Goedman, Richard Torkar, Rik Huijzer, Martin Trapp and contributors"]
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -21,7 +21,7 @@ Turing = "fce5fe82-541a-59a6-adf8-730c64b5f9a0"
 
 [compat]
 CSV = "0.10"
-CategoricalArrays = "0.10"
+CategoricalArrays = "1"
 DataFrames = "1"
 DifferentialEquations = "7"
 Distributions = "0.25"
